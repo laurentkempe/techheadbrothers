@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><meta name="generator" content="Astro v5.1.1"><title>Laurent Kempé</title><link rel="stylesheet" href="/_astro/_slug_.CU5FiAOp.css">
+<style>a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}
+[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
+</style></head> <body> <header class="py-6 border-b container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between"> <div class="text-2xl font-bold mb-4 sm:mb-0">
+Laurent Kempé
+</div> <div class="flex gap-6 text-gray-600"> <a href="/" class="hover:text-gray-900 ">Home</a> <a href="/blog" class="hover:text-gray-900 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 ">About</a> </div> </nav> </header> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi>Thu Feb 10</p> <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p> <img src="https://live.staticflickr.com/65535/51872954907_2104a32913_h.jpg" width="600" alt="North Mona Vale, Australia" data-astro-cid-5grsw2hi>North Mona Vale, Australia <article class="prose prose-lg max-w-none dark:prose-invert
+             prose-h1:font-bold prose-h1:text-xl
+             prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl
+             prose-headings:underline"> <p>In the past, within my team at <a href="http://www.innoveo.com/">Innoveo</a>, we had several discussions about the best way to unit test async WPF ICommand. We value quality, so testing is essential to us. We decided to make the methods called by the command <code>internal</code> so that our tests could call those.</p>
+<p>What is the problem with unit testing an Async WPF ICommand? The problem is that the command is an <code>async void</code> method! So, you have no way to <code>await</code> the end of the execution of your command. So, your test might assert on things that are still executing.</p>
+<!-- more -->
+<p>Some weeks ago, a question about “Extract and Override call” taken from the book “Working Effectively with Legacy Code” for testing was raised on the <a href="https://devapps.ms/devenirmembre">French DevApps community</a>. I immediately thought of the discussions about testing async WPF ICommand and proposed that solution as a pragmatic solution that is not only easy to implement but also very simple to understand. Some did not like that solution because it was not perfect. I agree, but sometimes it is good to be pragmatic.</p>
+<p>The discussion went further about <code>async void</code> testing and <a href="https://twitter.com/meziantou">Gérald Barré</a> from <a href="https://meziantou.net/">Meziantou’s blog</a>, which I highly recommend, answered it interestingly! He made a blog post about his solution “<a href="https://www.meziantou.net/awaiting-an-async-void-method-in-dotnet.htm">Awaiting an async void method in .NET</a>” which leverage his own implementation of a <a href="https://docs.microsoft.com/en-us/dotnet/api/system.threading.synchronizationcontext?view=net-6.0">SynchronizationContext</a> and <code>TaskCompletionSource</code>.</p>
+<p>I decided to apply his solution to our original question; “How to test an async WPF ICommand”?</p>
+<p>I quickly created a small .NET 6 WPF project and added to it the <a href="https://docs.microsoft.com/en-us/windows/communitytoolkit/">Windows Community Toolkit</a> <a href="https://docs.microsoft.com/en-us/windows/communitytoolkit/mvvm/introduction">MVVM</a> nuget. I copy-pasted the code from Gérald to it and wrote the following tests.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">TestFixture</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> MainWindowViewModelTests</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#B392F0">Test</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> void</span><span style="color:#B392F0"> Click_FailingToAwaitCommandExecution</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        var</span><span style="color:#B392F0"> mainWindowViewModel</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> MainWindowViewModel</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        mainWindowViewModel.Click.</span><span style="color:#B392F0">Execute</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">null</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#E1E4E8">        Assert.</span><span style="color:#B392F0">That</span><span style="color:#E1E4E8">(mainWindowViewModel.Upper, Is.</span><span style="color:#B392F0">EqualTo</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"BEFORE"</span><span style="color:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#B392F0">Test</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> async</span><span style="color:#B392F0"> Task</span><span style="color:#B392F0"> Click_ExpectUpperToBeUpperCase</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        var</span><span style="color:#B392F0"> mainWindowViewModel</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> MainWindowViewModel</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">        await</span><span style="color:#E1E4E8"> AsyncVoidSynchronizationContext.</span><span style="color:#B392F0">Run</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">            () </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> mainWindowViewModel.Click.</span><span style="color:#B392F0">Execute</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">null</span><span style="color:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#E1E4E8">        </span></span>
+<span class="line"><span style="color:#E1E4E8">        Assert.</span><span style="color:#B392F0">That</span><span style="color:#E1E4E8">(mainWindowViewModel.Upper, Is.</span><span style="color:#B392F0">EqualTo</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"BEFORE"</span><span style="color:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>The first one fails because nothing awaits the execution of the WPF command. The second one succeeds because the test is awaiting the command execution. Nice, very nice!</p>
+<p>And here is the code of the <code>MainWindowViewModel</code> class.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> MainWindowViewModel</span><span style="color:#E1E4E8"> : </span><span style="color:#B392F0">ObservableObject</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    private</span><span style="color:#B392F0"> ICommand</span><span style="color:#E1E4E8">? </span><span style="color:#B392F0">_click</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">    private</span><span style="color:#F97583"> string</span><span style="color:#B392F0"> _upper</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> "before"</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#B392F0"> ICommand</span><span style="color:#B392F0"> Click</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> _click </span><span style="color:#F97583">??=</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> AsyncRelayCommand</span><span style="color:#E1E4E8">(Execute);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> string</span><span style="color:#B392F0"> Upper</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        get</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> _upper;</span></span>
+<span class="line"><span style="color:#F97583">        set</span><span style="color:#F97583"> =></span><span style="color:#B392F0"> SetProperty</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">ref</span><span style="color:#E1E4E8"> _upper, value);</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    private</span><span style="color:#F97583"> async</span><span style="color:#B392F0"> Task</span><span style="color:#B392F0"> Execute</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        await</span><span style="color:#E1E4E8"> Task.</span><span style="color:#B392F0">Delay</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">2000</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        Upper </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Upper.</span><span style="color:#B392F0">ToUpper</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>So, that is one way of solving testing an async WPF ICommand. But it is not the only way.</p>
+<p>Windows Community Toolkit MVVM provides the <code>AsyncRelayCommand</code> which implements <code>IAsyncRelayCommand</code> providing an <code>ExecuteAsync</code> method returning a <code>Task</code> which can be awaited.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">Test</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> async</span><span style="color:#B392F0"> Task</span><span style="color:#B392F0"> OtherClick_ExpectUpperToBeUpperCase</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    var</span><span style="color:#B392F0"> mainWindowViewModel</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> MainWindowViewModel</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    await</span><span style="color:#E1E4E8"> mainWindowViewModel.OtherClick.</span><span style="color:#B392F0">ExecuteAsync</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">null</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">    Assert.</span><span style="color:#B392F0">That</span><span style="color:#E1E4E8">(mainWindowViewModel.Upper, Is.</span><span style="color:#B392F0">EqualTo</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"BEFORE"</span><span style="color:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>And in this case we need to declare the command as an <code>IAsyncRelayCommand</code></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">    private</span><span style="color:#B392F0"> IAsyncRelayCommand</span><span style="color:#E1E4E8">? </span><span style="color:#B392F0">_otherClick</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#E1E4E8"> IAsyncRelayCommand OtherClick</span></span>
+<span class="line"><span style="color:#E1E4E8">        =</span><span style="color:#F97583">></span><span style="color:#E1E4E8"> _otherClick </span><span style="color:#F97583">??=</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> AsyncRelayCommand</span><span style="color:#E1E4E8">(Execute);</span></span></code></pre>
+<p>and use the <code>ExecuteAsync</code> method in our test</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">Test</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> async</span><span style="color:#B392F0"> Task</span><span style="color:#B392F0"> OtherClick_ExpectUpperToBeUpperCase</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    var</span><span style="color:#B392F0"> mainWindowViewModel</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> MainWindowViewModel</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    await</span><span style="color:#E1E4E8"> mainWindowViewModel.OtherClick.</span><span style="color:#B392F0">ExecuteAsync</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">null</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">    Assert.</span><span style="color:#B392F0">That</span><span style="color:#E1E4E8">(mainWindowViewModel.Upper, Is.</span><span style="color:#B392F0">EqualTo</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"BEFORE"</span><span style="color:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<h1 id="conclusion">Conclusion</h1>
+<p>As a developer, I think it is always good to be pragmatic but this does not avoid to search for better solutions.</p>
+<!--?# githubCard user=laurentkempe repo=AsyncVoidCommandTesting align=left /?--> </article>  <div class="tags" data-astro-cid-5grsw2hi> <p class="tag" data-astro-cid-5grsw2hi><a href="/tags/.NET" data-astro-cid-5grsw2hi>.NET</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/C#" data-astro-cid-5grsw2hi>C#</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/WPF" data-astro-cid-5grsw2hi>WPF</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/unit test" data-astro-cid-5grsw2hi>unit test</a></p> </div>  </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 text-center"> <div>
+&copy; 2024 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> </body></html> 

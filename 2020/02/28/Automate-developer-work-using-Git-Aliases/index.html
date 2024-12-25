@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><meta name="generator" content="Astro v5.1.1"><title>Laurent Kempé</title><link rel="stylesheet" href="/_astro/_slug_.CU5FiAOp.css">
+<style>a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}
+[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
+</style></head> <body> <header class="py-6 border-b container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between"> <div class="text-2xl font-bold mb-4 sm:mb-0">
+Laurent Kempé
+</div> <div class="flex gap-6 text-gray-600"> <a href="/" class="hover:text-gray-900 ">Home</a> <a href="/blog" class="hover:text-gray-900 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 ">About</a> </div> </nav> </header> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi>Fri Feb 28</p> <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p> <img src="https://live.staticflickr.com/4359/35813310943_479293da80_h.jpg" width="600" alt="Fleur de Tiaré, Moorea, Polynésie française" data-astro-cid-5grsw2hi>Fleur de Tiaré, Moorea, Polynésie française <article class="prose prose-lg max-w-none dark:prose-invert
+             prose-h1:font-bold prose-h1:text-xl
+             prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl
+             prose-headings:underline"> <p>I am using Git for many, many years. I am a big fan of it. How could that be different when you had to use versioning systems like CVS, SVN… I even took influence so that the whole company I work for migrates to it.</p>
+<p>Over the years, I have used different Git clients, tried to work only from my IDE without much liking it.</p>
+<!-- more -->
+<p>Then, I started to use more the Console through a tool that I love <a href="https://cmder.net/">cmder</a> ❤. It is bundling other awesome tools like <a href="https://conemu.github.io/">ConEmu</a>…</p>
+<p>On top of those two, I added <a href="https://github.com/dahlbyk/posh-git">posh-git</a>, a PowerShell module integrating Git and PowerShell by providing Git status summary information that can be displayed in the PowerShell prompt. To which, I added, <a href="https://github.com/JanDeDobbeleer/oh-my-posh">oh-my-posh</a> a prompt theming engine for PowersShell.</p>
+<p><img src="https://live.staticflickr.com/65535/49566323082_e1817988c2_c.jpg" alt="cmder ConEmu posh-git oh-my-posh"></p>
+<p>That’s a working environment that suits me. I have even cmder pinned on the first position of the Windows taskbar so that I can press <strong>Win + 1 shortcut</strong> and either run it or get back to it as fast as possible.</p>
+<p>I felt great about it, but as a developer, I want more! Why? Cause <strong>I want to automate repetitive tasks, so that my life is easier</strong>.</p>
+<p>The natural next step is to identify daily repetitive tasks. As we are talking about Git, the thing that comes to mind is creating a branch, checking out branches, review code in a branch. Then committing changes, rebasing your work…</p>
+<h1 id="conventions">Conventions</h1>
+<p><strong>To be able to automate you need conventions</strong>. In our case, the naming of a branch is quite important, maybe also the commit message format.</p>
+<p>It is interesting to be able to navigate from your code, through the branch name to the specifications on the work you are doing. Using the ticket number in the branch name makes sense to help with that. Having the ticker number as the first part of any commit message will help also.</p>
+<p>For example, naming a branch “feature/PRJ-123-my-feature-branch” will follow a convention that would let us see that it is a feature branch linked to the requirement ticket PRJ-123. The rest is just something that will help you to remember what the ticket is about.</p>
+<p>With such a simple convention, you can start to automate things! 👍</p>
+<p>To check out the branch and be able to work on it, from the command line we need to type the Git command:</p>
+<blockquote>
+<p>git checkout feature/PRJ-123-my-feature-branch</p>
+</blockquote>
+<h1 id="simple-git-alias">Simple Git Alias</h1>
+<p>With the following simple Git alias, located in your <a href="https://git-scm.com/docs/git-config">.gitconfig</a></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>[alias]</span></span>
+<span class="line"><span>co = checkout</span></span></code></pre>
+<p>you now type</p>
+<blockquote>
+<p>git co feature/PRJ-123-my-feature-branch</p>
+</blockquote>
+<p>That’s six chars less to type. But. that’s still too much to type. You will tell me, you can use autocompletion provided by the tool you installed and you will be right. Nevertheless, we want more!</p>
+<p>We want to type</p>
+<blockquote>
+<p>git cfb 123</p>
+</blockquote>
+<p>cfb for check out feature branch.</p>
+<h1 id="composing-git-aliases">Composing Git Aliases</h1>
+<p>The great folk who created Git thought of that problem and they provide us a very nice and powerful way to extend on simple Git aliases by being able to compose them.</p>
+<p>From getting the feature branch name, we want to extract the ticket number and use those new capabilities to have a very nice new git feature.</p>
+<p>To get the current branch name, we use the following alias:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Get current branch name</span></span>
+<span class="line"><span>currentbranch = rev-parse --abbrev-ref HEAD</span></span></code></pre>
+<p>To get the ticket number, we compose the previous alias we the following one</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Get Jira ticket number from current branch name</span></span>
+<span class="line"><span>jiran = "!f() { git currentbranch |</span></span>
+<span class="line"><span>                sed "s/feature.//" |</span></span>
+<span class="line"><span>                grep -o -E "PRJ+-[0-9]+";</span></span>
+<span class="line"><span>              }; f"</span></span></code></pre>
+<p>This one looks a bit more complex and we will get back to it to explain it in more detail. Finally, we can create our interesting and time saver new alias.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Open Browser on Jira ticket</span></span>
+<span class="line"><span>j = "!explorer https://company.atlassian.net/browse/$(git jiran)"</span></span></code></pre>
+<p>Now, using simple branch naming convention and little script code we are able to open the web browser and navigate to the web page describing the ticket requirements. And this by only typing “git j” ❤.</p>
+<p>We are using Jira in that example but you could use a Github issue or whatever you prefer.</p>
+<h1 id="bash-function-git-aliases">Bash function Git Aliases</h1>
+<p>The alias which gets the ticket number out of the branch name seems quite complex at first sight, but it is really easy when you know about bash functions. !f() { } defines a bash function “f“.</p>
+<p>It gives you access to command line variables like:</p>
+<ul>
+<li><strong>$1</strong> is the 1st parameter passed to the command.</li>
+<li><strong>$2</strong> is the 2nd parameter passed to the command…</li>
+<li><strong>$@</strong> means all command line parameters passed.</li>
+</ul>
+<p>It also allows to chain git commands with &#x26;&#x26; and uses the entire Unix toolkit.</p>
+<p>Now, back to our goal of typing a minimum to check out a feature branch: “git cfb 123”.
+We can leverage lots of power of Unix combined to Git aliases to achieve our goal.</p>
+<p>First, we need to find the feature branch from the ticket number</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Find feature branch from ticket number</span></span>
+<span class="line"><span>fb = "!f() { git branch -a |</span></span>
+<span class="line"><span>             grep "feature/.*$1.*" |</span></span>
+<span class="line"><span>             sed "s/remotes.//" |</span></span>
+<span class="line"><span>             sed "s/origin.//" |</span></span>
+<span class="line"><span>             sort -u;</span></span>
+<span class="line"><span>           }; f"</span></span></code></pre>
+<p>Then we combine this new alias in the final cfb alias, which checks out the branch and pull so that you are up to date and can continue to work</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Checkout feature branch from ticket number</span></span>
+<span class="line"><span>cfb = "!f() { featureBranch=$(git fb $1);</span></span>
+<span class="line"><span>              git checkout $featureBranch;</span></span>
+<span class="line"><span>              git pull;</span></span>
+<span class="line"><span>            }; f"</span></span></code></pre>
+<h1 id="presentation">Presentation</h1>
+<!--?# Reveal Src=https://laurentkempe.com/presentations/Automate%20Dev%20work%20using%20Git%20aliases/index.html#/ /?-->
+<p>Press f key to see the presentation full screen, or <a href="https://laurentkempe.com/presentations/Automate%20Dev%20work%20using%20Git%20aliases/index.html#/">navigate to it</a>.</p>
+<h1 id="more">More</h1>
+<p>You can access all the aliases I use and created and the others which I borrowed from different people like <a href="https://haacked.com/archive/2014/07/28/github-flow-aliases/">Phil Haack</a> and <a href="https://www.atlassian.com/blog/git/advanced-git-aliases">Nicola Paolucci</a>, on my Github repository <a href="https://github.com/laurentkempe/dotfiles/blob/master/git/.gitconfig.aliases#L13">laurentkempe/dotfiles</a>.</p>
+<p></p>
+<!--?# githubCard user=laurentkempe repo=dotfiles align=left /?--> </article>  <div class="tags" data-astro-cid-5grsw2hi> <p class="tag" data-astro-cid-5grsw2hi><a href="/tags/Git" data-astro-cid-5grsw2hi>Git</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/PowerShell" data-astro-cid-5grsw2hi>PowerShell</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/Windows" data-astro-cid-5grsw2hi>Windows</a></p> </div>  </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 text-center"> <div>
+&copy; 2024 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> </body></html> 

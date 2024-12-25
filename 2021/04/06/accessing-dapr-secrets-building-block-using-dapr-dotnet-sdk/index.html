@@ -1,0 +1,110 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><meta name="generator" content="Astro v5.1.1"><title>Laurent Kempé</title><link rel="stylesheet" href="/_astro/_slug_.CU5FiAOp.css">
+<style>a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}
+[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
+</style></head> <body> <header class="py-6 border-b container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between"> <div class="text-2xl font-bold mb-4 sm:mb-0">
+Laurent Kempé
+</div> <div class="flex gap-6 text-gray-600"> <a href="/" class="hover:text-gray-900 ">Home</a> <a href="/blog" class="hover:text-gray-900 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 ">About</a> </div> </nav> </header> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi>Tue Apr 06</p> <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p> <img src="https://live.staticflickr.com/7191/7038530105_abaf41225f_h.jpg" width="600" alt="Barcelona, Spain" data-astro-cid-5grsw2hi>Barcelona, Spain <article class="prose prose-lg max-w-none dark:prose-invert
+             prose-h1:font-bold prose-h1:text-xl
+             prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl
+             prose-headings:underline"> <p>In all <a href="https://laurentkempe.com/tags/Dapr/">previous posts</a>, we were looking at the Dapr service invocation building block. We have seen how to expose and call HTTP and gRPC services using it. In this post, we will see how Dapr ease developers life when it comes to deal with secrets, thanks to the secrets management building block.</p>
+<!-- more -->
+<h1 id="introduction">Introduction</h1>
+<p>The little application used to illustrate the Dapr secrets management building block is leveraging <a href="https://twitter.com/laurentkempe">Twitter</a> and <a href="https://github.com/linvi/tweetinvi">Tweetinvi</a> an intuitive Twitter C# library for the REST and Stream API. To be able to run the application you will need to <a href="https://developer.twitter.com/en/portal/apps/new">create a Twitter app</a>. When you have created the application you will need to get the API key &#x26; secret, the Access token &#x26; secret as described on the <a href="https://linvi.github.io/tweetinvi/dist/intro/getting-started.html">Tweetinvi Getting Started, Steps to create my first credentials</a>. Those four pieces of information are the ones which we want to keep secret.</p>
+<h1 id="dapr-secrets-management-building-block">Dapr secrets management building block</h1>
+<p>The secrets management building block is a building block that comes with a new capability which we didn’t talk about in the previous posts, the components.</p>
+<!--?! alert info ?-->
+<p>Dapr uses a modular design where functionality is delivered as a component. Each component has an interface definition. All of the components are pluggable so that you can swap out one component with the same interface for another.</p>
+<p>A building block can use any combination of components.</p>
+<!--?!/ alert ?-->
+<p>This is one of the great power of Dapr. Here is the interface declaration for the secrets management building block which each component needs to implement.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="protobuf"><code><span class="line"><span style="color:#E1E4E8">type SecretStore interface {</span></span>
+<span class="line"><span style="color:#6A737D">  // Init authenticates with the actual secret store and performs other init operation</span></span>
+<span class="line"><span style="color:#E1E4E8">  Init(metadata Metadata) error</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">  // GetSecret retrieves a secret using a key and returns a map of decrypted string/string values</span></span>
+<span class="line"><span style="color:#E1E4E8">  GetSecret(req GetSecretRequest) (GetSecretResponse, error)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">  // BulkGetSecrets retrieves all secrets in the store and returns a map of decrypted string/string values</span></span>
+<span class="line"><span style="color:#E1E4E8">  BulkGetSecret(req BulkGetSecretRequest) (BulkGetSecretResponse, error)</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>Currently, we can have access transparently to all of those components to handle secrets:</p>
+<ul>
+<li><a href="https://docs.dapr.io/operations/components/setup-secret-store/supported-secret-stores/file-secret-store/">Local file storage (for development, do not use this in production)</a></li>
+<li><a href="https://docs.dapr.io/operations/components/setup-secret-store/supported-secret-stores/azure-keyvault/">Azure KeyVault</a></li>
+<li><a href="https://docs.dapr.io/operations/components/setup-secret-store/supported-secret-stores/aws-secret-manager/">AWS Secret manager</a></li>
+<li><a href="https://docs.dapr.io/operations/components/setup-secret-store/supported-secret-stores/kubernetes-secret-store/">Kubernetes</a></li>
+<li><a href="https://docs.dapr.io/operations/components/setup-secret-store/supported-secret-stores/hashicorp-vault/">Hashicorp Vault</a></li>
+<li><a href="https://docs.dapr.io/operations/components/setup-secret-store/supported-secret-stores/gcp-secret-manager/">GCP Secret Manager</a></li>
+</ul>
+<p>In this post, we are using local file storage to store the Twitter secrets, which should be used only for development. This could be easily replaced by one of the other components for production.</p>
+<h1 id="client">Client</h1>
+<h2 id="components-folder">Components folder</h2>
+<p>This is the first time we are seeing the components folder in which you can define components for your application. In today’s post, we are defining a local secret store for local development and this is the only thing you would need to change when you would be ready to go into production with your application. The super nice part is that you could go to Azure, AWS, Google Cloud Platform, or any places in which secret components exist just by the change of a configuration file.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">apiVersion</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">dapr.io/v1alpha1</span></span>
+<span class="line"><span style="color:#85E89D">kind</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">Component</span></span>
+<span class="line"><span style="color:#85E89D">metadata</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">local-secret-store</span></span>
+<span class="line"><span style="color:#85E89D">  namespace</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">default</span></span>
+<span class="line"><span style="color:#85E89D">spec</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  type</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">secretstores.local.file</span></span>
+<span class="line"><span style="color:#85E89D">  metadata</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">secretsFile</span></span>
+<span class="line"><span style="color:#85E89D">    value</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">./client/components/secrets.json</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">nestedSeparator</span></span>
+<span class="line"><span style="color:#85E89D">    value</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">":"</span></span></code></pre>
+<p>In this configuration we are defining the <em>name</em> of the component, <strong>local-secret-store</strong>  to be able to reference it from our code. Then, the type of component <em>secretstores.local.file</em> and where the secret file is stored.</p>
+<p>And here is the local secrets file.</p>
+<!--?! alert warning ?-->
+<p>You should not push this file to your code repository, as it contains your secrets!</p>
+<!--?!/ alert ?-->
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  "twitterSecrets"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    "consumerKey"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"TOADD"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    "consumerSecret"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"TOADD"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    "accessToken"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"TOADD"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    "accessSecret"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"TOADD"</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<h2 id="starting-dapr-sidecar">Starting Dapr sidecar</h2>
+<p>You can use the start.ps1 PowerShell script if you have Windows Terminal installed, and it will start the Dapr sidecar. It executes the following:</p>
+<blockquote>
+<p>dapr.exe run —dapr-grpc-port 50001 —components-path .\client\components\</p>
+</blockquote>
+<p>We just define the default gRPC port which the Dapr .NET SDK will be using in our application to connect to the secrets building block and the local file storage component to get the secrets. We also need to tell Dapr in which folder our components are defined.</p>
+<h2 id="application">Application</h2>
+<p>Our super simple application is again a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/top-level-statements">C# 9 top-level statements application</a> using the <a href="https://docs.dapr.io/developing-applications/sdks/dotnet/">Dapr .NET SDK</a> to access the Dapr secrets building block and the local file storage component by calling one of its API <em>GetBulkSecretAsync</em>. Then we build a <em>twitterClient</em> using Tweetinvi getting information from the authenticated user, of which you provided the secrets, to display her description.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Linq</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Dapr</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Client</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Tweetinvi</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">Console.</span><span style="color:#B392F0">WriteLine</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Hello Dapr secrets!"</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> daprClient</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> DaprClientBuilder</span><span style="color:#E1E4E8">().</span><span style="color:#B392F0">Build</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> twitterSecrets</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> daprClient.</span><span style="color:#B392F0">GetBulkSecretAsync</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"local-secret-store"</span><span style="color:#E1E4E8">).Result;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> consumerKey</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> twitterSecrets[</span><span style="color:#9ECBFF">"twitterSecrets:consumerKey"</span><span style="color:#E1E4E8">].Values.</span><span style="color:#B392F0">First</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> consumerSecret</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> twitterSecrets[</span><span style="color:#9ECBFF">"twitterSecrets:consumerSecret"</span><span style="color:#E1E4E8">].Values.</span><span style="color:#B392F0">First</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> accessToken</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> twitterSecrets[</span><span style="color:#9ECBFF">"twitterSecrets:accessToken"</span><span style="color:#E1E4E8">].Values.</span><span style="color:#B392F0">First</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> accessSecret</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> twitterSecrets[</span><span style="color:#9ECBFF">"twitterSecrets:accessSecret"</span><span style="color:#E1E4E8">].Values.</span><span style="color:#B392F0">First</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> twitterClient</span><span style="color:#F97583"> =</span></span>
+<span class="line"><span style="color:#F97583">    new</span><span style="color:#B392F0"> TwitterClient</span><span style="color:#E1E4E8">(consumerKey, consumerSecret, accessToken, accessSecret);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> user</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> twitterClient.Users.</span><span style="color:#B392F0">GetAuthenticatedUserAsync</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">Console.</span><span style="color:#B392F0">WriteLine</span><span style="color:#E1E4E8">(user.Description);</span></span></code></pre>
+<p>Here you can see the result:</p>
+<blockquote>
+<p>Hello Dapr secrets!
+Team Leader, Distinguished Solution Architect with a passion for shipping high quality products by empowering development team and culture</p>
+</blockquote>
+<h1 id="conclusion">Conclusion</h1>
+<p>We have seen that Dapr provides a very easy and nice way to retrieve secrets that will be used by your application. From a security point of view, this provides the advantage to not store your secrets in your application code or on system environment variables. It also provides an abstraction on top of a set of secrets stores which let you develop your application without being tight to concrete implementation and let you choose at the time of deployment which secrets store your want to use, without changing one line of code of your application.</p>
+<p>You can get access to the code of this blog post on GitHub in the <a href="https://github.com/laurentkempe/daprPlayground/tree/master/Secrets">Secrets folder</a>.</p>
+<p></p>
+<!--?# githubCard user=laurentkempe repo=daprPlayground align=left /?--> </article>  <div class="tags" data-astro-cid-5grsw2hi> <p class="tag" data-astro-cid-5grsw2hi><a href="/tags/.NET" data-astro-cid-5grsw2hi>.NET</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/Dapr" data-astro-cid-5grsw2hi>Dapr</a></p> </div>  </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 text-center"> <div>
+&copy; 2024 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> </body></html> 

@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><meta name="generator" content="Astro v5.1.1"><title>Laurent Kempé</title><link rel="stylesheet" href="/_astro/_slug_.CU5FiAOp.css">
+<style>a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}
+[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
+</style></head> <body> <header class="py-6 border-b container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between"> <div class="text-2xl font-bold mb-4 sm:mb-0">
+Laurent Kempé
+</div> <div class="flex gap-6 text-gray-600"> <a href="/" class="hover:text-gray-900 ">Home</a> <a href="/blog" class="hover:text-gray-900 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 ">About</a> </div> </nav> </header> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi>Wed Feb 02</p> <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p> <img src="https://live.staticflickr.com/65535/51852266955_978cbb4ee8_h.jpg" width="600" alt="Bastia, Corse, France" data-astro-cid-5grsw2hi>Bastia, Corse, France <article class="prose prose-lg max-w-none dark:prose-invert
+             prose-h1:font-bold prose-h1:text-xl
+             prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl
+             prose-headings:underline"> <p>Early in my journey in developing software, I used to start a project by setting first a way to build my software automatically each time I did a set of changes. Long, very long ago, I used scripts scheduled to run. When JetBrains shipped <a href="https://www.jetbrains.com/teamcity/">TeamCity</a> I started to use it extensively for <a href="https://laurentkempe.com/tags/NDepend/">my projects</a>, here is my first post about “<a href="https://laurentkempe.com/2008/03/21/Set-Up-a-Build-Computer-using-VisualSVN-Team-City-MsTest-NUnit/">Set Up a Build Computer using VisualSVN, Team City, MsTest, NUnit</a>” from March 21, 2008, but used it since version 1.0. Later on, I also used Azure Pipelines to build Git Diff Margin and also GitHub Actions, for example, to build and deploy those pages.</p>
+<!-- more -->
+<h1 id="history">History</h1>
+<p>I introduced TeamCity at <a href="http://www.innoveo.com/">Innoveo</a>; all teams still use it today.</p>
+<p>You can watch the video “<em>How Innoveo Skye Business Canvas is built - CI From The Trenches #8</em>” a conversation about how my team uses TeamCity to build the Innoveo Business Canvas. By the way, we are hiring; feel free to get in touch with me if you are interested!</p>
+<p></p>
+<!--?# Plyr video=Xvjiujn08vo /?-->
+<p>We started using TeamCity UI with MSBuild as an ultra-fast getting started experience. We leveraged all runners integrated to run our whole build, from restoring nugets, compiling, running tests with code coverage, R# code inspections, NDepend analysis, packaging. It was serving us well. But we discovered that not versioning your build script with your code can be a real pain when you need to ship patches! That was a trigger for a change. We could have gone by versioning the TeamCity configuration into our code repository, so both would be aligned.</p>
+<p>We had a look at lots of existing things on the .NET ecosystem like PSake, Fake. Till I found out <a href="https://cakebuild.net/">Cake</a> and <a href="https://sway.office.com/G8xS5gVqbwOA9euI">presented to the team</a>. We all liked that it was kind of C# as we are all C# developers. So, Cake helped us unify our different build processes in the “one” kind of C# project and we started to version with our app source code. Another improvement was that each developer could run our build on their machine! All of that keeping an easy integration in TeamCity. The project is open source and had (and still, I guess) a great responsive community.</p>
+<p>We liked this new solution for quite some time then we had our build complexity start to grow. We didn’t keep it as clean as it could be, and even if it was C#, it was like C# but without all the developers tooling that you have as a C# developer. And it was starting to be painful to maintain with doing CTRL+F to find things.</p>
+<p>So, some frustration started to appear. Honestly, a part of the problem was coming from us. On the other hand, another was really because of C# scripts, which is only like C#.</p>
+<h1 id="why-nuke--feb-2021">Why Nuke 💣 (FEB 2021)</h1>
+<p>I was following the <a href="https://nuke.build/">Nuke</a> project for some time. But, I never really invested the time to look deep enough to understand its full power. <strong>And oh boy, it is powerful</strong>! I had several discussions with its author <a href="https://twitter.com/matkoch87">Matthias Koch</a> followed by a quick personal presentation. I decided it was time to invest some time to move to the next thing and nuke the past 😆</p>
+<p>The first argument for me was; you develop your build pipelines in <strong>real C#</strong>! A killer feature for a C# developer, because it helps you to start very quickly with all the tools you know. On top of that, NUKE provides <a href="https://nuke.build/docs/running-builds/from-ides.html">extensions for all major .NET IDE</a>; Rider, Visual Studio, Visual Studio Code which let you run a target with its dependencies or without, start a debugging session directly from the target from the hit of a shortcut.</p>
+<p>A developer experience, on another level 🏆! Again, it is real C# 😍, no more magic strings, no more CTRL+F 💝, all build pipelines in one .NET project 🥰 with code navigation, refactoring, debugging😻. Oh, and again all running with our already in place TeamCity, and everywhere you can run <a href="http://dot.net/">.NET</a>.</p>
+<p>You can generate <a href="https://nuke.build/docs/authoring-builds/ci-integration.html">CI Integration</a> with partitioning. For example, you can run your tests on one agent in parallel to your static code analysis on another agent and shorten your overall build time. We have not gone that way for now, because of our build running in an acceptable average of 10 minutes. But, who would not like faster build time? Finally, it supports cloud build services GitHub Actions, Azure pipelines which we might consider in the future🔮.</p>
+<h1 id="migration-from-cake-to-nuke">Migration from Cake to NUKE</h1>
+<p>With all of those positive arguments, the decision to migrate was easy. I jumped on to migrate our Cake C# scripts to NUKE. As I wrote our Cake C# scripts were getting messy, nevertheless I decided to port with the current mess. More on that later.</p>
+<p>It needed some new learnings but went straightforward without a big surprise. One thing that made it easy is that the high-level concepts of both tools are the same or very similar. The other is that even if Cake is C# scripts, you can easily copy this code and paste it into a NUKE project.</p>
+<p>So, I had it running quite fast after starting the port, but with the mess. The next step was to refactor the whole. I wrote before it is a C# project. So I was in my comfort zone with all my refactoring tools in Rider. Again, this was super fast.</p>
+<p>Something I liked was the easy CLI Tools interaction with Fluent API with almost all the tools we are using already integrated, except one NDepend.</p>
+<p>I liked the easy CLI Tools interaction with Fluent API with almost all the tools we are using already integrated, except one NDepend. And that integration was also made simple. The only thing I had trouble with and needed some help with was that NDepend exited with an error code. We are breaking some NDepend rules. There is no way to change that. And NUKE then handled that as a build failure. Nothing wrong from the point of view of NDepend and NUKE. But, when you use tools like NDepend you cannot fix all the reported problems in one go. So, you often start by putting a rule that you at least don’t want to make worse. Over time, we extended NDepend with our own rules. Then also fixed some bundled broken rules. And we verify on each build that those issues do not reappear.</p>
+<h1 id="getting-started">Getting started</h1>
+<h2 id="install-nuke-extension-for-your-ide">Install NUKE extension for your IDE</h2>
+<p>Leverage the power of the <a href="https://nuke.build/docs/running-builds/from-ides.html">NUKE IDE extensions</a> to ease the creation, edition, debugging and execution of NUKE builds.</p>
+<p><img src="/images/2022/nuke_rider_extension.png" alt="NUKE rider extension"></p>
+<h2 id="install-nuke-cli-net-tool">Install NUKE CLI .NET tool</h2>
+<p>NUKE CLI .NET tool will help you to create and execute NUKE builds, or even update to a new version of NUKE.</p>
+<blockquote>
+<p>dotnet tool install Nuke.GlobalTool —global</p>
+</blockquote>
+<h2 id="extend-you-shell-with-nuke-auto-completion">Extend you shell with NUKE auto-completion</h2>
+<p>To simplify your life, you can extend your <a href="https://nuke.build/docs/running-builds/global-tool.html#shell-snippets">PowerShell, ZSH or BASH with auto-completion</a> so that you don’t have to remember all nuke details and just tab!</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#79B8FF">Register-ArgumentCompleter</span><span style="color:#F97583"> -</span><span style="color:#E1E4E8">Native </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">CommandName nuke </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">ScriptBlock {</span></span>
+<span class="line"><span style="color:#F97583">    param</span><span style="color:#E1E4E8">($commandName</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> $wordToComplete</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> $cursorPosition)</span></span>
+<span class="line"><span style="color:#E1E4E8">        nuke :complete </span><span style="color:#9ECBFF">"</span><span style="color:#E1E4E8">$wordToComplete</span><span style="color:#9ECBFF">"</span><span style="color:#F97583"> |</span><span style="color:#79B8FF"> ForEach-Object</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">           [</span><span style="color:#F97583">System.Management.Automation.CompletionResult</span><span style="color:#E1E4E8">]::new(</span><span style="color:#79B8FF">$_</span><span style="color:#F97583">,</span><span style="color:#79B8FF"> $_</span><span style="color:#F97583">,</span><span style="color:#9ECBFF"> 'ParameterValue'</span><span style="color:#F97583">,</span><span style="color:#79B8FF"> $_</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<h2 id="create-your-first-nuke-build-project">Create your first NUKE build project</h2>
+<p><img src="/images/2022/nuke setup.png" alt="NUKE setup"></p>
+<p>From the project you want to build run</p>
+<blockquote>
+<p>nuke :setup</p>
+</blockquote>
+<p>Follow the easy steps and you are done with a basic C# build project!</p>
+<p>Now, you can either run your build using NUKE dotnet tool</p>
+<blockquote>
+<p>nuke [targets] [arguments]</p>
+</blockquote>
+<p>or with the PowerShell script created</p>
+<blockquote>
+<p>.\build.ps1 [targets] [arguments]</p>
+</blockquote>
+<h2 id="what-code-is-generated">What code is generated?</h2>
+<p>NUKE build is implemented as a console application. I removed some minor parts to make it easier to understand.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">class</span><span style="color:#B392F0"> Build</span><span style="color:#E1E4E8"> : </span><span style="color:#B392F0">NukeBuild</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> static</span><span style="color:#F97583"> int</span><span style="color:#B392F0"> Main</span><span style="color:#E1E4E8"> () </span><span style="color:#F97583">=></span><span style="color:#B392F0"> Execute</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#B392F0">Build</span><span style="color:#E1E4E8">>(</span><span style="color:#B392F0">x</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> x.Compile);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#B392F0">Parameter</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"Configuration to build - Default is 'Debug' (local) or 'Release' (server)"</span><span style="color:#E1E4E8">)]</span></span>
+<span class="line"><span style="color:#F97583">    readonly</span><span style="color:#B392F0"> Configuration</span><span style="color:#B392F0"> Configuration</span></span>
+<span class="line"><span style="color:#F97583">                =</span><span style="color:#E1E4E8"> IsLocalBuild </span><span style="color:#F97583">?</span><span style="color:#E1E4E8"> Configuration.Debug </span><span style="color:#F97583">:</span><span style="color:#E1E4E8"> Configuration.Release;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#B392F0">Solution</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">readonly</span><span style="color:#B392F0"> Solution</span><span style="color:#B392F0"> Solution</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">    AbsolutePath</span><span style="color:#B392F0"> SourceDirectory</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> RootDirectory </span><span style="color:#F97583">/</span><span style="color:#9ECBFF"> "src"</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#B392F0">    AbsolutePath</span><span style="color:#B392F0"> TestsDirectory</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> RootDirectory </span><span style="color:#F97583">/</span><span style="color:#9ECBFF"> "tests"</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#B392F0">    AbsolutePath</span><span style="color:#B392F0"> OutputDirectory</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> RootDirectory </span><span style="color:#F97583">/</span><span style="color:#9ECBFF"> "output"</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">    Target</span><span style="color:#B392F0"> Clean</span><span style="color:#F97583"> =></span><span style="color:#B392F0"> _</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> _</span></span>
+<span class="line"><span style="color:#E1E4E8">        .</span><span style="color:#B392F0">Before</span><span style="color:#E1E4E8">(Restore)</span></span>
+<span class="line"><span style="color:#E1E4E8">        .</span><span style="color:#B392F0">Executes</span><span style="color:#E1E4E8">(() </span><span style="color:#F97583">=></span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#E1E4E8">            SourceDirectory.</span><span style="color:#B392F0">GlobDirectories</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"**/bin"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"**/obj"</span><span style="color:#E1E4E8">).</span><span style="color:#B392F0">ForEach</span><span style="color:#E1E4E8">(DeleteDirectory);</span></span>
+<span class="line"><span style="color:#E1E4E8">            TestsDirectory.</span><span style="color:#B392F0">GlobDirectories</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"**/bin"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"**/obj"</span><span style="color:#E1E4E8">).</span><span style="color:#B392F0">ForEach</span><span style="color:#E1E4E8">(DeleteDirectory);</span></span>
+<span class="line"><span style="color:#B392F0">            EnsureCleanDirectory</span><span style="color:#E1E4E8">(OutputDirectory);</span></span>
+<span class="line"><span style="color:#E1E4E8">        });</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">    Target</span><span style="color:#B392F0"> Restore</span><span style="color:#F97583"> =></span><span style="color:#B392F0"> _</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> _</span></span>
+<span class="line"><span style="color:#E1E4E8">        .</span><span style="color:#B392F0">Executes</span><span style="color:#E1E4E8">(() </span><span style="color:#F97583">=></span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#B392F0">            DotNetRestore</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">s</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> s</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">SetProjectFile</span><span style="color:#E1E4E8">(Solution));</span></span>
+<span class="line"><span style="color:#E1E4E8">        });</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">    Target</span><span style="color:#B392F0"> Compile</span><span style="color:#F97583"> =></span><span style="color:#B392F0"> _</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> _</span></span>
+<span class="line"><span style="color:#E1E4E8">        .</span><span style="color:#B392F0">DependsOn</span><span style="color:#E1E4E8">(Restore)</span></span>
+<span class="line"><span style="color:#E1E4E8">        .</span><span style="color:#B392F0">Executes</span><span style="color:#E1E4E8">(() </span><span style="color:#F97583">=></span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#B392F0">            DotNetBuild</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">s</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> s</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">SetProjectFile</span><span style="color:#E1E4E8">(Solution)</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">SetConfiguration</span><span style="color:#E1E4E8">(Configuration)</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">EnableNoRestore</span><span style="color:#E1E4E8">());</span></span>
+<span class="line"><span style="color:#E1E4E8">        });</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>The entry point of the console application is <code>Main</code> and by default it calls <code>Compile</code> on line 3. With your preferred IDE you can use code navigation to get to the <code>Compile</code>code. <code>Compile</code> is a <code>Target</code> and we can see that this is not a magic string which has been the case with other build tools 👍🏼.</p>
+<p>A <code>Configuration</code> <code>Parameter</code> is defined which can be passed to our build to specify if it is a <code>Debug</code> or <code>Release</code> build.</p>
+<p>A <code>Solution</code> is defined which is used later on the <code>Compile</code> <code>Target</code>. Through the usage of the C# attribute <code>[Solution]</code>, the solution file will be found using either command-line arguments, environment variables, or finally <code>_build\config\parameters.json</code> file created when you generated the NUKE project.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  "$schema"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"./build.schema.json"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">  "Solution"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"NukeBuildAutomation.sln"</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>Or it could be done like this</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#B392F0">Solution</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">".</span><span style="color:#79B8FF">\\</span><span style="color:#9ECBFF">NukeBuildAutomation.sln"</span><span style="color:#E1E4E8">)] </span><span style="color:#F97583">readonly</span><span style="color:#B392F0"> Solution</span><span style="color:#B392F0"> Solution</span><span style="color:#E1E4E8">;</span></span></code></pre>
+<p>Then some <code>AbsolutePath</code> are defined for <code>SourceDirectory</code>, <code>TestsDirectory</code>, <code>OutputDirectory</code>showing how easy it is to compose paths. Those are used in the <code>Clean</code> <code>Target</code> in which it is used to clean folder with a nice syntax <code>SourceDirectory.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory)</code>.</p>
+<h2 id="targets">Targets</h2>
+<p>NUKE uses similar dependency-based as other build automation solutions. The execution model is using <code>Target</code> which can relate one another and create a directed dependency graph.</p>
+<p>In the generated code we can see that target <code>Clean</code> is told to run <code>Before</code> the <code>Restore</code> target. For the <code>Compile</code> target we can see that it <code>DependsOn</code> depends on the <code>Restore</code> target. You can read more about all the capabilities of NUKE in that matter in the <a href="https://nuke.build/docs/authoring-builds/fundamentals.html#execution-dependencies">NUKE documentation - Execution Dependencies</a>.</p>
+<p>A super nice feature is to be able to visualize our target relationships with a graph that NUKE generates for us, using the command</p>
+<blockquote>
+<p>nuke —plan</p>
+</blockquote>
+<p><img src="/images/2022/nuke plan.png" alt="NUKE plan"></p>
+<p>With such an execution plan defined by our targets, we can see that the <code>Clean</code> target is executed before the <code>Restore</code> target and the <code>Compile</code> target is executed after the <code>Restore</code> target. We also see that if the <code>Clean</code> target is not specified as a command line parameter it won’t be executed.</p>
+<p>The <code>.Before(Restore)</code> on the clean <code>Target</code> means that even if you run your command like this</p>
+<blockquote>
+<p>nuke Compile Clean</p>
+</blockquote>
+<p>the <code>Clean</code> target will be executed before the <code>Compile</code> target.</p>
+<h2 id="fluent-api">Fluent API</h2>
+<p>The following code example shows NUKE fluent API which can be used with some pre-defined <a href="https://nuke.build/docs/authoring-builds/cli-tools.html">CLI tools</a>. In that concrete case we are using <a href="https://www.jetbrains.com/help/dotcover/Running_Coverage_Analysis_from_the_Command_LIne.html">JetBrains dotCover command line</a> to run our tests with and generate code coverage report.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">partial</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> Build</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#F97583"> string</span><span style="color:#B392F0"> TestResultsXmlSuffix</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> "_TestResults.xml"</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">    IEnumerable</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#F97583">string</span><span style="color:#E1E4E8">> </span><span style="color:#B392F0">TestAssemblies</span><span style="color:#F97583"> =></span><span style="color:#B392F0"> GlobFiles</span><span style="color:#E1E4E8">(OutputDirectory, </span><span style="color:#9ECBFF">"*.Tests.*.dll"</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    Target</span><span style="color:#B392F0"> TestWithCoverage</span><span style="color:#F97583"> =></span><span style="color:#B392F0"> _</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> _</span></span>
+<span class="line"><span style="color:#E1E4E8">        .</span><span style="color:#B392F0">DependsOn</span><span style="color:#E1E4E8">(Compile)</span></span>
+<span class="line"><span style="color:#E1E4E8">        .</span><span style="color:#B392F0">Executes</span><span style="color:#E1E4E8">(() </span><span style="color:#F97583">=></span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#B392F0">            DotCoverCover</span><span style="color:#E1E4E8">(GetDotCoverSettings, Environment.ProcessorCount);</span></span>
+<span class="line"><span style="color:#E1E4E8">        });</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    IEnumerable</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#B392F0">DotCoverCoverSettings</span><span style="color:#E1E4E8">> </span><span style="color:#B392F0">GetDotCoverSettings</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">DotCoverCoverSettings</span><span style="color:#B392F0"> settings</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=></span></span>
+<span class="line"><span style="color:#E1E4E8">        TestAssemblies.</span><span style="color:#B392F0">Select</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">testAssembly</span><span style="color:#F97583"> =></span><span style="color:#F97583"> new</span><span style="color:#B392F0"> DotCoverCoverSettings</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">            .</span><span style="color:#B392F0">SetTargetExecutable</span><span style="color:#E1E4E8">(ToolPathResolver.</span><span style="color:#B392F0">GetPathExecutable</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">"dotnet"</span><span style="color:#E1E4E8">))</span></span>
+<span class="line"><span style="color:#E1E4E8">            .</span><span style="color:#B392F0">SetTargetWorkingDirectory</span><span style="color:#E1E4E8">(OutputDirectory)</span></span>
+<span class="line"><span style="color:#E1E4E8">            .</span><span style="color:#B392F0">SetTargetArguments</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">$"test --test-adapter-path:. {</span><span style="color:#E1E4E8">testAssembly</span><span style="color:#9ECBFF">}  --logger trx;LogFileName={</span><span style="color:#E1E4E8">testAssembly</span><span style="color:#9ECBFF">}{</span><span style="color:#E1E4E8">TestResultsXmlSuffix</span><span style="color:#9ECBFF">}"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            .</span><span style="color:#B392F0">SetFilters</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#9ECBFF">                "+:MyProject"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            .</span><span style="color:#B392F0">SetAttributeFilters</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#9ECBFF">                "System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                "System.CodeDom.Compiler.GeneratedCodeAttribute"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            .</span><span style="color:#B392F0">SetOutputFile</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">GetDotCoverOutputFile</span><span style="color:#E1E4E8">(testAssembly)));</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#B392F0">    AbsolutePath</span><span style="color:#B392F0"> GetDotCoverOutputFile</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> testAssembly</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> OutputDirectory </span><span style="color:#F97583">/</span><span style="color:#9ECBFF"> $"dotCover_{</span><span style="color:#E1E4E8">Path</span><span style="color:#9ECBFF">.</span><span style="color:#B392F0">GetFileName</span><span style="color:#9ECBFF">(</span><span style="color:#E1E4E8">testAssembly</span><span style="color:#9ECBFF">)}.dcvr"</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<h1 id="conclusion">Conclusion</h1>
+<p>There is much more to write about NUKE than just the basics. You can read more about it in the <a href="https://nuke.build/docs/">NUKE documentation</a>. Nevertheless, I hope this blog post will help your to get started quickly. I heavily encourage you to invest the time to have a look to <a href="https://nuke.build/index.html">NUKE</a>. It will for sure save you time when you want to automate your build pipelines in C# and have those run where ever .NET runs. For us, it was definitely a great decision to move to it and I would not look back. Now, I look forward to have some time to invest into its <a href="https://nuke.build/docs/authoring-builds/ci-integration.html#partitioning">capabilities to partition</a> our build and have it running in even less time. That would also be the reason to write another post on that particular capability 😉</p>
+<h1 id="presentation">Presentation</h1>
+<!--?# Reveal src=https://laurentkempe.com/presentations/dotNET%20build%20automation%20with%20NUKE/#/ /?-->
+<p>Press f key to see the presentation full screen, or <a href="https://laurentkempe.com/presentations/dotNET%20build%20automation%20with%20NUKE/#/">navigate to it</a>.</p>
+<h1 id="nuke-presentation-video-french">NUKE presentation video (French)</h1>
+<p>For French speaking people, join us for remote <a href="https://devapps.ms/meetup">DevApps meetup</a> each Wednesday late afternoon for a bit of fun. Here is the recording of the meetup about NUKE from 2.2.2022.</p>
+<!--?# Plyr video=o0XLGRObd4E start=291 /?-->
+<h1 id="code">Code</h1>
+<p>You can find all the code used in this blog post and for the meetup on the following repository</p>
+<!--?# githubCard user=laurentkempe repo=NukeBuildAutomation align=left /?--> </article>  <div class="tags" data-astro-cid-5grsw2hi> <p class="tag" data-astro-cid-5grsw2hi><a href="/tags/.NET" data-astro-cid-5grsw2hi>.NET</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/C#" data-astro-cid-5grsw2hi>C#</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/Build" data-astro-cid-5grsw2hi>Build</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/NUKE" data-astro-cid-5grsw2hi>NUKE</a></p> </div>  </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 text-center"> <div>
+&copy; 2024 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> </body></html> 
