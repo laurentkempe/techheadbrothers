@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><link rel="stylesheet" href="https://cdn.vidstack.io/player.css"><meta name="generator" content="Astro v5.1.1"><title>Laurent Kempé - Refactoring huge C# code base in minutes</title><link rel="stylesheet" href="/_astro/_slug_.Bdb4bxZs.css">
+<style>a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}
+[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
+</style></head> <body> <header class="py-6 border-b container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between"> <div class="text-2xl font-bold mb-4 sm:mb-0"> <a href="/">Laurent Kempé</a> </div> <div class="flex gap-6 text-gray-600"> <a href="/" class="hover:text-gray-900 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 ">About</a> </div> </nav> </header> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p> <div class="relative" data-astro-cid-5grsw2hi>  <img src="https://live.staticflickr.com/4440/36229431203_0b829098fb_h.jpg" alt="Moʻorea, Polynésie, France" data-astro-cid-5grsw2hi="true" width="640" height="427" loading="lazy" decoding="async" class="w-full"> <div class="absolute text-white top-1/3 left-1/3 transform -translate-x-1/4 -translate-y-1/4" data-astro-cid-5grsw2hi> <p class="text-2xl sm:text-3xl md:text-5xl font-extrabold drop-shadow-[0_4px_3px_rgb(0,0,0,0.5)]" data-astro-cid-5grsw2hi>Refactoring huge C# code base in minutes</p> <p class="py-2 text-sm sm:text-base" data-astro-cid-5grsw2hi>Feb 20, 2023</p> </div> <p class="absolute text-sm sm:text-xs text-white bottom-5 right-5" data-astro-cid-5grsw2hi>Moʻorea, Polynésie, France</p> </div> <div class="py-4" data-astro-cid-5grsw2hi>  <article class="prose prose-lg max-w-none dark:prose-invert
+             prose-h1:font-bold prose-h1:text-xl
+             prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl
+             prose-headings:underline"> <p>With my team, we like to keep our C# code base updated. So, recently we went to .NET 7 and C# 11. At the same time, we were still adopting some of the new capabilities of .NET 6 and C# 10. Our code base is large, so it takes some time. One of the new features that we planned to use was the <code>ArgumentNullException.ThrowIfNull</code> method, which throws an exception if an argument is null. In this post, I will show you how I effortlessly did that refactoring by letting the machine work and not the human 😁 (me). In the past, I used the same approach to migrate lots of code that used <code>Assert.True()</code> to <code>Assert.That(, Is.True)</code> and for some other even more complex cases. We will use ReSharper and Rider for that.</p>
+
+<h1 id="why-going-to-argumentnullexceptionthrowifnull">Why going to ArgumentNullException.ThrowIfNull</h1>
+<p>The original code might look something like this:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> void</span><span style="color:#B392F0"> DoSomething</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> name</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (name </span><span style="color:#F97583">==</span><span style="color:#79B8FF"> null</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        throw</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ArgumentNullException</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">nameof</span><span style="color:#E1E4E8">(name));</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#6A737D">    // do something</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>After refactoring toward the new <code>ArgumentNullException.ThrowIfNull</code> method, the code looks like this.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> void</span><span style="color:#B392F0"> DoSomething</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> name</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#E1E4E8">    ArgumentNullException.</span><span style="color:#B392F0">ThrowIfNull</span><span style="color:#E1E4E8">(name);</span></span>
+<span class="line"><span style="color:#6A737D">    // do something</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>The immediate and obvious advantage of using the new method is the <strong>reduction of code</strong> that we have to write.</p>
+<p>Another less obvious advantage, is that this code is <strong>less error prone</strong>. Looking at the first implementation, a mismatch between <code>name == null</code> and <code>nameof(name)</code> is easily made. EEspecially with multiple similar line checking arguments. With The new method this is not possible anymore.</p>
+<p>As we know why we want to use the new method, let’s see how we can refactor our large code base.</p>
+<h1 id="how-to-automate-the-refactoring-of-huge-code-base">How to automate the refactoring of huge code base</h1>
+<p>The first step that comes to mind is to find all the places where <code>ArgumentNullException</code> constructor is used. For that, we use the find functionality of our IDE. We use ReSharper/Rider <strong>Search Everywhere</strong> feature, specifying <code>throw new ArgumentNullException</code> constructor as the search term.</p>
+<p><img src="/images/RiderSearchEverywhere.png" alt="Rider Search Everywhere"/></p>
+<p>We can find all the places where we are using the <code>ArgumentNullException</code>. And start to replace by hand all the places. But this is a tedious task.</p>
+<p>You can have this form</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (spans </span><span style="color:#F97583">==</span><span style="color:#79B8FF"> null</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">throw</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ArgumentNullException</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">nameof</span><span style="color:#E1E4E8">(spans));</span></span></code></pre>
+<p>and this form</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (spans </span><span style="color:#F97583">==</span><span style="color:#79B8FF"> null</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        throw</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ArgumentNullException</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">nameof</span><span style="color:#E1E4E8">(spans));</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span></code></pre>
+<p>or even</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (spans </span><span style="color:#F97583">is</span><span style="color:#79B8FF"> null</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">throw</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ArgumentNullException</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">nameof</span><span style="color:#E1E4E8">(spans));</span></span></code></pre>
+<p>Finding, is easy. It is more the replacement that will be tedious.</p>
+<p>Is there a better way? Yes, using <strong>ReSharper - Search with Pattern</strong>.</p>
+<p><img src="/images/ReSharperSearchWithPattern.png" alt="ReSharper Search With Pattern"/></p>
+<p>We see that we can use placeholders to specify the name of the parameter. In our case <code>$spans$</code> specifies the identifier placeholder meaning any symbol identifier. Each placeholder must be defined once and can be used several times in the pattern. When defining a placeholder, you need to define its kind and optional constraints. There are five kinds of placeholders:</p>
+<div class="p-4 bg-blue-100 border-t-4 border-blue-500 text-white-700 rounded-lg shadow-md" role="alert"> <div class="flex"> <div><svg class="fill-current h-6 w-6 text-blue-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"></path></svg></div> <div>  <ul>
+<li>
+<p><strong>Argument Placeholder</strong> — one or more arguments in a method invocation. If necessary, you can specify minimal or maximal number of arguments that should be matched.</p>
+</li>
+<li>
+<p><strong>Expression Placeholder</strong> — a sequence of operators and operands. You can optionally specify a type that is returned by this expression.</p>
+</li>
+<li>
+<p><strong>Identifier Placeholder</strong> — any symbol identifier. You can additionally specify a regular expression that will be used to match symbol names.</p>
+</li>
+<li>
+<p><strong>Statement Placeholder</strong> — a single-line statement that ends with a semicolon or a block of statements. If necessary, you can specify minimal or maximal number of statements that should be matched.</p>
+</li>
+<li>
+<p><strong>Type Placeholder</strong> — a value type or a reference type. By default, a placeholder of this kind will match any type, but you can specify a specific type explicitly.</p>
+</li>
+</ul> </div> </div> </div>
+<p>In our code base it’s finding 131 occurrences of the pattern.</p>
+<p><img src="/images/ReSharperSearchWithPatternFindings.png" alt="ReSharper Search With Pattern Findinds"/></p>
+<p>If we use the Search Anywhere feature, we can see that it’s finding 166 occurrences of the string <code>throw new ArgumentNullException</code>.</p>
+<p><img src="/images/ReSharperSearchAnywhereFindings.png" alt="ReSharper Search Anywhere Findinds"/></p>
+<p>Why this difference? Because we have some places in the code where we are using the <code>ArgumentNullException</code> constructor with two parameters which is not handled in the search pattern defined in our Search with Pattern. We could modify it to find the missing 35 occurrences, however we want to review those ones and see if the second parameter is really needed.</p>
+<p>So, let’s replace all the occurrences found by the Search with Pattern. Click on the Replace and then specify the replace pattern in which we re-use the placeholder <code>$spans$</code> and add the <code>ArgumentNullException.ThrowIfNull</code> method.</p>
+<p><img src="/images/ReSharperSearchWithPatternReplace.png" alt="ReSharper Search With Pattern Replace"/></p>
+<p>I could click on Replace and have a good part of the work done. A question then comes to mind. What if a developer after that refactoring reintroduce old way of doing things? How can I prevent that?</p>
+<h1 id="prevent-reintroducing-the-old-way-of-doing-things">Prevent reintroducing the old way of doing things</h1>
+<p>The great thing is that ReSharper is not only a tool to help you refactor your code, but also to help you keep your code base clean. For that, we can use the <strong>Pattern Catalog</strong> and share the pattern with the team.</p>
+<p>Click save</p>
+<p><img src="/images/ReSharperSavePatternCatalog.png" alt="ReSharper Save Pattern Catalog.png"/></p>
+<p>Now go to the pattern catalog</p>
+<p><img src="/images/ReSharperPatternCatalog.png" alt="ReSharper Pattern Catalog"/></p>
+<p>Find your pattern</p>
+<p><img src="/images/ReSharperPatternCatalogDialog.png" alt="ReSharper Pattern Catalog Dialog"/></p>
+<p>Double click to edit it</p>
+<p><img src="/images/ReSharperEditHighlightingPattern.png" alt="ReSharper Edit Highlighting Pattern"/></p>
+<p>Here select <em>Pattern severity</em> to <em>Show as error</em> or to the value that you prefer. Then add a description and save.</p>
+<p>Now, if someone uses the old way of doing, the following error is shown.</p>
+<p><img src="/images/InspectCodeSquiggles.png" alt="InspectCode Squiggles"/></p>
+<h1 id="help-other-developers-to-fix-their-code">Help other developers to fix their code</h1>
+<p>Now we can do even better because we can propose a way to fix the code. For that we can use the <strong>Quick Fix</strong> feature of ReSharper/Rider.</p>
+<p>Edit the pattern again, and choose now to replace the pattern with the following in <em>Replace pattern</em> and click save</p>
+<p><img src="/images/EditHighlightingPatternReplace.png" alt="Edit Highlighting Pattern Replace"/></p>
+<p>Your code will still display the red squiggles and now the bulb menu will appear, proposing a way to fix the code to the way.</p>
+<p><img src="/images/ApplyReplacementInSolution.png" alt="Apply Replacement In Solution"/></p>
+<p>And the beauty is that you can use “<em>Apply replacement in solution</em>” to fix all the occurrences in the solution. This where we let the machine do the work for us 😁.</p>
+<h1 id="sharing-the-custom-patterns-in-your-team">Sharing the Custom patterns in your team</h1>
+<p>Finally, we can share that new <em>custom pattern</em> with our team by saving the settings to the team-shared settings layer.</p>
+<p><img src="/images/CustomPatternSaveToTeamShared.png" alt="Custom Pattern Save To Team Shared"/></p>
+<h1 id="resharper-and-rider-settings">ReSharper and Rider settings</h1>
+<p>At the moment of writing this post, Rider doesn’t have any way to edit the custom patterns in a settings dialog. Nevertheless, you can define the custom patterns in ReSharper and share those with your team, and the error and quick fix will be shown in Rider.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>We have seen how easy it is to put in place a custom pattern in ReSharper, share it with the team, and use it in Rider. We have also seen how we can use the custom pattern to prevent reintroducing old code and how we can use the quick fix to fix the code. It requires a bit of effort to define the pattern, but it will pay off overall! It will also help you to keep your code base clean and consistent and help other developers, especially new ones, apply the same patterns. I would also recommend running those inspections during your CI build and breaking the build if some new ones are introduced.</p>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://www.jetbrains.com/help/rider/Searching_Everywhere.html">Rider Search Everywhere</a></li>
+<li><a href="https://www.jetbrains.com/help/resharper/Navigation_and_Search__Structural_Search_and_Replace.html">Structural Search and Replace</a></li>
+<li><a href="https://www.jetbrains.com/help/resharper/Navigation_and_Search__Structural_Search_and_Replace.html#sharing-patterns">Share patterns</a></li>
+<li><a href="https://www.jetbrains.com/help/resharper/Sharing_Configuration_Options.html">Manage and share ReSharper settings</a></li>
+</ul> </article>  </div> <div class="tags" data-astro-cid-5grsw2hi> <p class="tag" data-astro-cid-5grsw2hi><a href="/tags/.NET" data-astro-cid-5grsw2hi>.NET</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/C#" data-astro-cid-5grsw2hi>C#</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/ReSharper" data-astro-cid-5grsw2hi>ReSharper</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/Rider" data-astro-cid-5grsw2hi>Rider</a></p> </div>  </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 text-center"> <div>
+&copy; 2025 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> <script src="https://cdn.vidstack.io/player.core" type="module"></script> <script src="https://cdn.vidstack.io/icons" type="module"></script> </body> </html> 

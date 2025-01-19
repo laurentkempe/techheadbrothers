@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><link rel="stylesheet" href="https://cdn.vidstack.io/player.css"><meta name="generator" content="Astro v5.1.1"><title>Laurent Kempé - Write Logseq plugins in WebAssembly using .NET and C#</title><link rel="stylesheet" href="/_astro/_slug_.Bdb4bxZs.css">
+<style>a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}
+[data-astro-image]{width:100%;height:auto;-o-object-fit:var(--fit);object-fit:var(--fit);-o-object-position:var(--pos);object-position:var(--pos);aspect-ratio:var(--w) / var(--h)}[data-astro-image=responsive]{max-width:calc(var(--w) * 1px);max-height:calc(var(--h) * 1px)}[data-astro-image=fixed]{width:calc(var(--w) * 1px);height:calc(var(--h) * 1px)}
+</style></head> <body> <header class="py-6 border-b container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between"> <div class="text-2xl font-bold mb-4 sm:mb-0"> <a href="/">Laurent Kempé</a> </div> <div class="flex gap-6 text-gray-600"> <a href="/" class="hover:text-gray-900 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 ">About</a> </div> </nav> </header> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p> <div class="relative" data-astro-cid-5grsw2hi>  <img src="https://live.staticflickr.com/65535/40799340683_3fedcfbbdb_h.jpg" alt="Lomont, Franche-Conté, France" data-astro-cid-5grsw2hi="true" width="640" height="427" loading="lazy" decoding="async" class="w-full"> <div class="absolute text-white top-1/3 left-1/3 transform -translate-x-1/4 -translate-y-1/4" data-astro-cid-5grsw2hi> <p class="text-2xl sm:text-3xl md:text-5xl font-extrabold drop-shadow-[0_4px_3px_rgb(0,0,0,0.5)]" data-astro-cid-5grsw2hi>Write Logseq plugins in WebAssembly using .NET and C#</p> <p class="py-2 text-sm sm:text-base" data-astro-cid-5grsw2hi>Oct 12, 2022</p> </div> <p class="absolute text-sm sm:text-xs text-white bottom-5 right-5" data-astro-cid-5grsw2hi>Lomont, Franche-Conté, France</p> </div> <div class="py-4" data-astro-cid-5grsw2hi>  <article class="prose prose-lg max-w-none dark:prose-invert
+             prose-h1:font-bold prose-h1:text-xl
+             prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl
+             prose-headings:underline"> <p>I am using a tool called logseq to manage my notes. It is a fantastic tool, and I would like to be able to extend it. I am not an expert web developer, but I am a .NET developer. I would like to be able to write plugins for logseq using .NET and C#. I have found a way to do it using WebAssembly. In this post, I am going to show you how to do it.</p>
+
+<h1 id="prerequisites">Prerequisites</h1>
+<ul>
+<li><a href="https://logseq.com/">Logseq</a> installed</li>
+<li><a href="https://dotnet.microsoft.com/en-us/download/dotnet/7.0">.NET 7 RC1 or later</a> installed</li>
+</ul>
+<h1 id="logseq-plugin-skeleton">Logseq plugin skeleton</h1>
+<p>There are multiple samples available on the <a href="https://github.com/logseq/logseq-plugin-samples">logseq-plugin-samples github repository</a>. I chose the first one <a href="https://github.com/logseq/logseq-plugin-samples/tree/master/logseq-slash-commands">Slash command Sample</a> to conduct my experiment of creating a first plugin.</p>
+<p>We need to take over the script included in the <code>index.html</code> file, representing the logseq API.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="html"><code><span class="line"><span style="color:#E1E4E8"> &lt;</span><span style="color:#85E89D">script</span><span style="color:#B392F0"> src</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;https://cdn.jsdelivr.net/npm/@logseq/libs@0.0.1-alpha.34/dist/lsplugin.user.min.js&quot;</span><span style="color:#E1E4E8">&gt;&lt;/</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<p>Then JavaScript code lets you interact with the logseq application with a nice and simple API. Here, we register a slash command called <code>💥 Big Bang</code> which will display a message in the logseq application.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="js"><code><span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8"> () {</span></span>
+<span class="line"><span style="color:#E1E4E8">  logseq.Editor.</span><span style="color:#B392F0">registerSlashCommand</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#9ECBFF">    &#39;💥 Big Bang&#39;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#F97583">    async</span><span style="color:#E1E4E8"> () </span><span style="color:#F97583">=&gt;</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">      const</span><span style="color:#E1E4E8"> { </span><span style="color:#79B8FF">content</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">uuid</span><span style="color:#E1E4E8"> } </span><span style="color:#F97583">=</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> logseq.Editor.</span><span style="color:#B392F0">getCurrentBlock</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">      logseq.App.</span><span style="color:#B392F0">showMsg</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">`</span></span>
+<span class="line"><span style="color:#9ECBFF">        [:div.p-2</span></span>
+<span class="line"><span style="color:#9ECBFF">          [:h1 &quot;#${</span><span style="color:#E1E4E8">uuid</span><span style="color:#9ECBFF">}&quot;]</span></span>
+<span class="line"><span style="color:#9ECBFF">          [:h2.text-xl &quot;${</span><span style="color:#E1E4E8">content</span><span style="color:#9ECBFF">}&quot;]]</span></span>
+<span class="line"><span style="color:#9ECBFF">      `</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">  )</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// bootstrap</span></span>
+<span class="line"><span style="color:#E1E4E8">logseq.</span><span style="color:#B392F0">ready</span><span style="color:#E1E4E8">(main).</span><span style="color:#B392F0">catch</span><span style="color:#E1E4E8">(console.error)</span></span></code></pre>
+<p>Finally, the definition of the plugin used to register it in the logseq application.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;name&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;logseq-slash-dotnetwasm&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;version&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;0.0.1&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;description&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;.NET WASM slash command.&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;main&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;index.html&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;author&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Laurent Kempé&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;license&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;MIT&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;logseq&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;id&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;logseq-slash-dotnetwasm&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span></code></pre>
+<h1 id="net-7-webassembly-new-capabilities">.NET 7 WebAssembly new capabilities</h1>
+<p>If you are from the .NET ecosystem, you are probably familiar with <a href="https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor">Blazor</a>. For the other, it is a framework to be able to write .NET code in the browser. It is using WebAssembly to be able to do it. It is not the only way anymore to use .NET in the browser. There are new capabilities to be able to use .NET 7 independently of Blazor from any JavaScript in a browser app or a Node.js based console app.</p>
+<p>You need to install <a href="https://dotnet.microsoft.com/download/dotnet/7.0">.NET 7 RC1 SDK</a> and run the following commands</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8">dotnet workload install wasm</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">tools</span></span>
+<span class="line"><span style="color:#E1E4E8">dotnet workload install wasm</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">experimental</span></span></code></pre>
+<p>Then create a new WebAssembly browser app project using the following command</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8">dotnet new wasmbrowser</span></span></code></pre>
+<p>creating the following code bringing interoperation possibilities between the JavaScript and the .NET code</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Runtime</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">InteropServices</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">JavaScript</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">Console.</span><span style="color:#B392F0">WriteLine</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;Hello, Browser!&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> partial</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> MyClass</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#B392F0">JSExport</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#F97583">    internal</span><span style="color:#F97583"> static</span><span style="color:#F97583"> string</span><span style="color:#B392F0"> Greeting</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        var</span><span style="color:#B392F0"> text</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> $&quot;Hello, World! Greetings from {</span><span style="color:#B392F0">GetHRef</span><span style="color:#9ECBFF">()}&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">        Console.</span><span style="color:#B392F0">WriteLine</span><span style="color:#E1E4E8">(text);</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> text;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#B392F0">JSImport</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;window.location.href&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;main.js&quot;</span><span style="color:#E1E4E8">)]</span></span>
+<span class="line"><span style="color:#F97583">    internal</span><span style="color:#F97583"> static</span><span style="color:#F97583"> partial</span><span style="color:#F97583"> string</span><span style="color:#B392F0"> GetHRef</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<div class="p-4 bg-blue-100 border-t-4 border-blue-500 text-white-700 rounded-lg shadow-md" role="alert"> <div class="flex"> <div><svg class="fill-current h-6 w-6 text-blue-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"></path></svg></div> <div>  <p>You can use the <code>JSExport</code> attribute to export a C# method to JavaScript. Similarly, you can also use the <code>JSImport</code> attribute to import a method from JavaScript and be able to call it from C#.</p> </div> </div> </div>
+<p>It also creates a bit of JavaScript <code>main.js</code> with the interesting part being the part that is calling the <code>Greeting</code> method from the C# code, itself calling the <code>GetHRef()</code> C# method delegated to the JavaScript <code>window.location.href</code>.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="js"><code><span class="line"></span>
+<span class="line"><span style="color:#B392F0">setModuleImports</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;main.js&quot;</span><span style="color:#E1E4E8">, {</span></span>
+<span class="line"><span style="color:#E1E4E8">    window: {</span></span>
+<span class="line"><span style="color:#E1E4E8">        location: {</span></span>
+<span class="line"><span style="color:#B392F0">            href</span><span style="color:#E1E4E8">: () </span><span style="color:#F97583">=&gt;</span><span style="color:#E1E4E8"> globalThis.window.location.href</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> config</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> getConfig</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> exports</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> getAssemblyExports</span><span style="color:#E1E4E8">(config.mainAssemblyName);</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> text</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> exports</span><span style="color:#E1E4E8">.MyClass.</span><span style="color:#B392F0">Greeting</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(text);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">document.</span><span style="color:#B392F0">getElementById</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;out&quot;</span><span style="color:#E1E4E8">).innerHTML </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> `${</span><span style="color:#E1E4E8">text</span><span style="color:#9ECBFF">}`</span><span style="color:#E1E4E8">;</span></span></code></pre>
+<p>and to tight everything together an <code>index.html</code> file is also created</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="html"><code><span class="line"><span style="color:#E1E4E8">&lt;!</span><span style="color:#85E89D">DOCTYPE</span><span style="color:#B392F0"> html</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#6A737D">&lt;!--  Licensed to the .NET Foundation under one or more agreements. --&gt;</span></span>
+<span class="line"><span style="color:#6A737D">&lt;!-- The .NET Foundation licenses this file to you under the MIT license. --&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">html</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">head</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">title</span><span style="color:#E1E4E8">&gt;wasmbrowser&lt;/</span><span style="color:#85E89D">title</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">meta</span><span style="color:#B392F0"> charset</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;UTF-8&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">meta</span><span style="color:#B392F0"> name</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;viewport&quot;</span><span style="color:#B392F0"> content</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;width=device-width, initial-scale=1.0&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">link</span><span style="color:#B392F0"> rel</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;modulepreload&quot;</span><span style="color:#B392F0"> href</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;./main.js&quot;</span><span style="color:#E1E4E8"> /&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">link</span><span style="color:#B392F0"> rel</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;modulepreload&quot;</span><span style="color:#B392F0"> href</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;./dotnet.js&quot;</span><span style="color:#E1E4E8"> /&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">head</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">body</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">span</span><span style="color:#B392F0"> id</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;out&quot;</span><span style="color:#E1E4E8">&gt;&lt;/</span><span style="color:#85E89D">span</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">script</span><span style="color:#B392F0"> type</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&#39;module&#39;</span><span style="color:#B392F0"> src</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;./main.js&quot;</span><span style="color:#E1E4E8">&gt;&lt;/</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">body</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">html</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<h1 id="integrating-logseq-javascript-plugin-with-net-wasm">Integrating logseq JavaScript plugin with .NET WASM</h1>
+<p>As this is an experiment, I am doing minimum changes to integrate both worlds. Starting with <code>main.js</code> and integrating the logseq API, we register the slash command which is calling the <code>Greeting</code> method from the C# code.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="js"><code><span class="line"><span style="color:#6A737D">// Called by C# WASM Guest() method</span></span>
+<span class="line"><span style="color:#B392F0">setModuleImports</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;main.js&quot;</span><span style="color:#E1E4E8">, {</span></span>
+<span class="line"><span style="color:#B392F0">    guest</span><span style="color:#E1E4E8">: () </span><span style="color:#F97583">=&gt;</span><span style="color:#9ECBFF"> &quot;logseq&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> main</span><span style="color:#E1E4E8"> () {</span></span>
+<span class="line"><span style="color:#E1E4E8">    logseq.Editor.</span><span style="color:#B392F0">registerSlashCommand</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#9ECBFF">        &#39;🫥 .NET WASM&#39;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#F97583">        async</span><span style="color:#E1E4E8"> () </span><span style="color:#F97583">=&gt;</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D">            // Calling into .NET WASM</span></span>
+<span class="line"><span style="color:#F97583">            const</span><span style="color:#79B8FF"> text</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> exports</span><span style="color:#E1E4E8">.MyClass.</span><span style="color:#B392F0">Greeting</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">            logseq.App.</span><span style="color:#B392F0">showMsg</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">`</span></span>
+<span class="line"><span style="color:#9ECBFF">          [:div.p-2</span></span>
+<span class="line"><span style="color:#9ECBFF">            [:h2.text-xl &quot;${</span><span style="color:#E1E4E8">text</span><span style="color:#9ECBFF">}&quot;]]</span></span>
+<span class="line"><span style="color:#9ECBFF">        `</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    )</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> config</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> getConfig</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> exports</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> getAssemblyExports</span><span style="color:#E1E4E8">(config.mainAssemblyName)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">logseq.</span><span style="color:#B392F0">ready</span><span style="color:#E1E4E8">(main).</span><span style="color:#B392F0">catch</span><span style="color:#E1E4E8">(console.error)</span></span></code></pre>
+<p>The <code>Greeting</code> C# method calls the “Guest” C# method which is delegating to the JavaScript <code>guest</code> method.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> partial</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> MyClass</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#B392F0">JSExport</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#F97583">    internal</span><span style="color:#F97583"> static</span><span style="color:#F97583"> string</span><span style="color:#B392F0"> Greeting</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        var</span><span style="color:#B392F0"> text</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> $&quot;Hello {</span><span style="color:#B392F0">Guest</span><span style="color:#9ECBFF">()}! Greetings from .NET C# Wasm&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">        Console.</span><span style="color:#B392F0">WriteLine</span><span style="color:#E1E4E8">(text);</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> text;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#B392F0">JSImport</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;guest&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;main.js&quot;</span><span style="color:#E1E4E8">)]</span></span>
+<span class="line"><span style="color:#F97583">    internal</span><span style="color:#F97583"> static</span><span style="color:#F97583"> partial</span><span style="color:#F97583"> string</span><span style="color:#B392F0"> Guest</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<h1 id="building-the-plugin">Building the plugin</h1>
+<p>To build the plugin, we need to run the following command</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8">dotnet build </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">c Release</span></span></code></pre>
+<p>which will create the <code>bin/Release/net7.0/browser-wasm/AppBundle</code> folder which we will import in logseq using the Plugins / Load unpacked plugin menu.</p>
+<p><img src="/images/logseq-dotnet-wasm-plugin.png" alt="logseq .NET WASM plugin"/></p>
+<h1 id="it-is-working">It is working 🎉</h1>
+<p><img src="/images/logseq-dotnet-wasm-plugin-working.gif" alt="logseq .NET WASM plugin demo"/></p>
+<blockquote class="twitter-tweet" data-dnt="true"><p lang="en" dir="ltr">Experiment writing a <a href="https://twitter.com/logseq?ref_src=twsrc%5Etfw">@logseq</a> plugin using <a href="https://twitter.com/hashtag/dotnet?src=hash&ref_src=twsrc%5Etfw">#dotnet</a> <a href="https://twitter.com/hashtag/csharp?src=hash&ref_src=twsrc%5Etfw">#csharp</a> <a href="https://twitter.com/hashtag/wasm?src=hash&ref_src=twsrc%5Etfw">#wasm</a> and it works 🎉 <a href="https://t.co/1AvDVjLeLJ">pic.twitter.com/1AvDVjLeLJ</a></p>— Laurent Kempé (@laurentkempe) <a href="https://twitter.com/laurentkempe/status/1578675188249825280?ref_src=twsrc%5Etfw">October 8, 2022</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<h1 id="conclusion">Conclusion</h1>
+<p>We have seen that with minimum knowledge of web development, the help of WebAssembly, and new .NET 7 capabilities, we can write plugins for logseq using .NET and C#, thanks to WASM/WebAssembly. Nevertheless, this is going much further than that. We can now write .NET code in the browser, and we can use it in any JavaScript based application including Node.js based console app. So, what works for logseq could be used for any other applications which are based on JavaScript. It is a new world of possibilities.</p>
+<h1 id="code-references">Code<div class="my-5"> <a class="block max-w-[700px] p-8 rounded-lg border border-text/5 bg-text/[0.025] transition-all duration-200 ease-in-out hover:bg-text/[0.12] hover:border-text/10 text-text no-underline" href="https://github.com/laurentkempe/logseq-dotnet-wasm" target="_blank" style="color: inherit; text-decoration: none;"> <img class="w-20 h-20 rounded-full float-right ml-8 mb-8 mt-2.5" src="https://avatars.githubusercontent.com/u/272612?v=4" alt="laurentkempe avatar"> <p class="text-[1.8rem] tracking-wide m-0"> <span>laurentkempe/</span><b>logseq-dotnet-wasm</b> </p> <p class="text-[0.9rem] my-2.5"> Experiment writing a logseq plugin using .NET 7 C# WASM. </p> <div class="flex items-center gap-16"> <div class="flex flex-row gap-2.5 justify-center"> <svg class="w-[1.1rem] h-[1.1rem] mt-1.5 text-text/70" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path> </svg> <div class="flex flex-col"> <b class="text-[1.2rem]">0</b> <span class="text-[0.8rem] opacity-70">Stars</span> </div> </div> <div class="flex flex-row gap-2.5 justify-center"> <svg class="w-[1.1rem] h-[1.1rem] mt-1.5 text-text/70" viewBox="0 0 16 16" fill="currentColor"> <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path> </svg> <div class="flex flex-col"> <b class="text-[1.2rem]">0</b> <span class="text-[0.8rem] opacity-70">Forks</span> </div> </div> <div class="flex flex-row gap-2.5 justify-center"> <svg class="w-[1.1rem] h-[1.1rem] mt-1.5 text-text/70" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path> <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path> </svg> <div class="flex flex-col"> <b class="text-[1.2rem]">0</b> <span class="text-[0.8rem] opacity-70">Issues</span> </div> </div> </div> </a> </div># References</h1>
+<ul>
+<li><a href="https://logseq.com/">Logseq</a></li>
+<li><a href="https://devblogs.microsoft.com/dotnet/use-net-7-from-any-javascript-app-in-net-7/?WT.mc_id=DT-MVP-7749">Use .NET from any JavaScript app in .NET 7</a></li>
+<li><a href="https://webassembly.org/">WebAssembly</a></li>
+</ul> </article>  </div> <div class="tags" data-astro-cid-5grsw2hi> <p class="tag" data-astro-cid-5grsw2hi><a href="/tags/.NET" data-astro-cid-5grsw2hi>.NET</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/C#" data-astro-cid-5grsw2hi>C#</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/WebAssembly" data-astro-cid-5grsw2hi>WebAssembly</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/Wasm" data-astro-cid-5grsw2hi>Wasm</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/Logseq" data-astro-cid-5grsw2hi>Logseq</a></p> </div>  </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 text-center"> <div>
+&copy; 2025 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> <script src="https://cdn.vidstack.io/player.core" type="module"></script> <script src="https://cdn.vidstack.io/icons" type="module"></script> </body> </html> 
