@@ -1,0 +1,152 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><link rel="stylesheet" href="https://cdn.vidstack.io/player.css"><meta name="generator" content="Astro v5.2.5"><title>Laurent Kempé - Leveraging Microsoft.Extensions.AI for Tool Calling in C#</title><link rel="stylesheet" href="/_astro/_slug_.DKcIe2eh.css">
+<style>a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}
+</style></head> <body> <header class="py-6 border-b container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between"> <div class="text-2xl font-bold mb-4 sm:mb-0"> <a href="/">Laurent Kempé</a> </div> <div class="flex gap-6 text-gray-600"> <a href="/" class="hover:text-gray-900 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 ">About</a> </div> </nav> </header> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p> <div class="relative pt-1" data-astro-cid-5grsw2hi> <img src="https://live.staticflickr.com/65535/54288342071_35f9e28bf5_h.jpg" alt="Liebvillers, France" data-astro-cid-5grsw2hi="true" width="1600" height="1067" loading="lazy" decoding="async" class="w-full"> <div class="absolute text-white top-1/3 left-1/3 transform -translate-x-1/4 -translate-y-1/4" data-astro-cid-5grsw2hi> <p class="text-2xl sm:text-3xl md:text-5xl font-extrabold drop-shadow-[0_4px_3px_rgb(0,0,0,0.5)]" data-astro-cid-5grsw2hi>Leveraging Microsoft.Extensions.AI for Tool Calling in C#</p> <p class="py-2 text-sm sm:text-base" data-astro-cid-5grsw2hi>Jan 27, 2025</p> </div> <p class="absolute text-sm sm:text-xs text-white bottom-5 right-5" data-astro-cid-5grsw2hi>Liebvillers, France</p> </div> <div class="py-4" data-astro-cid-5grsw2hi>  <article class="prose prose-lg max-w-none dark:prose-invert
+                    prose-h1:font-bold prose-h1:text-4xl prose-h1:mb-4
+                    prose-a:text-blue-600 prose-a:no-underline
+                    prose-p:text-justify prose-img:rounded-xl"> <p>In the previous post “<a href="https://laurentkempe.com/2024/10/28/learning-ai-function-calling-in-csharp-with-llama-32-slm-and-ollama-running-on-your-machine/">Learning AI function calling in C# with Llama 3.2 SLM and Ollama running on your machine</a>”, we wrapped our head around the concept of tool calling and implemented a C# source generator enabling our functions to be called by Llama 3.2 SLM using Ollama.</p>
+<p>In this post, we will explore how to use Microsoft Extensions AI for tool calling in a simple .NET CLI application. We will leverage the power of Ollama and Llama 3.2 SLM to call functions and interact with the AI model using C#.</p>
+
+<h1 id="introduction">Introduction</h1>
+<p>Tool calling in AI, often referred to as function calling, is a feature that allows AI models, particularly Language Models (LMs), to perform tasks beyond simple text generation by invoking predefined functions. This capability significantly enhances the interaction between humans and AI applications, allowing for more complex and structured outputs.</p>
+<p>In essence, tool calling enables an AI model to use external tools, such as APIs and functions, to respond to prompts with more than just text. For example, an AI could be prompted to retrieve the weather forecast for a specific location. Instead of generating a text-based guess, the model can invoke a function that interacts with a weather API to provide accurate, real-time data.</p>
+<p>The process involves two main components: the function name and a structured set of arguments, usually defined using JSONSchema. These arguments are essential for executing the specified function. The beauty of tool calling lies in its simplicity and efficiency. It offloads the responsibility of parsing structured output to the model providers, such as OpenAI, allowing for more accurate and reliable responses.</p>
+<p>Tool calling is particularly useful for creating modular and scalable AI systems. It provides a way to structure outputs consistently, simplifies the interaction by embedding the concept directly into the model, and offers a secure method to prevent users from manipulating the model’s output in unintended ways.</p>
+<h1 id="requirements">Requirements</h1>
+<ul>
+<li><strong>Llama 3.2 SLM</strong>, a model supporting function calling</li>
+<li><strong>Ollama</strong> to run the SLM and deal with the integration</li>
+<li>A .NET CLI application using Microsoft.Extensions.AI</li>
+</ul>
+<h1 id="setting-up-your-environment">Setting Up Your Environment</h1>
+<p>To get started with AI function calling in C#, you need to</p>
+<ul>
+<li>Install <a href="https://www.ollama.com/">Ollama</a> to run the SLM and handle the integration</li>
+<li>Pull Llama 3.2 SLM model on your machine <code>ollama pull llama3.2:3b</code></li>
+</ul>
+<h1 id="creating-a-net-cli-application">Creating a .NET CLI Application</h1>
+<p>We create a simple .NET CLI application that interacts with the AI model using <code>Microsoft.Extensions.AI</code>. This library provides a unified set of AI building blocks for .NET applications, making it easy to integrate AI capabilities into your projects.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8">dotnet new console </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">n OllamaToolCallingMicrosoftExtensions</span></span>
+<span class="line"><span style="color:#E1E4E8">cd OllamaToolCallingMicrosoftExtensions</span></span>
+<span class="line"><span style="color:#E1E4E8">dotnet add package Microsoft.Extensions.AI</span></span></code></pre>
+<h1 id="implementing-tool-calling-using-microsoftextensionsai">Implementing Tool Calling using Microsoft.Extensions.AI</h1>
+<p>This is how simple it is to implement tool calling using <code>Microsoft.Extensions.AI</code> in a .NET CLI application. We define two functions, <code>GetCurrentTime</code> and <code>GetCurrentWeather</code>, and use them as tools in the chat client. The chat client is configured to use Ollama as the chat client and wraps the function invocation client with logging.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">ComponentModel</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Microsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Extensions</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">AI</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Microsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Extensions</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Logging</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">Console.</span><span style="color:#B392F0">WriteLine</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;Hello, Microsoft.Extensions.AI with Ollama &amp; Tool calling!&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> message</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> &quot;What time is it in Illzach, France?&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">Console.</span><span style="color:#B392F0">WriteLine</span><span style="color:#E1E4E8">(message);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#F97583"> var</span><span style="color:#B392F0"> factory</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> LoggerFactory.</span><span style="color:#B392F0">Create</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">builder</span><span style="color:#F97583"> =&gt;</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#E1E4E8">    builder.</span><span style="color:#B392F0">AddConsole</span><span style="color:#E1E4E8">().</span><span style="color:#B392F0">SetMinimumLevel</span><span style="color:#E1E4E8">(LogLevel.Trace));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 👇🏼 Use Ollama as the chat client</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> ollamaChatClient</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#F97583">    new</span><span style="color:#B392F0"> OllamaChatClient</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">new</span><span style="color:#B392F0"> Uri</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;http://localhost:11434/&quot;</span><span style="color:#E1E4E8">), </span><span style="color:#9ECBFF">&quot;llama3.2:3b&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> client</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ChatClientBuilder</span><span style="color:#E1E4E8">(ollamaChatClient)</span></span>
+<span class="line"><span style="color:#6A737D">    // 👇🏼 Add logging to the chat client, wrapping the function invocation client </span></span>
+<span class="line"><span style="color:#E1E4E8">    .</span><span style="color:#B392F0">UseLogging</span><span style="color:#E1E4E8">(factory)</span></span>
+<span class="line"><span style="color:#6A737D">    // 👇🏼 Add function invocation to the chat client, wrapping the Ollama client</span></span>
+<span class="line"><span style="color:#E1E4E8">    .</span><span style="color:#B392F0">UseFunctionInvocation</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">    .</span><span style="color:#B392F0">Build</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> chatOptions</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ChatOptions</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#6A737D">    // 👇🏼 Define tools that can be used by the chat client</span></span>
+<span class="line"><span style="color:#E1E4E8">    Tools </span><span style="color:#F97583">=</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span></span>
+<span class="line"><span style="color:#E1E4E8">        AIFunctionFactory.</span><span style="color:#B392F0">Create</span><span style="color:#E1E4E8">(GetCurrentTime),</span></span>
+<span class="line"><span style="color:#E1E4E8">        AIFunctionFactory.</span><span style="color:#B392F0">Create</span><span style="color:#E1E4E8">(GetCurrentWeather)</span></span>
+<span class="line"><span style="color:#E1E4E8">    ]</span></span>
+<span class="line"><span style="color:#E1E4E8">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> response</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> client.</span><span style="color:#B392F0">CompleteAsync</span><span style="color:#E1E4E8">(message, chatOptions);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">Console.</span><span style="color:#B392F0">Write</span><span style="color:#E1E4E8">(response);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 👇🏼 Define a time tool</span></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">Description</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;Get the current time for a city&quot;</span><span style="color:#E1E4E8">)]</span></span>
+<span class="line"><span style="color:#F97583">string</span><span style="color:#B392F0"> GetCurrentTime</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> city</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#9ECBFF"> $&quot;It is {</span><span style="color:#E1E4E8">DateTime</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">Now</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">Hour</span><span style="color:#9ECBFF">}:{</span><span style="color:#E1E4E8">DateTime</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">Now</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">Minute</span><span style="color:#9ECBFF">} in {</span><span style="color:#E1E4E8">city</span><span style="color:#9ECBFF">}.&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 👇🏼 Define a weather tool</span></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">Description</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;Get the current weather for a city&quot;</span><span style="color:#E1E4E8">)]</span></span>
+<span class="line"><span style="color:#F97583">string</span><span style="color:#B392F0"> GetCurrentWeather</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> city</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#9ECBFF"> $&quot;The weather in {</span><span style="color:#E1E4E8">city</span><span style="color:#9ECBFF">} is sunny.&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<h1 id="result">Result</h1>
+<p>Running the code will output the following:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8"> ❯  dotnet run</span></span>
+<span class="line"><span style="color:#E1E4E8">Hello</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> Microsoft.Extensions.AI with Ollama </span><span style="color:#F97583">&amp;</span><span style="color:#E1E4E8"> Tool calling</span><span style="color:#F97583">!</span></span>
+<span class="line"><span style="color:#E1E4E8">What time is it </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> Illzach</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> France?</span></span>
+<span class="line"><span style="color:#E1E4E8">trce: Microsoft.Extensions.AI.LoggingChatClient[</span><span style="color:#79B8FF">805843669</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">      CompleteAsync invoked: [</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;role&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;user&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;contents&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;</span><span style="color:#E1E4E8">$type</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;text&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;text&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;What time is it in Illzach, France?&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">          ]</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">      ]</span><span style="color:#F97583">.</span><span style="color:#E1E4E8"> Options: {</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;toolMode&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;</span><span style="color:#E1E4E8">$type</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;auto&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span><span style="color:#F97583">.</span><span style="color:#E1E4E8"> Metadata: {</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;providerName&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;ollama&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;providerUri&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;http://localhost:11434/&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;modelId&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;llama3.2:3b&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">      }.</span></span>
+<span class="line"><span style="color:#E1E4E8">trce: Microsoft.Extensions.AI.LoggingChatClient[</span><span style="color:#79B8FF">384896670</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">      CompleteAsync completed: {</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;choices&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">          {</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;role&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;assistant&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;contents&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">              {</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;</span><span style="color:#E1E4E8">$type</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;text&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;text&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;The current time in Illzach, France is 10:45.&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">              }</span></span>
+<span class="line"><span style="color:#E1E4E8">            ]</span></span>
+<span class="line"><span style="color:#E1E4E8">          }</span></span>
+<span class="line"><span style="color:#E1E4E8">        ]</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;completionId&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;2025-01-26T09:45:18.8271931Z&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;modelId&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;llama3.2:3b&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;createdAt&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;2025-01-26T09:45:18.8271931+00:00&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;finishReason&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;stop&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;usage&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;inputTokenCount&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">368</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;outputTokenCount&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">45</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;totalTokenCount&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">413</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;additionalCounts&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;load_duration&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">42408700</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;total_duration&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">805363100</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;prompt_eval_duration&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">108000000</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;eval_duration&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">652000000</span></span>
+<span class="line"><span style="color:#E1E4E8">          }</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">      }.</span></span>
+<span class="line"><span style="color:#E1E4E8">The current time </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> Illzach</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> France is </span><span style="color:#79B8FF">10</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">45</span><span style="color:#E1E4E8">.</span></span></code></pre>
+<p>As we added the logging with trace level, we can see the trace of chat client’s interactions with Ollama. The chat client sends the message “What time is it in Illzach, France?” to Ollama, which invokes the <code>GetCurrentTime</code> function and returns the current time in Illzach, France. The logging also provides additional information about the completion like token usage. I think it could be useful to see the function invocation in the trace.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>We explored how to leverage <code>Microsoft.Extensions.AI</code> for tool calling in a .NET CLI application using Ollama and Llama 3.2 SLM. We demonstrated the setup process, created a simple application, and implemented tool calling to interact with AI models. By integrating these technologies, developers can enhance their applications with advanced AI capabilities, enabling more complex and structured interactions. This approach provides a robust framework for building modular AI systems.</p>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://devblogs.microsoft.com/dotnet/introducing-microsoft-extensions-ai-preview/">Introducing Microsoft.Extensions.AI Preview – Unified AI Building Blocks for .NET</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/ai/ai-extensions">Unified AI building blocks for .NET using Microsoft.Extensions.AI</a></li>
+<li><a href="https://www.nuget.org/packages/Microsoft.Extensions.AI/9.0.1-preview.1.24570.5#readme-body-tab">Microsoft.Extensions.AI nuget</a></li>
+<li><a href="https://www.ollama.com/blog/tool-support">Ollama Tool support</a></li>
+<li><a href="https://ollama.com">Llama 3.2 SLM</a></li>
+</ul>
+<p>Get the source code on GitHub <a href="https://github.com/laurentkempe/aiPlayground/tree/main/OllamaToolCallingMicrosoftExtensions">laurentkempe/aiPlayground/OllamaToolCallingMicrosoftExtensions</a>.</p>
+<div class="my-5"> <a class="block max-w-[700px] p-8 rounded-lg border border-text/5 bg-text/[0.025] transition-all duration-200 ease-in-out hover:bg-text/[0.12] hover:border-text/10 text-text no-underline" href="https://github.com/laurentkempe/aiPlayground" target="_blank" style="color: inherit; text-decoration: none;"> <img class="w-20 h-20 rounded-full float-right ml-8 mb-8 mt-2.5" src="https://avatars.githubusercontent.com/u/272612?v=4" alt="laurentkempe avatar"> <p class="text-[1.8rem] tracking-wide m-0"> <span>laurentkempe/</span><b>aiPlayground</b> </p> <p class="text-[0.9rem] my-2.5"> Some experiments around AI to learn. </p> <div class="flex items-center gap-16"> <div class="flex flex-row gap-2.5 justify-center"> <svg class="w-[1.1rem] h-[1.1rem] mt-1.5 text-text/70" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path> </svg> <div class="flex flex-col"> <b class="text-[1.2rem]">11</b> <span class="text-[0.8rem] opacity-70">Stars</span> </div> </div> <div class="flex flex-row gap-2.5 justify-center"> <svg class="w-[1.1rem] h-[1.1rem] mt-1.5 text-text/70" viewBox="0 0 16 16" fill="currentColor"> <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path> </svg> <div class="flex flex-col"> <b class="text-[1.2rem]">4</b> <span class="text-[0.8rem] opacity-70">Forks</span> </div> </div> <div class="flex flex-row gap-2.5 justify-center"> <svg class="w-[1.1rem] h-[1.1rem] mt-1.5 text-text/70" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path> <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path> </svg> <div class="flex flex-col"> <b class="text-[1.2rem]">0</b> <span class="text-[0.8rem] opacity-70">Issues</span> </div> </div> </div> </a> </div> </article>  </div> <div class="tags" data-astro-cid-5grsw2hi> <p class="tag" data-astro-cid-5grsw2hi><a href="/tags/AI" data-astro-cid-5grsw2hi>AI</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/C#" data-astro-cid-5grsw2hi>C#</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/LLM" data-astro-cid-5grsw2hi>LLM</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/Ollama" data-astro-cid-5grsw2hi>Ollama</a></p><p class="tag" data-astro-cid-5grsw2hi><a href="/tags/SLM" data-astro-cid-5grsw2hi>SLM</a></p> </div>  </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 text-center"> <div>
+&copy; 2025 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> <script src="https://cdn.vidstack.io/player.core" type="module"></script> <script src="https://cdn.vidstack.io/icons" type="module"></script> </body> </html> 
