@@ -3,7 +3,7 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-02-21T16:45:34.964Z</updated>
+<updated>2025-02-21T19:54:58.931Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
@@ -181,8 +181,8 @@
     <updated>2022-10-29T11:04:42.000Z</updated>
     <summary type="html">&lt;p&gt;WebAssembly (WASM) and WebAssembly System Interface (WASI) are opening new opportunities for developers. .NET developers became familiar with WASM when Blazor WebAssembly was released. Blazor WebAssembly runs client-side in the browser on a WebAssembly-based .NET runtime. WASI is bringing WASM out of the browser world by providing a system interface to run WebAssembly outside the web. It is a standard for how WASM modules interact with the host environment. This post will show you how to run .NET 7 on a Raspberry PI Zero 2 W using WASM and WASI.&lt;/p&gt;
 </summary>
-    <category term="Wasm" scheme="https://laurentkempe.com/tags/wasm" />
-    <category term="Wasi" scheme="https://laurentkempe.com/tags/wasi" />
+    <category term="WASM" scheme="https://laurentkempe.com/tags/wasm" />
+    <category term="WASI" scheme="https://laurentkempe.com/tags/wasi" />
     <category term="ASP.NET Core" scheme="https://laurentkempe.com/tags/asp-dotnet-core" />
     <category term="Raspberry Pi" scheme="https://laurentkempe.com/tags/raspberry-pi" />
   </entry>
@@ -196,8 +196,7 @@
 </summary>
     <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
     <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
-    <category term="WebAssembly" scheme="https://laurentkempe.com/tags/webassembly" />
-    <category term="Wasm" scheme="https://laurentkempe.com/tags/wasm" />
+    <category term="WASM" scheme="https://laurentkempe.com/tags/wasm" />
     <category term="Logseq" scheme="https://laurentkempe.com/tags/logseq" />
   </entry>
   <entry>
@@ -212,7 +211,7 @@
     <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
     <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
     <category term="WPF" scheme="https://laurentkempe.com/tags/wpf" />
-    <category term="unit test" scheme="https://laurentkempe.com/tags/unit-test" />
+    <category term="Unit Test" scheme="https://laurentkempe.com/tags/unit-test" />
   </entry>
   <entry>
     <title>Automate your .NET project builds with NUKE a cross-platform build automation solution</title>
