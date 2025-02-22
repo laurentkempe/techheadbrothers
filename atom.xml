@@ -3,7 +3,7 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-02-21T22:09:36.491Z</updated>
+<updated>2025-02-22T11:36:35.464Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
@@ -132,7 +132,7 @@
     <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
     <category term="Dapr" scheme="https://laurentkempe.com/tags/dapr" />
     <category term="Rider" scheme="https://laurentkempe.com/tags/rider" />
-    <category term="VisualStudio" scheme="https://laurentkempe.com/tags/visualstudio" />
+    <category term="Visual Studio" scheme="https://laurentkempe.com/tags/visual-studio" />
   </entry>
   <entry>
     <title>Refactoring huge C# code base in minutes</title>
