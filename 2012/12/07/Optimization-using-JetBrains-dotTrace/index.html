@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="en" class="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><link rel="stylesheet" href="https://cdn.vidstack.io/player.css"><meta name="generator" content="Astro v5.3.0"><link rel="alternate" type="application/rss+xml" title="Laurent Kempé blog" href="https://new.laurentkempe.com/atom.xml"><title>Laurent Kempé - Optimizing Skye Editor using JetBrains dotTrace</title><link rel="stylesheet" href="/_astro/_slug_.ikXohGH5.css">
+<style>a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}@media (prefers-color-scheme: dark){a[data-astro-cid-5grsw2hi]{color:#7fb3d5}.tag[data-astro-cid-5grsw2hi]{border-color:#5a5a5a;background-color:#2d2d2d}}body,html{margin:0;padding:0;width:100%;overflow-x:hidden}.relative[data-astro-cid-5grsw2hi]{width:100%}.absolute[data-astro-cid-5grsw2hi]{max-width:100%}
+</style><style>.twitter-tweet:not(.twitter-tweet-rendered){padding:var(--tc-padding, 1em);border:1px solid var(--tc-border-color, #cfd9de)}.twitter-tweet:not(.twitter-tweet-rendered)>:first-child{margin-top:0}.twitter-tweet:not(.twitter-tweet-rendered)>:last-child{margin-bottom:0}.twitter-tweet.twitter-tweet-rendered{color-scheme:normal}
+</style></head> <body class="bg-white dark:bg-gray-900"> <header class="py-6 border-b border-gray-200 dark:border-gray-700 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4"> <div class="flex items-center justify-between"> <div class="text-2xl font-bold dark:text-gray-300"> <a href="/">Laurent Kempé</a> </div> <!-- Mobile menu button and utilities --> <div class="flex items-center gap-4 md:hidden text-gray-600 dark:text-gray-300"> <div class="flex items-center gap-4"> <a href="/atom.xml" title="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100"> <title>RSS Feed</title> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode"></button> </theme-toggle> <script type="module">const i=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="currentColor" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="5"/>
+    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </g>
+  </svg>`,s=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M17.293 13.293a8 8 0 11-10.586-10.586 8.003 8.003 0 0010.586 10.586z"/>
+  </svg>`;class o extends HTMLElement{STORAGE_KEY="theme-preference";_darkTheme=!1;button;constructor(){if(super(),this.button=this.querySelector("button"),!this.button){console.error("Theme toggle button not found");return}const e=localStorage.getItem(this.STORAGE_KEY);e?this.darkTheme=e==="dark":this.darkTheme=window.matchMedia("(prefers-color-scheme: dark)").matches,this.button.addEventListener("click",this.toggleTheme.bind(this)),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",t=>{localStorage.getItem(this.STORAGE_KEY)||(this.darkTheme=t.matches)})}get darkTheme(){return this._darkTheme}set darkTheme(e){this._darkTheme=e,document.documentElement.classList.toggle("dark",e),this.button&&(this.button.innerHTML=e?i:s,this.button.setAttribute("aria-label",e?"Switch to light theme":"Switch to dark theme"))}toggleTheme(){this.darkTheme=!this.darkTheme,localStorage.setItem(this.STORAGE_KEY,this.darkTheme?"dark":"light")}}customElements.define("theme-toggle",o);</script> </div> <button id="mobile-menu-button" class="hover:text-gray-900 dark:hover:text-gray-100"> <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </button> </div> <!-- Desktop menu --> <div class="hidden md:flex md:items-center md:gap-6 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 ">About</a> <a href="/all-archives" title="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Archives</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" title="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Tags</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> <a href="/atom.xml" title="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100"> <title>RSS Feed</title> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode"></button> </theme-toggle>  </div> </div> <!-- Mobile menu panel --> <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4"> <div class="flex flex-col gap-4 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 ">About</a> <a href="/all-archives" title="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Archives</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" title="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Tags</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> </div> </div> </nav> </header> <script type="module">const e=document.getElementById("mobile-menu-button"),t=document.getElementById("mobile-menu");e?.addEventListener("click",()=>{t?.classList.toggle("hidden")});</script> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p> <div class="relative pt-1" data-astro-cid-5grsw2hi> <img src="https://farm9.staticflickr.com/8150/6969851740_a5dbe52669_c.jpg" alt="Vosges, France" data-astro-cid-5grsw2hi="true" width="1600" height="1067" loading="lazy" decoding="async" class="w-full"> <div class="absolute text-white top-1/3 left-1/3 transform -translate-x-1/4 -translate-y-1/4" data-astro-cid-5grsw2hi> <p class="text-2xl sm:text-3xl md:text-5xl font-extrabold drop-shadow-[0_4px_3px_rgb(0,0,0,0.5)] dark:drop-shadow-[0_4px_3px_rgb(255,255,255,0.5)]" data-astro-cid-5grsw2hi>Optimizing Skye Editor using JetBrains dotTrace</p> <p class="py-2 text-sm sm:text-base" data-astro-cid-5grsw2hi>Dec 7, 2012</p> </div> <div class="absolute bottom-5 left-5" data-astro-cid-5grsw2hi> <div class="flex gap-1 flex-wrap"><a href="/tags/dottrace" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">dotTrace</a><a href="/tags/jetbrains" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">JetBrains</a><a href="/tags/csharp" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">C#</a><a href="/tags/innoveo-solutions" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Innoveo Solutions</a></div> </div> <p class="absolute text-sm sm:text-xs text-white bottom-5 right-5" data-astro-cid-5grsw2hi>Vosges, France</p> </div><div class="py-4" data-astro-cid-5grsw2hi>  <article class="prose prose-lg max-w-none dark:prose-invert
+                    prose-h1:font-bold prose-h1:text-4xl md:prose-h1:text-4xl prose-h1:text-xl prose-h1:mb-4
+                    prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline
+                    prose-p:text-justify prose-img:rounded-xl"> <p>This post is a transcript of an internal post I did on <a href="http://www.innoveo.com/">Innoveo Solutions</a> internal blog. Thanks to Innoveo to let me share this here!</p>
+<p>Skye Editor is our metal model editor which is written in C# 4, WPF uses <a href="http://msdn.microsoft.com/en-us/magazine/dd419663.aspx">Model-View-ViewModel</a> design pattern and <a href="http://mvvmlight.codeplex.com/">MVVM Light</a>.</p>
+
+<p>The post shows the usage of <a href="http://www.jetbrains.com/profiler/">JetBrains dotTace</a> to optimize Skye Editor and the importance of profiling your code, here it is.</p>
+<p>For the release 2.20 of our Skye Editor product we have done already some optimization like “FindProductValue of ModelProduct to use a dictionary”</p>
+<p>Starting of the release 2.21 the goal was to go one step further with “Optimize Loading/Deleting of definition and update to MVVMLight 4 RTM”</p>
+<p>The results are quite awesome!</p>
+<p>Here I am comparing the last version of Skye Editor which we shipped, 2.18 to the version currently in development for the next release 2.21.</p>
+<p>The performance measurement scenario is as following:</p>
+<ul>
+<li>Starting the application</li>
+<li>Loading a big definition, BigDefinition.zip, 2743 Kb zip, 19928 Kb Xml</li>
+<li>Deleting a brick which as lots of sub bricks and attributes, value ranges, values…</li>
+</ul>
+<p>I used the profiler <a href="http://www.jetbrains.com/profiler/">dotTrace from JetBrains</a> to measure the performance improvement.</p>
+<p>Here is a first result for the method ActualizeFromNewArchive, which is used when we load, import or activate a definition. This method is responsible of building all the View Models used in the editor which we use to display the tree of root, brick, the attributes, value range, values but also the backendinfo.. and finally the texts. So on big definition there is a lot to create especially for the texts.</p>
+<p>2.18</p>
+<p><img src="http://farm9.staticflickr.com/8203/8251402507_20b0511221_o.jpg" alt/></p>
+<p>2.21</p>
+<p><img src="http://farm9.staticflickr.com/8337/8251402531_a91f4332cc_o.jpg" alt/></p>
+<p>So we went from <strong>9083ms</strong> to <strong>944ms</strong> which is around a 9.6 factor improvement as we can see on the following picture!</p>
+<p><img src="http://farm9.staticflickr.com/8482/8251410205_f0b9c20d9f_o.jpg" alt/></p>
+<p>That’s quite impressive. But where does it come from? Let dig deeper in the execution tree.</p>
+<p>2.18</p>
+<p><img src="http://farm9.staticflickr.com/8060/8251413607_5bc4a306cd_o.jpg" alt/></p>
+<p>2.21</p>
+<p><img src="http://farm9.staticflickr.com/8209/8251414039_f746ba2210_o.jpg" alt/></p>
+<p>So the first improvement is due an improvement done on <a href="http://www.galasoft.ch/mvvm/">MVVM Light 4 RTM</a> a library we are using from the beginning which lets us decouple our View Models / Views using some messaging mechanisms among other features. I helped it’s author <a href="http://www.galasoft.ch/intro_en.html">Laurent Bugnion</a> to test and to improve the toolkit, he even mention us on <a href="http://www.galasoft.ch/mvvm/">MVVM Light 4 RTM</a>.</p>
+<p>We went from <strong>2219ms</strong> to <strong>35ms</strong> but across the whole scenario (all usage of the Register method) we went from <strong>3072ms</strong> to <strong>130ms</strong>, which we can see here:</p>
+<p><img src="http://farm9.staticflickr.com/8059/8251415365_ec74709abb_o.jpg" alt/></p>
+<p>The improvement there is that CleanupList is not anymore done at that moment but only when the application is idle. Clever. And what is really cool is that I mentioned that performance issue and Laurent fixed it in the next release. Thanks Laurent!</p>
+<p>But this is not all because we have won only 3072ms which doesn’t bring us from 9083ms to 944ms.</p>
+<p>The other big improvement is the optimization of the way we find value which as radically changed.</p>
+<p>2.18</p>
+<p><img src="http://farm9.staticflickr.com/8490/8251415203_89e2f8798d_o.jpg" alt/></p>
+<p>2.21</p>
+<p><img src="http://farm9.staticflickr.com/8347/8251415265_a21d2f2500_o.jpg" alt/></p>
+<p>From <strong>5103ms</strong> to <strong>13ms</strong> !</p>
+<p><strong>2.18</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">    public</span><span style="color:#B392F0"> ProductValue</span><span style="color:#B392F0"> FindProductValue</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> uuid</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> Values.</span><span style="color:#B392F0">AsBindingQueryable</span><span style="color:#E1E4E8">().</span><span style="color:#B392F0">FirstOrDefault</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">pv</span><span style="color:#F97583"> =&gt;</span><span style="color:#E1E4E8"> pv.UUID </span><span style="color:#F97583">==</span><span style="color:#E1E4E8"> uuid);</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span></code></pre>
+<p><strong>2.21</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">    public</span><span style="color:#B392F0"> ProductValue</span><span style="color:#B392F0"> FindProductValue</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> uuid</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> Values.</span><span style="color:#B392F0">FindBindingByUuid</span><span style="color:#E1E4E8">(uuid);</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span></code></pre>
+<p>Look more in details</p>
+<p><strong>2.18</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">    private</span><span style="color:#F97583"> readonly</span><span style="color:#B392F0"> List</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">TBinding</span><span style="color:#E1E4E8">&gt; </span><span style="color:#B392F0">_bindingList</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#B392F0"> IQueryable</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">TBinding</span><span style="color:#E1E4E8">&gt; </span><span style="color:#B392F0">AsBindingQueryable</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> _bindingList.</span><span style="color:#B392F0">AsQueryable</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span></code></pre>
+<p><strong>2.21</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">    public</span><span style="color:#B392F0"> TBinding</span><span style="color:#B392F0"> FindBindingByUuid</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> uuid</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#B392F0">        Tuple</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">TBinding</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">TModel</span><span style="color:#E1E4E8">&gt; </span><span style="color:#B392F0">value</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">        _modelDictionary.Value.</span><span style="color:#B392F0">TryGetValue</span><span style="color:#E1E4E8">(uuid, </span><span style="color:#F97583">out</span><span style="color:#E1E4E8"> value);</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> value </span><span style="color:#F97583">!=</span><span style="color:#79B8FF"> null</span><span style="color:#F97583"> ?</span><span style="color:#E1E4E8"> value.Item1 </span><span style="color:#F97583">:</span><span style="color:#F97583"> default</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">TBinding</span><span style="color:#E1E4E8">);</span></span></code></pre>
+<p>The huge difference between those two methods is that the 2.18 is using a list and LINQ to find the first value which match the uuid we are searching. When the 2.21 is using a dictionary which index all values by uuid.</p>
+<p>Another improvement of the 2.21 was to go from the following version of the method to the previously shown one:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">    public</span><span style="color:#B392F0"> TBinding</span><span style="color:#B392F0"> FindBindingByUuid</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> uuid</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> _modelDictionary.Value.</span><span style="color:#B392F0">ContainsKey</span><span style="color:#E1E4E8">(uuid) </span><span style="color:#F97583">?</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#E1E4E8">                    _modelDictionary.Value[uuid].Item1 </span><span style="color:#F97583">:</span></span>
+<span class="line"><span style="color:#F97583">                    default</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">TBinding</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span></code></pre>
+<p>This one make two access to the dictionary and the other only one access, which improved also quite a bit.</p>
+<p>Another improvement is that we removed the usage of a ThreadSafeObservableCollection which was dispatching to the UI thread all operations. Basically you could operate the collection from a background thread while it was bound to the UI, which normally you cannot do due to thread affinity, except if you dispatch, which for sure as a cost.</p>
+<p>So that’s it for the improvement when we load/import/activate a definition!</p>
+<p>Now about deleting.</p>
+<p>2.18</p>
+<p><img src="http://farm9.staticflickr.com/8066/8251415073_7435454566_o.jpg" alt/></p>
+<p>2.21</p>
+<p><img src="http://farm9.staticflickr.com/8067/8252484362_4bd63cd9fc_o.jpg" alt/></p>
+<p>It would be nice to have this gain but in fact we had to refactor the operation so that one part is executed on the UI thread on the other part on a background thread. So basically what touch to the View Model is executed into the UI thread and what touch the Model on the background thread.</p>
+<p>So we have also to count this</p>
+<p>2.18</p>
+<p><img src="http://farm9.staticflickr.com/8346/8251415035_5eb2e1fda1_o.jpg" alt/></p>
+<p>2.21</p>
+<p><img src="http://farm9.staticflickr.com/8343/8252484168_cb07bb43e2_o.jpg" alt/></p>
+<p>So we go from <strong>30720ms</strong> to <strong>21666ms</strong>. Which is again a good improvement</p>
+<p>This can be again improved a lot because currently we have to traverse the whole tree and count all the relations to the texts we want to delete which is accounting for <strong>19468ms</strong>.</p>
+<p>With a cache of relation it will much much faster. But that for next time!</p>
+<p>I hope you will enjoy the time saving of all those optimizations in Skye Editor!</p> </article>  </div>  </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 dark:text-gray-300 text-center"> <div>
+&copy; 2025 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> <script>
+            const theme = (() => {
+              if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+                return localStorage.getItem("theme");
+              }
+              if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                return "dark";
+              }
+              return "light";
+            })();
+          
+            if (theme === "light") {
+              document.documentElement.classList.remove("dark");
+            } else {
+              document.documentElement.classList.add("dark");
+            }
+            window.localStorage.setItem("theme", theme);
+        </script> <script src="https://cdn.vidstack.io/player.core" type="module"></script> <script src="https://cdn.vidstack.io/icons" type="module"></script> </body> </html> 
