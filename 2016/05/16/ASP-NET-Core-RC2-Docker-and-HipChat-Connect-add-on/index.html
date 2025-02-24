@@ -1,0 +1,405 @@
+<!DOCTYPE html><html lang="en" class="dark"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><link rel="stylesheet" href="https://cdn.vidstack.io/player.css"><meta name="generator" content="Astro v5.3.0"><link rel="alternate" type="application/rss+xml" title="Laurent Kempé blog" href="https://new.laurentkempe.com/atom.xml"><title>Laurent Kempé - ASP.NET Core RC2, Docker and HipChat Connect add-on</title><link rel="stylesheet" href="/_astro/_slug_.DKZ4QuVf.css">
+<style>a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}@media (prefers-color-scheme: dark){a[data-astro-cid-5grsw2hi]{color:#7fb3d5}.tag[data-astro-cid-5grsw2hi]{border-color:#5a5a5a;background-color:#2d2d2d}}body,html{margin:0;padding:0;width:100%;overflow-x:hidden}.relative[data-astro-cid-5grsw2hi]{width:100%}.absolute[data-astro-cid-5grsw2hi]{max-width:100%}
+</style><style>.twitter-tweet:not(.twitter-tweet-rendered){padding:var(--tc-padding, 1em);border:1px solid var(--tc-border-color, #cfd9de)}.twitter-tweet:not(.twitter-tweet-rendered)>:first-child{margin-top:0}.twitter-tweet:not(.twitter-tweet-rendered)>:last-child{margin-bottom:0}.twitter-tweet.twitter-tweet-rendered{color-scheme:normal}
+</style></head> <body class="bg-white dark:bg-gray-900"> <header class="py-6 border-b border-gray-200 dark:border-gray-700 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4"> <div class="flex items-center justify-between"> <div class="text-2xl font-bold dark:text-gray-300"> <a href="/">Laurent Kempé</a> </div> <!-- Mobile menu button and utilities --> <div class="flex items-center gap-4 md:hidden text-gray-600 dark:text-gray-300"> <div class="flex items-center gap-4"> <a href="/atom.xml" title="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100"> <title>RSS Feed</title> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode"></button> </theme-toggle> <script type="module">const i=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="currentColor" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="5"/>
+    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </g>
+  </svg>`,s=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M17.293 13.293a8 8 0 11-10.586-10.586 8.003 8.003 0 0010.586 10.586z"/>
+  </svg>`;class o extends HTMLElement{STORAGE_KEY="theme-preference";_darkTheme=!1;button;constructor(){if(super(),this.button=this.querySelector("button"),!this.button){console.error("Theme toggle button not found");return}const e=localStorage.getItem(this.STORAGE_KEY);e?this.darkTheme=e==="dark":this.darkTheme=window.matchMedia("(prefers-color-scheme: dark)").matches,this.button.addEventListener("click",this.toggleTheme.bind(this)),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",t=>{localStorage.getItem(this.STORAGE_KEY)||(this.darkTheme=t.matches)})}get darkTheme(){return this._darkTheme}set darkTheme(e){this._darkTheme=e,document.documentElement.classList.toggle("dark",e),this.button&&(this.button.innerHTML=e?i:s,this.button.setAttribute("aria-label",e?"Switch to light theme":"Switch to dark theme"))}toggleTheme(){this.darkTheme=!this.darkTheme,localStorage.setItem(this.STORAGE_KEY,this.darkTheme?"dark":"light")}}customElements.define("theme-toggle",o);</script> </div> <button id="mobile-menu-button" class="hover:text-gray-900 dark:hover:text-gray-100"> <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </button> </div> <!-- Desktop menu --> <div class="hidden md:flex md:items-center md:gap-6 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 ">About</a> <a href="/all-archives" title="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Archives</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" title="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Tags</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> <a href="/atom.xml" title="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100"> <title>RSS Feed</title> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode"></button> </theme-toggle>  </div> </div> <!-- Mobile menu panel --> <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4"> <div class="flex flex-col gap-4 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 ">About</a> <a href="/all-archives" title="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Archives</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" title="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Tags</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> </div> </div> </nav> </header> <script type="module">const e=document.getElementById("mobile-menu-button"),t=document.getElementById("mobile-menu");e?.addEventListener("click",()=>{t?.classList.toggle("hidden")});</script> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p> <div class="relative pt-1" data-astro-cid-5grsw2hi> <img src="https://farm2.staticflickr.com/1580/25532266625_c2d799e8ba_h.jpg" alt="Anse caffard, Martinique" data-astro-cid-5grsw2hi="true" width="1600" height="1067" loading="lazy" decoding="async" class="w-full"> <div class="absolute text-white top-1/3 left-1/3 transform -translate-x-1/4 -translate-y-1/4" data-astro-cid-5grsw2hi> <p class="text-2xl sm:text-3xl md:text-5xl font-extrabold drop-shadow-[0_4px_3px_rgb(0,0,0,0.5)] dark:drop-shadow-[0_4px_3px_rgb(255,255,255,0.5)]" data-astro-cid-5grsw2hi>ASP.NET Core RC2, Docker and HipChat Connect add-on</p> <p class="py-2 text-sm sm:text-base" data-astro-cid-5grsw2hi>May 16, 2016</p> </div> <div class="absolute bottom-5 left-5" data-astro-cid-5grsw2hi> <div class="flex gap-1 flex-wrap"><a href="/tags/asp-net-core-rc2" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">ASP.NET Core RC2</a><a href="/tags/docker" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Docker</a><a href="/tags/hipchat-connect" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">HipChat Connect</a></div> </div> <p class="absolute text-sm sm:text-xs text-white bottom-5 right-5" data-astro-cid-5grsw2hi>Anse caffard, Martinique</p> </div><div class="py-4" data-astro-cid-5grsw2hi>  <article class="prose prose-lg max-w-none dark:prose-invert
+                    prose-h1:font-bold prose-h1:text-4xl md:prose-h1:text-4xl prose-h1:text-xl prose-h1:mb-4
+                    prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline
+                    prose-p:text-justify prose-img:rounded-xl"> <p>This weekend ASP.NET Core RC2 was starting to show up! And it finally was <a href="https://blogs.msdn.microsoft.com/webdev/2016/05/16/announcing-asp-net-core-rc2/">released today</a>. Get it fresh from <a href="https://www.microsoft.com/net/core">here</a>. We had here a long three days weekend with quite awful gray clouds and cold weather for the season, so a perfect excuse to get started!</p>
+
+<p>The first project I wanted to port to ASP.NET Core RC2 is something I began to work on some time ago when <a href="https://www.hipchat.com/">Atlassian HipChat</a> announced their new <a href="https://developer.atlassian.com/hipchat/about-hipchat-connect">Connect</a> framework!</p>
+<p>I had it working with <a href="https://github.com/NancyFx/Nancy">NancyFx</a>; it is quite small and hacky at the moment, but at least an interesting little project to port on a weekend. The second part I wanted to have is to be able to make it run in a <a href="https://www.docker.com/">Docker</a> container so that I will be able to deploy it on our Linux server at work.</p>
+<p>So I installed the <a href="https://blogs.msdn.microsoft.com/visualstudio/2016/05/16/announcing-updated-web-development-tools-for-asp-net-core-rc2/">ASP.NET Core Tooling Preview</a> for Visual Studio 2015 and created a new ASP.NET Core Web Application (.NET Core) in C#, for sure!</p>
+<p><img src="https://farm8.staticflickr.com/7477/26962278712_2de5a67090_o.png" alt="New Project"/></p>
+<p>picked up Web API</p>
+<p><img src="https://farm8.staticflickr.com/7649/26988369191_7b0369cf04_o.png" alt="New ASP.NET Core Web Application (.NET Core)"/></p>
+<p>Finally, I started the port which took me something like two to three hours!</p>
+<p>I ended up with the following code for the <em>Program.cs</em> file. The interesting part is the <strong>UseUrls()</strong> which I didn’t have while trying to make it run with Docker, then it wasn’t bound to the right network, and the application wasn’t accessible outside of the Docker container.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">IO</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Microsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">AspNetCore</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Hosting</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Microsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Extensions</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Configuration</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">namespace</span><span style="color:#B392F0"> HipChatConnect</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> Program</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        public</span><span style="color:#F97583"> static</span><span style="color:#F97583"> void</span><span style="color:#B392F0"> Main</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#E1E4E8">[] </span><span style="color:#B392F0">args</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#6A737D">            // Get environment variables</span></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> config</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ConfigurationBuilder</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">AddEnvironmentVariables</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">Build</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> url</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> config[</span><span style="color:#9ECBFF">&quot;ASPNETCORE_URLS&quot;</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">??</span><span style="color:#9ECBFF"> &quot;http://*:5000&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> env</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> config[</span><span style="color:#9ECBFF">&quot;ASPNETCORE_ENVIRONMENT&quot;</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">??</span><span style="color:#9ECBFF"> &quot;Development&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> host</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> WebHostBuilder</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">UseKestrel</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">UseUrls</span><span style="color:#E1E4E8">(url)</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">UseEnvironment</span><span style="color:#E1E4E8">(env)</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">UseContentRoot</span><span style="color:#E1E4E8">(Directory.</span><span style="color:#B392F0">GetCurrentDirectory</span><span style="color:#E1E4E8">())</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">UseIISIntegration</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">UseStartup</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">Startup</span><span style="color:#E1E4E8">&gt;()</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">Build</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">            host.</span><span style="color:#B392F0">Run</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>Then I had some difficulties to have <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> working the way I wanted, but in fact, it ended up being an issue of returning JSON from my HipChat Connect GetGlance method. So it is quite easy to configure it in the <em>Configure()</em> method.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Microsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">AspNetCore</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Builder</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Microsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">AspNetCore</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Hosting</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Microsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Extensions</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Configuration</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Microsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Extensions</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">DependencyInjection</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Microsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Extensions</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Logging</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">namespace</span><span style="color:#B392F0"> HipChatConnect</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> Startup</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        public</span><span style="color:#B392F0"> Startup</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">IHostingEnvironment</span><span style="color:#B392F0"> env</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> builder</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ConfigurationBuilder</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">SetBasePath</span><span style="color:#E1E4E8">(env.ContentRootPath)</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">AddJsonFile</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;appsettings.json&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">optional</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">reloadOnChange</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">AddJsonFile</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">$&quot;appsettings.{</span><span style="color:#E1E4E8">env</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">EnvironmentName</span><span style="color:#9ECBFF">}.json&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">optional</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">                .</span><span style="color:#B392F0">AddEnvironmentVariables</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">            Configuration </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> builder.</span><span style="color:#B392F0">Build</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">        public</span><span style="color:#B392F0"> IConfigurationRoot</span><span style="color:#B392F0"> Configuration</span><span style="color:#E1E4E8"> { </span><span style="color:#F97583">get</span><span style="color:#E1E4E8">; }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        // This method gets called by the runtime. Use this method to add services to the container.</span></span>
+<span class="line"><span style="color:#F97583">        public</span><span style="color:#F97583"> void</span><span style="color:#B392F0"> ConfigureServices</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">IServiceCollection</span><span style="color:#B392F0"> services</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#E1E4E8">            services.</span><span style="color:#B392F0">Configure</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">AppSettings</span><span style="color:#E1E4E8">&gt;(</span><span style="color:#B392F0">settings</span><span style="color:#F97583"> =&gt;</span><span style="color:#E1E4E8"> settings.NGrokUrl </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Configuration[</span><span style="color:#9ECBFF">&quot;NGROK_URL&quot;</span><span style="color:#E1E4E8">]);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">            // Add framework services.</span></span>
+<span class="line"><span style="color:#E1E4E8">            services.</span><span style="color:#B392F0">AddCors</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">            services.</span><span style="color:#B392F0">AddMvc</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.</span></span>
+<span class="line"><span style="color:#F97583">        public</span><span style="color:#F97583"> void</span><span style="color:#B392F0"> Configure</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">IApplicationBuilder</span><span style="color:#B392F0"> app</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">IHostingEnvironment</span><span style="color:#B392F0"> env</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">ILoggerFactory</span><span style="color:#B392F0"> loggerFactory</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#E1E4E8">            loggerFactory.</span><span style="color:#B392F0">AddConsole</span><span style="color:#E1E4E8">(Configuration.</span><span style="color:#B392F0">GetSection</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;Logging&quot;</span><span style="color:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#E1E4E8">            loggerFactory.</span><span style="color:#B392F0">AddDebug</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">            app.</span><span style="color:#B392F0">UseStaticFiles</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">            app.</span><span style="color:#B392F0">UseCors</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">builder</span><span style="color:#F97583"> =&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#E1E4E8">                builder.</span><span style="color:#B392F0">WithOrigins</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;*&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">                    .</span><span style="color:#B392F0">WithMethods</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;GET&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">                    .</span><span style="color:#B392F0">WithHeaders</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;accept&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;content-type&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;origin&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">            });</span></span>
+<span class="line"><span style="color:#E1E4E8">            app.</span><span style="color:#B392F0">UseMvc</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>Next step was to port from NancyFx module to ASP.NET Core RC2 controller, which was quite natural with the <em>Route</em>, <em>HttpGet</em>, <em>HttpPost</em>, <em>FromBody</em> and <em>FromQuery</em> attributes. The main point of interest is the <strong>ValidateToken()</strong> method which validates a JWT token using a <strong>SymmetricSecurityKey</strong>, and that wasn’t straight!</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Collections</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Concurrent</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Collections</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Generic</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">IdentityModel</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Tokens</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Jwt</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Net</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Net</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Http</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Net</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Http</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Headers</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Text</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> System</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Threading</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Tasks</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Microsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">AspNetCore</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Mvc</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Microsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Extensions</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Options</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Microsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">IdentityModel</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Tokens</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Newtonsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Json</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Newtonsoft</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Json</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Linq</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> Nubot</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Plugins</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Samples</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">HipChatConnect</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Models</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">namespace</span><span style="color:#B392F0"> HipChatConnect</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Controllers</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#B392F0">Route</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;/hipchat&quot;</span><span style="color:#E1E4E8">)]</span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> HipChatConnectController</span><span style="color:#E1E4E8"> : </span><span style="color:#B392F0">Controller</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        private</span><span style="color:#F97583"> readonly</span><span style="color:#B392F0"> IOptions</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">AppSettings</span><span style="color:#E1E4E8">&gt; </span><span style="color:#B392F0">_settings</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">        private</span><span style="color:#F97583"> static</span><span style="color:#F97583"> readonly</span><span style="color:#B392F0"> ConcurrentDictionary</span><span style="color:#E1E4E8">&lt;</span><span style="color:#F97583">string</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">object</span><span style="color:#E1E4E8">&gt; </span><span style="color:#B392F0">Cache</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ConcurrentDictionary</span><span style="color:#E1E4E8">&lt;</span><span style="color:#F97583">string</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">object</span><span style="color:#E1E4E8">&gt;();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">        public</span><span style="color:#B392F0"> HipChatConnectController</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">IOptions</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">AppSettings</span><span style="color:#E1E4E8">&gt; </span><span style="color:#B392F0">settings</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#E1E4E8">            _settings </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> settings;</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        [</span><span style="color:#B392F0">HttpGet</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;atlassian-connect.json&quot;</span><span style="color:#E1E4E8">)]</span></span>
+<span class="line"><span style="color:#F97583">        public</span><span style="color:#F97583"> async</span><span style="color:#B392F0"> Task</span><span style="color:#E1E4E8">&lt;</span><span style="color:#F97583">string</span><span style="color:#E1E4E8">&gt; </span><span style="color:#B392F0">Get</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> baseUri</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> _settings.Value</span><span style="color:#F97583">?</span><span style="color:#E1E4E8">.NGrokUrl </span><span style="color:#F97583">??</span><span style="color:#9ECBFF"> &quot;http://localhost:52060/&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> Task.</span><span style="color:#B392F0">FromResult</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">GetCapabilitiesDescriptor</span><span style="color:#E1E4E8">(baseUri));</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        [</span><span style="color:#B392F0">HttpPost</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;installable&quot;</span><span style="color:#E1E4E8">)]</span></span>
+<span class="line"><span style="color:#F97583">        public</span><span style="color:#F97583"> async</span><span style="color:#B392F0"> Task</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">HttpStatusCode</span><span style="color:#E1E4E8">&gt; </span><span style="color:#B392F0">Installable</span><span style="color:#E1E4E8">([</span><span style="color:#B392F0">FromBody</span><span style="color:#E1E4E8">]</span><span style="color:#B392F0">InstallationData</span><span style="color:#B392F0"> installationData</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#E1E4E8">            Cache.</span><span style="color:#B392F0">TryAdd</span><span style="color:#E1E4E8">(installationData.oauthId, installationData);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> capabilitiesRoot</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> GetCapabilitiesRoot</span><span style="color:#E1E4E8">(installationData);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> accessToken</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> GetAccessToken</span><span style="color:#E1E4E8">(installationData, capabilitiesRoot);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> Cache.</span><span style="color:#B392F0">TryAdd</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;accessToken&quot;</span><span style="color:#E1E4E8">, accessToken) </span><span style="color:#F97583">?</span><span style="color:#E1E4E8"> HttpStatusCode.OK </span><span style="color:#F97583">:</span><span style="color:#E1E4E8"> HttpStatusCode.NotFound;</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        [</span><span style="color:#B392F0">HttpGet</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;uninstalled&quot;</span><span style="color:#E1E4E8">)]</span></span>
+<span class="line"><span style="color:#F97583">        public</span><span style="color:#F97583"> async</span><span style="color:#B392F0"> Task</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">IActionResult</span><span style="color:#E1E4E8">&gt; </span><span style="color:#B392F0">UnInstalled</span><span style="color:#E1E4E8">([</span><span style="color:#B392F0">FromQuery</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">Name</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> &quot;redirect_url&quot;</span><span style="color:#E1E4E8">)]</span><span style="color:#F97583">string</span><span style="color:#B392F0"> redirectUrl</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                                                     [</span><span style="color:#B392F0">FromQuery</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">Name</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> &quot;installable_url&quot;</span><span style="color:#E1E4E8">)]</span><span style="color:#F97583">string</span><span style="color:#B392F0"> installableUrl</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> client</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> HttpClient</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> httpResponse</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> client.</span><span style="color:#B392F0">GetAsync</span><span style="color:#E1E4E8">(installableUrl);</span></span>
+<span class="line"><span style="color:#E1E4E8">            httpResponse.</span><span style="color:#B392F0">EnsureSuccessStatusCode</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> jObject</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> httpResponse.Content.</span><span style="color:#B392F0">ReadAsAsync</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">JObject</span><span style="color:#E1E4E8">&gt;();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            object</span><span style="color:#B392F0"> anobject</span><span style="color:#E1E4E8"> ;</span></span>
+<span class="line"><span style="color:#E1E4E8">            Cache.</span><span style="color:#B392F0">TryRemove</span><span style="color:#E1E4E8">((</span><span style="color:#F97583">string</span><span style="color:#E1E4E8">)jObject[</span><span style="color:#9ECBFF">&quot;oauthId&quot;</span><span style="color:#E1E4E8">], </span><span style="color:#F97583">out</span><span style="color:#E1E4E8"> anobject);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> Task.</span><span style="color:#B392F0">FromResult</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">Redirect</span><span style="color:#E1E4E8">(redirectUrl));</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        [</span><span style="color:#B392F0">HttpGet</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;glance&quot;</span><span style="color:#E1E4E8">)]</span></span>
+<span class="line"><span style="color:#F97583">        public</span><span style="color:#F97583"> string</span><span style="color:#B392F0"> GetGlance</span><span style="color:#E1E4E8">([</span><span style="color:#B392F0">FromQuery</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">Name</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> &quot;signed_request&quot;</span><span style="color:#E1E4E8">)]</span><span style="color:#F97583">string</span><span style="color:#B392F0"> signedRequest</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8"> (</span><span style="color:#B392F0">ValidateToken</span><span style="color:#E1E4E8">(signedRequest))</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#B392F0"> BuildInitialGlance</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#9ECBFF"> &quot;&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">        private</span><span style="color:#F97583"> static</span><span style="color:#F97583"> string</span><span style="color:#B392F0"> GetCapabilitiesDescriptor</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> baseUri</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> capabilitiesDescriptor</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#E1E4E8">                name </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;Nubot&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                description </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;An add-on to talk to Nubot.&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                key </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;nubot-addon&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                links </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span></span>
+<span class="line"><span style="color:#E1E4E8">                {</span></span>
+<span class="line"><span style="color:#E1E4E8">                    self </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> $&quot;{</span><span style="color:#E1E4E8">baseUri</span><span style="color:#9ECBFF">}/hipchat/atlassian-connect.json&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                    homepage </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> $&quot;{</span><span style="color:#E1E4E8">baseUri</span><span style="color:#9ECBFF">}/hipchat/atlassian-connect.json&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">                },</span></span>
+<span class="line"><span style="color:#E1E4E8">                vendor </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span></span>
+<span class="line"><span style="color:#E1E4E8">                {</span></span>
+<span class="line"><span style="color:#E1E4E8">                    name </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;Laurent Kempe&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                    url </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;http://laurentkempe.com&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">                },</span></span>
+<span class="line"><span style="color:#E1E4E8">                capabilities </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span></span>
+<span class="line"><span style="color:#E1E4E8">                {</span></span>
+<span class="line"><span style="color:#E1E4E8">                    hipchatApiConsumer </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span></span>
+<span class="line"><span style="color:#E1E4E8">                    {</span></span>
+<span class="line"><span style="color:#E1E4E8">                        scopes </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#E1E4E8">[]</span></span>
+<span class="line"><span style="color:#E1E4E8">                        {</span></span>
+<span class="line"><span style="color:#9ECBFF">                            &quot;send_notification&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                            &quot;view_room&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">                        }</span></span>
+<span class="line"><span style="color:#E1E4E8">                    },</span></span>
+<span class="line"><span style="color:#E1E4E8">                    installable </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span></span>
+<span class="line"><span style="color:#E1E4E8">                    {</span></span>
+<span class="line"><span style="color:#E1E4E8">                        callbackUrl </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> $&quot;{</span><span style="color:#E1E4E8">baseUri</span><span style="color:#9ECBFF">}/hipchat/installable&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                        uninstalledUrl </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> $&quot;{</span><span style="color:#E1E4E8">baseUri</span><span style="color:#9ECBFF">}/hipchat/uninstalled&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">                    },</span></span>
+<span class="line"><span style="color:#E1E4E8">                    glance </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#E1E4E8">[]</span></span>
+<span class="line"><span style="color:#E1E4E8">                    {</span></span>
+<span class="line"><span style="color:#F97583">                        new</span></span>
+<span class="line"><span style="color:#E1E4E8">                        {</span></span>
+<span class="line"><span style="color:#E1E4E8">                            name </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span></span>
+<span class="line"><span style="color:#E1E4E8">                            {</span></span>
+<span class="line"><span style="color:#E1E4E8">                                value </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;Hello TC&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">                            },</span></span>
+<span class="line"><span style="color:#E1E4E8">                            queryUrl </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> $&quot;{</span><span style="color:#E1E4E8">baseUri</span><span style="color:#9ECBFF">}/hipchat/glance&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                            key </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;nubot.glance&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                            target </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;nubot.sidebar&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                            icon </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Icon</span></span>
+<span class="line"><span style="color:#E1E4E8">                            {</span></span>
+<span class="line"><span style="color:#E1E4E8">                                url </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> $&quot;{</span><span style="color:#E1E4E8">baseUri</span><span style="color:#9ECBFF">}/nubot/TC.png&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                                url2 </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> $&quot;{</span><span style="color:#E1E4E8">baseUri</span><span style="color:#9ECBFF">}/nubot/TC2.png&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">                            }</span></span>
+<span class="line"><span style="color:#E1E4E8">                        }</span></span>
+<span class="line"><span style="color:#E1E4E8">                    }</span></span>
+<span class="line"><span style="color:#E1E4E8">                }</span></span>
+<span class="line"><span style="color:#E1E4E8">            };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> JsonConvert.</span><span style="color:#B392F0">SerializeObject</span><span style="color:#E1E4E8">(capabilitiesDescriptor);</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">        private</span><span style="color:#F97583"> async</span><span style="color:#B392F0"> Task</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">CapabilitiesRoot</span><span style="color:#E1E4E8">&gt; </span><span style="color:#B392F0">GetCapabilitiesRoot</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">InstallationData</span><span style="color:#B392F0"> installationData</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> httpClient</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> HttpClient</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> response</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> httpClient.</span><span style="color:#B392F0">GetAsync</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">new</span><span style="color:#B392F0"> Uri</span><span style="color:#E1E4E8">(installationData.capabilitiesUrl));</span></span>
+<span class="line"><span style="color:#E1E4E8">            response.</span><span style="color:#B392F0">EnsureSuccessStatusCode</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> response.Content.</span><span style="color:#B392F0">ReadAsAsync</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">CapabilitiesRoot</span><span style="color:#E1E4E8">&gt;();</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">        private</span><span style="color:#F97583"> async</span><span style="color:#B392F0"> Task</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">AccessToken</span><span style="color:#E1E4E8">&gt; </span><span style="color:#B392F0">GetAccessToken</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">InstallationData</span><span style="color:#B392F0"> installationData</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">CapabilitiesRoot</span><span style="color:#B392F0"> capabilitiesRoot</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> client</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> HttpClient</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> dataContent</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> FormUrlEncodedContent</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">new</span><span style="color:#E1E4E8">[]</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#F97583">                new</span><span style="color:#B392F0"> KeyValuePair</span><span style="color:#E1E4E8">&lt;</span><span style="color:#F97583">string</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">string</span><span style="color:#E1E4E8">&gt;(</span><span style="color:#9ECBFF">&quot;grant_type&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;client_credentials&quot;</span><span style="color:#E1E4E8">),</span></span>
+<span class="line"><span style="color:#F97583">                new</span><span style="color:#B392F0"> KeyValuePair</span><span style="color:#E1E4E8">&lt;</span><span style="color:#F97583">string</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">string</span><span style="color:#E1E4E8">&gt;(</span><span style="color:#9ECBFF">&quot;scope&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;send_notification&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            });</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> credentials</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> Encoding.ASCII.</span><span style="color:#B392F0">GetBytes</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">$&quot;{</span><span style="color:#E1E4E8">installationData</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">oauthId</span><span style="color:#9ECBFF">}:{</span><span style="color:#E1E4E8">installationData</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">oauthSecret</span><span style="color:#9ECBFF">}&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">            client.DefaultRequestHeaders.Authorization </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> AuthenticationHeaderValue</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;Basic&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                Convert.</span><span style="color:#B392F0">ToBase64String</span><span style="color:#E1E4E8">(credentials));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> tokenResponse</span><span style="color:#F97583"> =</span></span>
+<span class="line"><span style="color:#F97583">                await</span><span style="color:#E1E4E8"> client.</span><span style="color:#B392F0">PostAsync</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">new</span><span style="color:#B392F0"> Uri</span><span style="color:#E1E4E8">(capabilitiesRoot.capabilities.oauth2Provider.tokenUrl), dataContent);</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> tokenResponse.Content.</span><span style="color:#B392F0">ReadAsAsync</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">AccessToken</span><span style="color:#E1E4E8">&gt;();</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">        private</span><span style="color:#F97583"> bool</span><span style="color:#B392F0"> ValidateToken</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> jwt</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> jwtSecurityTokenHandler</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> JwtSecurityTokenHandler</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> readToken</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> jwtSecurityTokenHandler.</span><span style="color:#B392F0">ReadToken</span><span style="color:#E1E4E8">(jwt);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            object</span><span style="color:#B392F0"> installationDataObject</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8"> (</span><span style="color:#F97583">!</span><span style="color:#E1E4E8">Cache.</span><span style="color:#B392F0">TryGetValue</span><span style="color:#E1E4E8">(readToken.Issuer, </span><span style="color:#F97583">out</span><span style="color:#E1E4E8"> installationDataObject))</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#79B8FF"> false</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> installationData</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> (</span><span style="color:#B392F0">InstallationData</span><span style="color:#E1E4E8">)installationDataObject;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> validationParameters</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> TokenValidationParameters</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#E1E4E8">                ValidateIssuer </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> true</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                ValidIssuer </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> installationData.oauthId,</span></span>
+<span class="line"><span style="color:#E1E4E8">                IssuerSigningKey </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> SymmetricSecurityKey</span><span style="color:#E1E4E8">(Encoding.UTF8.</span><span style="color:#B392F0">GetBytes</span><span style="color:#E1E4E8">(installationData.oauthSecret)),</span></span>
+<span class="line"><span style="color:#E1E4E8">                ValidateAudience </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> false</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                ValidateLifetime </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> true</span></span>
+<span class="line"><span style="color:#E1E4E8">            };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            try</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#B392F0">                SecurityToken</span><span style="color:#B392F0"> token</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">                var</span><span style="color:#B392F0"> validatedToken</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> jwtSecurityTokenHandler.</span><span style="color:#B392F0">ValidateToken</span><span style="color:#E1E4E8">(jwt, validationParameters, </span><span style="color:#F97583">out</span><span style="color:#E1E4E8"> token);</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#E1E4E8"> validatedToken </span><span style="color:#F97583">!=</span><span style="color:#79B8FF"> null</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#F97583">            catch</span><span style="color:#E1E4E8"> (</span><span style="color:#B392F0">Exception</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#F97583">                return</span><span style="color:#79B8FF"> false</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">        private</span><span style="color:#F97583"> static</span><span style="color:#F97583"> string</span><span style="color:#B392F0"> BuildInitialGlance</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#F97583">            var</span><span style="color:#B392F0"> response</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#E1E4E8">                label </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span></span>
+<span class="line"><span style="color:#E1E4E8">                {</span></span>
+<span class="line"><span style="color:#E1E4E8">                    type </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;html&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                    value </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;&lt;b&gt;4&lt;/b&gt; Builds&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">                },</span></span>
+<span class="line"><span style="color:#E1E4E8">                status </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span></span>
+<span class="line"><span style="color:#E1E4E8">                {</span></span>
+<span class="line"><span style="color:#E1E4E8">                    type </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;lozenge&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                    value </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span></span>
+<span class="line"><span style="color:#E1E4E8">                    {</span></span>
+<span class="line"><span style="color:#E1E4E8">                        label </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;GOOD&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                        type </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;success&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">                    }</span></span>
+<span class="line"><span style="color:#E1E4E8">                },</span></span>
+<span class="line"><span style="color:#E1E4E8">                metadata </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span></span>
+<span class="line"><span style="color:#E1E4E8">                {</span></span>
+<span class="line"><span style="color:#E1E4E8">                    customData </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#E1E4E8"> { customAttr </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;customValue&quot;</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"><span style="color:#E1E4E8">                }</span></span>
+<span class="line"><span style="color:#E1E4E8">            };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#E1E4E8"> JsonConvert.</span><span style="color:#B392F0">SerializeObject</span><span style="color:#E1E4E8">(response);</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>To be able to test the HipChat Connect add-on, I needed to be able to expose my application from my local development machine to the internet so that I can add the add-on to one HipChat room and for that I used <a href="https://ngrok.com/">ngrok</a>!</p>
+<p>Using the same ngrok command I used for NancyFx with ASP.NET Core RC2 gave me as a result “<em>Http Bad Request error while calling your end point!</em>”</p>
+<blockquote>
+<p>ngrok http -bind-tls=true 8080</p>
+</blockquote>
+<p>To be able to make it work with ASP.NET Core RC2 I had to fine tune the command so that the host header is adapted, then it worked!</p>
+<blockquote>
+<p>ngrok http -bind-tls=true -host-header=“localhost:52060” 52060</p>
+</blockquote>
+<p>And to finish, I wanted to have the project running in a Docker container using <a href="http://laurentkempe.com/2016/04/30/Docker-for-Windows-Beta-review/">Docker for Windows</a>. To achieve that goal I used the following <em>Dockerfile</em></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#9ECBFF">FROM microsoft/dotnet</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Set environment variables</span></span>
+<span class="line"><span style="color:#9ECBFF">ENV ASPNETCORE_URLS=&quot;http://*:5000&quot;</span></span>
+<span class="line"><span style="color:#9ECBFF">ENV ASPNETCORE_ENVIRONMENT=&quot;Development&quot;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Copy files to app directory</span></span>
+<span class="line"><span style="color:#9ECBFF">COPY . /app</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Set working directory</span></span>
+<span class="line"><span style="color:#9ECBFF">WORKDIR /app</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Restore NuGet packages</span></span>
+<span class="line"><span style="color:#9ECBFF">RUN [&quot;dotnet&quot;, &quot;restore&quot;]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Open up port</span></span>
+<span class="line"><span style="color:#9ECBFF">EXPOSE 5000</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Run the app</span></span>
+<span class="line"><span style="color:#9ECBFF">ENTRYPOINT [&quot;dotnet&quot;, &quot;run&quot;]</span></span></code></pre>
+<p>Built the Docker image with</p>
+<blockquote>
+<p>docker build -t hipchatconnect .</p>
+</blockquote>
+<p>Then started the Docker container with</p>
+<blockquote>
+<p>docker run -d -p 5000:5000 —name hipchatconnect hipchatconnect</p>
+</blockquote>
+<p>Checked that I could access my first ASP.NET Core RC2 project running in Docker with the following url:</p>
+<blockquote>
+<p><a href="http://docker:5000/hipchat/atlassian-connect.json">http://docker:5000/hipchat/atlassian-connect.json</a></p>
+</blockquote>
+<p>You might be also interested to read the following post <a href="https://blog.docker.com/2016/05/docker-net-core-clr-rc2/">“Docker and .NET Core CLR Release Candidate 2”</a> by <a href="https://blog.docker.com/author/mano/">Mano Marks</a>.</p>
+<p>To expose the container using ngrok I had to use:</p>
+<blockquote>
+<p>ngrok http -bind-tls=true -host-header=“docker:5000” docker:5000</p>
+</blockquote>
+<p>After adding the add-on to one of our room, the final result is a <a href="https://developer.atlassian.com/hipchat/getting-started#GettingStarted-AddstatustoHipChatroomsviaGlances">HipChat Connect Glance</a> showing the number of our TeamCity builds and their states.</p>
+<p><img src="https://farm8.staticflickr.com/7598/26989288911_6a7439863d_o.png" alt="HipChat Connect add-on based on ASP.NET Core RC2"/></p>
+<p>As a conclusion, to that especially long post, I am so happy that I could finally play with the ASP.NET Core RC2 bits, run a little Web application on my Windows 10 machine but also in a Linux Docker container using Docker for Windows! I love those two technologies and see a bright future for both of them. I am also delighted that Microsoft made .NET Core an open source project.</p> </article>  </div>  </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 dark:text-gray-300 text-center"> <div>
+&copy; 2025 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> <script>
+            const theme = (() => {
+              if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+                return localStorage.getItem("theme");
+              }
+              if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                return "dark";
+              }
+              return "light";
+            })();
+          
+            if (theme === "light") {
+              document.documentElement.classList.remove("dark");
+            } else {
+              document.documentElement.classList.add("dark");
+            }
+            window.localStorage.setItem("theme", theme);
+        </script> <script src="https://cdn.vidstack.io/player.core" type="module"></script> <script src="https://cdn.vidstack.io/icons" type="module"></script> </body> </html> 
