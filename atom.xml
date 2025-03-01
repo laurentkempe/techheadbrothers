@@ -3,12 +3,28 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-03-01T10:54:22.482Z</updated>
+<updated>2025-03-01T14:42:00.890Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>Building Local AI Agents: Semantic Kernel and Ollama in C#</title>
+    <link href="https://laurentkempe.com/2025/03/01/building-local-ai-agents-semantic-kernel-and-ollama-in-csharp/"/>
+    <id>https://laurentkempe.com/2025/03/01/building-local-ai-agents-semantic-kernel-and-ollama-in-csharp/</id>
+    <published>2025-03-01T15:08:16.000Z</published>
+    <updated>2025-03-01T15:08:16.000Z</updated>
+    <summary type="html">&lt;p&gt;The recent release of Microsoft&apos;s Semantic Kernel Agents Framework RC1 provides an excellent opportunity to explore its capabilities with C#. In this post, we&apos;ll walk through creating a simple agent using this framework and running it locally with Ollama.&lt;/p&gt;
+&lt;p&gt;Let&apos;s dive in!&lt;/p&gt;
+</summary>
+    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
+    <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
+    <category term="Semantic Kernel" scheme="https://laurentkempe.com/tags/semantic-kernel" />
+    <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
+  </entry>
   <entry>
     <title>Harnessing DeepSeek-R1 distilled model with .NET Aspire and Ollama locally</title>
     <link href="https://laurentkempe.com/2025/02/01/harnessing-deepseek-r1-with-dotnet-aspire-and-ollama-locally/"/>
@@ -258,16 +274,4 @@
     <category term="Dapr" scheme="https://laurentkempe.com/tags/dapr" />
     <category term="gRPC" scheme="https://laurentkempe.com/tags/grpc" />
     <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
-  </entry>
-  <entry>
-    <title>Service to service invocation with Refit and Dapr .NET SDK</title>
-    <link href="https://laurentkempe.com/2021/03/18/service-to-service-invocation-with-refit-and-dapr-dotnet-sdk/"/>
-    <id>https://laurentkempe.com/2021/03/18/service-to-service-invocation-with-refit-and-dapr-dotnet-sdk/</id>
-    <published>2021-03-18T16:20:00.000Z</published>
-    <updated>2021-03-18T16:20:00.000Z</updated>
-    <summary type="html">&lt;p&gt;In the last post, we have seen how to &lt;a href=&quot;https://laurentkempe.com/2021/03/16/service-to-service-invocation-with-dapr-dotnet-sdk/&quot;&gt;call a service from another service using the Dapr .NET SDK&lt;/a&gt;. In this one, we will have a look at a possible way to simplify the development of the client code using &lt;a href=&quot;https://reactiveui.github.io/refit/&quot;&gt;Refit&lt;/a&gt;, the automatic type-safe REST library for .NET Core, Xamarin, and .NET.&lt;/p&gt;
-</summary>
-    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
-    <category term="ASP.NET Core" scheme="https://laurentkempe.com/tags/asp-dotnet-core" />
-    <category term="Dapr" scheme="https://laurentkempe.com/tags/dapr" />
   </entry></feed>
