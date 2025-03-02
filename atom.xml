@@ -3,12 +3,27 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-03-01T14:42:00.890Z</updated>
+<updated>2025-03-02T15:01:13.914Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>Building Local AI Agents: Semantic Kernel Agent with Functions in C# using Ollama</title>
+    <link href="https://laurentkempe.com/2025/03/02/building-local-ai-agents-semantic-kernel-agent-with-functions-in-csharp-using-ollama/"/>
+    <id>https://laurentkempe.com/2025/03/02/building-local-ai-agents-semantic-kernel-agent-with-functions-in-csharp-using-ollama/</id>
+    <published>2025-03-02T11:19:46.000Z</published>
+    <updated>2025-03-02T11:19:46.000Z</updated>
+    <summary type="html">&lt;p&gt;In my previous post, we saw how to &lt;a href=&quot;https://laurentkempe.com/2025/03/01/building-local-ai-agents-semantic-kernel-and-ollama-in-csharp/&quot;&gt;build the simplest Semantic Kernel local AI agent using Semantic Kernel and Ollama in C#&lt;/a&gt;. In this short post, we will see how simple it is to extend the capabilities of the Semantic Kernel local AI agent by adding function calling.&lt;/p&gt;
+</summary>
+    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
+    <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
+    <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
+    <category term="Semantic Kernel" scheme="https://laurentkempe.com/tags/semantic-kernel" />
+  </entry>
   <entry>
     <title>Building Local AI Agents: Semantic Kernel and Ollama in C#</title>
     <link href="https://laurentkempe.com/2025/03/01/building-local-ai-agents-semantic-kernel-and-ollama-in-csharp/"/>
@@ -262,16 +277,4 @@
 </summary>
     <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
     <category term="Dapr" scheme="https://laurentkempe.com/tags/dapr" />
-  </entry>
-  <entry>
-    <title>Calling Dapr service with gRPC</title>
-    <link href="https://laurentkempe.com/2021/03/25/calling-dapr-service-with-grpc/"/>
-    <id>https://laurentkempe.com/2021/03/25/calling-dapr-service-with-grpc/</id>
-    <published>2021-03-25T18:07:50.000Z</published>
-    <updated>2021-03-25T18:07:50.000Z</updated>
-    <summary type="html">&lt;p&gt;In previous posts, we focused on Dapr service invocation using the HTTP protocol. Dapr, through its service invocation, can also reliably and securely communicate with other applications using gRPC. We will have a look at this other capability in this post.&lt;/p&gt;
-</summary>
-    <category term="Dapr" scheme="https://laurentkempe.com/tags/dapr" />
-    <category term="gRPC" scheme="https://laurentkempe.com/tags/grpc" />
-    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
   </entry></feed>
