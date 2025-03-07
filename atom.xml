@@ -3,12 +3,26 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-03-02T15:01:13.914Z</updated>
+<updated>2025-03-07T16:28:41.278Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>.NET Aspire and Dev Container</title>
+    <link href="https://laurentkempe.com/2025/03/06/dotnet-aspire-and-dev-container/"/>
+    <id>https://laurentkempe.com/2025/03/06/dotnet-aspire-and-dev-container/</id>
+    <published>2025-03-06T22:59:39.000Z</published>
+    <updated>2025-03-06T22:59:39.000Z</updated>
+    <summary type="html">&lt;p&gt;.NET Aspire 9.1 was just released on February 25th, 2025. It comes with great new dashboard features, and there is more! One feature I am particularly interested in is the ability to use &lt;strong&gt;Dev Containers&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;In this post, I will show you how to use the new .NET Aspire 9.1 with a Dev Container and JetBrains Rider. You could also use Visual Studio Code.&lt;/p&gt;
+</summary>
+    <category term=".NET Aspire" scheme="https://laurentkempe.com/tags/.net-aspire" />
+    <category term="Dev Container" scheme="https://laurentkempe.com/tags/dev-container" />
+    <category term="Docker" scheme="https://laurentkempe.com/tags/docker" />
+    <category term="Rider" scheme="https://laurentkempe.com/tags/rider" />
+  </entry>
   <entry>
     <title>Building Local AI Agents: Semantic Kernel Agent with Functions in C# using Ollama</title>
     <link href="https://laurentkempe.com/2025/03/02/building-local-ai-agents-semantic-kernel-agent-with-functions-in-csharp-using-ollama/"/>
@@ -49,6 +63,7 @@
     <summary type="html">&lt;p&gt;In my earlier posts, I&apos;ve demonstrated how to install Ollama using the Windows installer. However, for developers, there&apos;s a more streamlined method to set up Ollama on your machine.&lt;/p&gt;
 &lt;p&gt;In this blog post, we&apos;ll explore how to run DeepSeek-R1 by harnessing the capabilities of .NET Aspire alongside Ollama on your local environment.&lt;/p&gt;
 </summary>
+    <category term=".NET Aspire" scheme="https://laurentkempe.com/tags/.net-aspire" />
     <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
     <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
     <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
@@ -263,17 +278,6 @@
     <published>2021-10-19T13:32:05.000Z</published>
     <updated>2021-10-19T13:32:05.000Z</updated>
     <summary type="html">&lt;p&gt;Till now, we have seen two &lt;a href=&quot;https://laurentkempe.com/tags/Dapr/&quot;&gt;Dapr building blocks&lt;/a&gt; which are the &lt;a href=&quot;https://docs.dapr.io/developing-applications/building-blocks/service-invocation/service-invocation-overview/&quot;&gt;service to service invocation building block&lt;/a&gt; and the &lt;a href=&quot;https://docs.dapr.io/developing-applications/building-blocks/secrets/secrets-overview/&quot;&gt;secrets building block&lt;/a&gt;. The secret building block serves to protect things like a database connection string, an API key... so that they&apos;re never disclosed outside of the application. The service to service invocation building block serves to make calls between services in your distributed application easy. In this post, we will introduce a third one which is the &lt;a href=&quot;https://docs.dapr.io/developing-applications/building-blocks/bindings/bindings-overview/&quot;&gt;bindings building block&lt;/a&gt;. The bindings building block enables your distributed application to handle external events or invoke external services.&lt;/p&gt;
-</summary>
-    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
-    <category term="Dapr" scheme="https://laurentkempe.com/tags/dapr" />
-  </entry>
-  <entry>
-    <title>Accessing Dapr secrets building block using Dapr .NET SDK</title>
-    <link href="https://laurentkempe.com/2021/04/06/accessing-dapr-secrets-building-block-using-dapr-dotnet-sdk/"/>
-    <id>https://laurentkempe.com/2021/04/06/accessing-dapr-secrets-building-block-using-dapr-dotnet-sdk/</id>
-    <published>2021-04-06T16:49:45.000Z</published>
-    <updated>2021-04-06T16:49:45.000Z</updated>
-    <summary type="html">&lt;p&gt;In all &lt;a href=&quot;https://laurentkempe.com/tags/Dapr/&quot;&gt;previous posts&lt;/a&gt;, we were looking at the Dapr service invocation building block. We have seen how to expose and call HTTP and gRPC services using it. In this post, we will see how Dapr ease developers life when it comes to deal with secrets, thanks to the secrets management building block.&lt;/p&gt;
 </summary>
     <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
     <category term="Dapr" scheme="https://laurentkempe.com/tags/dapr" />
