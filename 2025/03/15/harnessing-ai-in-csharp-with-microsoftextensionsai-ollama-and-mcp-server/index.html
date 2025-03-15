@@ -1,0 +1,297 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><link rel="stylesheet" href="https://cdn.vidstack.io/player.css"><meta name="generator" content="Astro v5.5.2"><link rel="alternate" type="application/rss+xml" title="Laurent Kempé blog" href="https://new.laurentkempe.com/atom.xml"><title>Laurent Kempé - Harnessing AI in C# with Microsoft.Extensions.AI, Ollama, and MCP Server</title><link rel="stylesheet" href="/_astro/_slug_.eJhnQ2Qd.css">
+<style>a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}@media (prefers-color-scheme: dark){a[data-astro-cid-5grsw2hi]{color:#7fb3d5}.tag[data-astro-cid-5grsw2hi]{border-color:#5a5a5a;background-color:#2d2d2d}}body,html{margin:0;padding:0;width:100%;overflow-x:hidden}.relative[data-astro-cid-5grsw2hi]{width:100%}.absolute[data-astro-cid-5grsw2hi]{max-width:100%}
+</style><style>.twitter-tweet:not(.twitter-tweet-rendered){padding:var(--tc-padding, 1em);border:1px solid var(--tc-border-color, #cfd9de)}.twitter-tweet:not(.twitter-tweet-rendered)>:first-child{margin-top:0}.twitter-tweet:not(.twitter-tweet-rendered)>:last-child{margin-bottom:0}.twitter-tweet.twitter-tweet-rendered{color-scheme:normal}
+</style></head> <body class="bg-white dark:bg-gray-900"> <header class="py-6 border-b border-gray-200 dark:border-gray-700 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4"> <div class="flex items-center justify-between"> <div class="text-2xl font-bold dark:text-gray-300"> <a href="/">Laurent Kempé</a> </div> <!-- Mobile menu button and utilities --> <div class="flex items-center gap-4 md:hidden text-gray-600 dark:text-gray-300"> <div class="flex items-center gap-4"> <a href="/atom.xml" title="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100"> <title>RSS Feed</title> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode"></button> </theme-toggle> <script type="module">const i=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="currentColor" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="5"/>
+    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </g>
+  </svg>`,s=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M17.293 13.293a8 8 0 11-10.586-10.586 8.003 8.003 0 0010.586 10.586z"/>
+  </svg>`;class o extends HTMLElement{STORAGE_KEY="theme-preference";_darkTheme=!1;button;constructor(){if(super(),this.button=this.querySelector("button"),!this.button){console.error("Theme toggle button not found");return}const e=localStorage.getItem(this.STORAGE_KEY);e?this.darkTheme=e==="dark":this.darkTheme=window.matchMedia("(prefers-color-scheme: dark)").matches,this.button.addEventListener("click",this.toggleTheme.bind(this)),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",t=>{localStorage.getItem(this.STORAGE_KEY)||(this.darkTheme=t.matches)})}get darkTheme(){return this._darkTheme}set darkTheme(e){this._darkTheme=e,document.documentElement.classList.toggle("dark",e),this.button&&(this.button.innerHTML=e?i:s,this.button.setAttribute("aria-label",e?"Switch to light theme":"Switch to dark theme"))}toggleTheme(){this.darkTheme=!this.darkTheme,localStorage.setItem(this.STORAGE_KEY,this.darkTheme?"dark":"light")}}customElements.define("theme-toggle",o);</script> </div> <button id="mobile-menu-button" class="hover:text-gray-900 dark:hover:text-gray-100"> <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </button> </div> <!-- Desktop menu --> <div class="hidden md:flex md:items-center md:gap-6 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 ">About</a> <a href="/all-archives" title="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Archives</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" title="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Tags</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> <a href="/atom.xml" title="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100"> <title>RSS Feed</title> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode"></button> </theme-toggle>  </div> </div> <!-- Mobile menu panel --> <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4"> <div class="flex flex-col gap-4 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 ">About</a> <a href="/all-archives" title="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Archives</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" title="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Tags</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> </div> </div> </nav> </header> <script type="module">const e=document.getElementById("mobile-menu-button"),t=document.getElementById("mobile-menu");e?.addEventListener("click",()=>{t?.classList.toggle("hidden")});</script> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p> <div class="relative pt-1" data-astro-cid-5grsw2hi> <img src="https://live.staticflickr.com/5210/5297920398_199c438d4c_h.jpg" alt="Les Vosges, France" data-astro-cid-5grsw2hi="true" width="1600" height="1067" loading="lazy" decoding="async" class="w-full"> <div class="absolute text-white top-1/3 left-1/3 transform -translate-x-1/4 -translate-y-1/4" data-astro-cid-5grsw2hi> <p class="text-2xl sm:text-3xl md:text-5xl font-extrabold drop-shadow-[0_4px_3px_rgb(0,0,0,0.5)] dark:drop-shadow-[0_4px_3px_rgb(255,255,255,0.5)]" data-astro-cid-5grsw2hi>Harnessing AI in C# with Microsoft.Extensions.AI, Ollama, and MCP Server</p> <p class="py-2 text-sm sm:text-base" data-astro-cid-5grsw2hi>Mar 15, 2025</p> </div> <div class="absolute bottom-5 left-5" data-astro-cid-5grsw2hi> <div class="flex gap-1 flex-wrap"><a href="/tags/ai" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">AI</a><a href="/tags/csharp" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">C#</a><a href="/tags/mcp" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">MCP</a><a href="/tags/ollama" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Ollama</a><a href="/tags/slm" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">SLM</a></div> </div> <p class="absolute text-sm sm:text-xs text-white bottom-5 right-5" data-astro-cid-5grsw2hi>Les Vosges, France</p> </div><div class="py-4" data-astro-cid-5grsw2hi>  <article class="prose prose-lg max-w-none dark:prose-invert
+                    prose-h1:font-bold prose-h1:text-4xl md:prose-h1:text-4xl prose-h1:text-xl prose-h1:mb-4
+                    prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline
+                    prose-p:text-justify prose-img:rounded-xl"> <p>In the previous post “<a href="https://laurentkempe.com/2025/01/27/leveraging-microsoftextensionsai-for-tool-calling-in-csharp/">Leveraging Microsoft.Extensions.AI for Tool Calling in C#</a>”, we explored how to create custom tools that enhance the capabilities of Large Language Models (LLMs). We demonstrated how integrating these technologies enables developers to build applications with advanced AI capabilities, facilitating more complex interactions.</p>
+<p>In this post, we’ll take a step further and explore how to leverage <strong>Model Context Protocol (MCP)</strong> servers to utilize external Tools and AI models in C# applications. We’ll continue using Ollama to run local AI models.</p>
+
+<h1 id="introduction">Introduction</h1>
+<p>The future of AI extends beyond powerful models to their seamless interaction with the data that drives our world. <strong>Model Context Protocol (MCP)</strong> is a groundbreaking open standard designed to bridge the gap between AI systems and diverse data sources. Developed by Anthropic, MCP simplifies the integration of AI with content repositories, business tools, and development environments. By replacing fragmented, custom integrations with a universal protocol, MCP empowers developers to create secure, scalable, and context-aware AI applications.</p>
+<h1 id="requirements">Requirements</h1>
+<ul>
+<li><strong>Llama 3.2 SLM</strong>, a model supporting function calling</li>
+<li><strong>Ollama</strong> to run the SLM and handle the integration</li>
+<li>A .NET CLI application using <strong>Microsoft.Extensions.AI</strong> and <strong>McpDotNet.Extensions.AI</strong></li>
+</ul>
+<h1 id="create-a-net-console-application">Create a .NET Console Application</h1>
+<p>We’ll create a simple .NET CLI application that interacts with the AI model using <code>Microsoft.Extensions.AI</code>. This library provides a unified set of AI building blocks for .NET applications, making it easy to incorporate AI capabilities into your projects. We’ll extend these capabilities using <code>McpDotNet.Extensions.AI</code> to provide tools via a <strong>Model Context Protocol (MCP) server</strong>.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8">dotnet new console </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">n OllamaMCPServerMicrosoftExtensions</span></span>
+<span class="line"><span style="color:#E1E4E8">cd OllamaMCPServerMicrosoftExtensions</span></span>
+<span class="line"><span style="color:#E1E4E8">dotnet add package Microsoft.Extensions.AI</span></span>
+<span class="line"><span style="color:#E1E4E8">dotnet add package McpDotNet.Extensions.AI</span></span></code></pre>
+<h1 id="implementation-using-microsoftextensionsai--mcpdotnetextensionsai">Implementation using Microsoft.Extensions.AI &amp; McpDotNet.Extensions.AI</h1>
+<p>Our console application leverages <code>Microsoft.Extensions.AI</code> to interact with a Llama 3.2 AI model running locally via Ollama. We then enhance the chat client’s capabilities using <code>McpDotNet.Extensions.AI</code> to incorporate tools hosted outside our application by an MCP server.</p>
+<p>Continuing from our previous examples, we’ll use a <strong>Time MCP Server</strong> packaged as a simple Docker container. This container automatically starts and stops when our application runs.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#E1E4E8">Console.</span><span style="color:#B392F0">WriteLine</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;Hello, Microsoft.Extensions.AI with Ollama &amp; MCP Server !&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> message</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> &quot;What is the current (CET) time in Illzach, France?&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">Console.</span><span style="color:#B392F0">WriteLine</span><span style="color:#E1E4E8">(message);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 👇🏼 Configure the Model Context Protocol server to use</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> config</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> McpServerConfig</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#E1E4E8">    Id </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;time&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    Name </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;Time MCP Server&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    TransportType </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> TransportTypes.StdIo,</span></span>
+<span class="line"><span style="color:#E1E4E8">    TransportOptions </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Dictionary</span><span style="color:#E1E4E8">&lt;</span><span style="color:#F97583">string</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">string</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#6A737D">        // 👇🏼 The command executed to start the MCP server</span></span>
+<span class="line"><span style="color:#E1E4E8">        [</span><span style="color:#9ECBFF">&quot;command&quot;</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;docker&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        [</span><span style="color:#9ECBFF">&quot;arguments&quot;</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;run -i --rm mcp/time&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 👇🏼 Get an MCP session scope used to get the MCP tools</span></span>
+<span class="line"><span style="color:#F97583">await</span><span style="color:#F97583"> using</span><span style="color:#F97583"> var</span><span style="color:#B392F0"> sessionScope</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> McpSessionScope.</span><span style="color:#B392F0">CreateAsync</span><span style="color:#E1E4E8">(config);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#F97583"> var</span><span style="color:#B392F0"> factory</span><span style="color:#F97583"> =</span></span>
+<span class="line"><span style="color:#E1E4E8">    LoggerFactory.</span><span style="color:#B392F0">Create</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">builder</span><span style="color:#F97583"> =&gt;</span><span style="color:#E1E4E8"> builder.</span><span style="color:#B392F0">AddConsole</span><span style="color:#E1E4E8">().</span><span style="color:#B392F0">SetMinimumLevel</span><span style="color:#E1E4E8">(LogLevel.Trace));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 👇🏼 Use Ollama as the chat client</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> ollamaChatClient</span><span style="color:#F97583"> =</span></span>
+<span class="line"><span style="color:#F97583">    new</span><span style="color:#B392F0"> OllamaChatClient</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">new</span><span style="color:#B392F0"> Uri</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;http://localhost:11434/&quot;</span><span style="color:#E1E4E8">), </span><span style="color:#9ECBFF">&quot;llama3.2:3b&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> client</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ChatClientBuilder</span><span style="color:#E1E4E8">(ollamaChatClient)</span></span>
+<span class="line"><span style="color:#6A737D">    // 👇🏼 Add logging to the chat client, wrapping the function invocation client </span></span>
+<span class="line"><span style="color:#E1E4E8">    .</span><span style="color:#B392F0">UseLogging</span><span style="color:#E1E4E8">(factory)</span></span>
+<span class="line"><span style="color:#6A737D">    // 👇🏼 Add function invocation to the chat client, wrapping the Ollama client</span></span>
+<span class="line"><span style="color:#E1E4E8">    .</span><span style="color:#B392F0">UseFunctionInvocation</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">    .</span><span style="color:#B392F0">Build</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">IList</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">ChatMessage</span><span style="color:#E1E4E8">&gt; </span><span style="color:#B392F0">messages</span><span style="color:#F97583"> =</span></span>
+<span class="line"><span style="color:#E1E4E8">[</span></span>
+<span class="line"><span style="color:#F97583">    new</span><span style="color:#E1E4E8">(ChatRole.System, </span><span style="color:#9ECBFF">&quot;&quot;&quot;</span></span>
+<span class="line"><span style="color:#9ECBFF">                         You are a helpful assistant delivering time in one sentence</span></span>
+<span class="line"><span style="color:#9ECBFF">                         in a short format, like &#39;It is 10:08 in Paris, France.&#39;</span></span>
+<span class="line"><span style="color:#9ECBFF">                         &quot;&quot;&quot;</span><span style="color:#E1E4E8">),</span></span>
+<span class="line"><span style="color:#F97583">    new</span><span style="color:#E1E4E8">(ChatRole.User, message)</span></span>
+<span class="line"><span style="color:#E1E4E8">];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 👇🏼 Pass the MCP tools to the chat client</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> response</span><span style="color:#F97583"> =</span></span>
+<span class="line"><span style="color:#F97583">    await</span><span style="color:#E1E4E8"> client.</span><span style="color:#B392F0">GetResponseAsync</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">        messages,</span></span>
+<span class="line"><span style="color:#F97583">        new</span><span style="color:#B392F0"> ChatOptions</span><span style="color:#E1E4E8"> { Tools </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> sessionScope.Tools });</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">Console.</span><span style="color:#B392F0">WriteLine</span><span style="color:#E1E4E8">(response);</span></span></code></pre>
+<h1 id="running-the-application">Running the Application</h1>
+<p>To run the application, simply execute <code>dotnet run</code>. The application starts the <strong>Time MCP Server</strong> Docker container, interacts with the AI model, and returns the current time in Illzach, France.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#F97583">&gt;</span><span style="color:#E1E4E8"> dotnet run</span></span>
+<span class="line"><span style="color:#E1E4E8">Hello</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> Microsoft.Extensions.AI with Ollama </span><span style="color:#F97583">&amp;</span><span style="color:#E1E4E8"> MCP Server </span><span style="color:#F97583">!</span></span>
+<span class="line"><span style="color:#E1E4E8">What is the current (CET) time </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> Illzach</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> France?</span></span>
+<span class="line"><span style="color:#E1E4E8">trce: Microsoft.Extensions.AI.LoggingChatClient[</span><span style="color:#79B8FF">805843669</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">      GetResponseAsync invoked: [</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;role&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;system&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;contents&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;</span><span style="color:#E1E4E8">$type</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;text&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;text&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;You are a helpful assistant delivering time in one sentence\r\nin a short format, like &#39;It is 10:08 in Paris, France.&#39;&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">          ]</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;role&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;user&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;contents&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;</span><span style="color:#E1E4E8">$type</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;text&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;text&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;What is the current (CET) time in Illzach, France?&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">          ]</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">      ]</span><span style="color:#F97583">.</span><span style="color:#E1E4E8"> Options: {}</span><span style="color:#F97583">.</span><span style="color:#E1E4E8"> Metadata: {</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;providerName&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;ollama&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;providerUri&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;http://localhost:11434/&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;modelId&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;llama3.2:3b&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">      }.</span></span>
+<span class="line"><span style="color:#E1E4E8">trce: Microsoft.Extensions.AI.LoggingChatClient[</span><span style="color:#79B8FF">384896670</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">      GetResponseAsync completed: {</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;messages&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">          {</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;role&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;assistant&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;contents&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">              {</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;</span><span style="color:#E1E4E8">$type</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;functionCall&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;callId&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;86D17B64&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;name&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;get_current_time&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;arguments&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">                  &quot;timezone&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Europe/Paris&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">                }</span></span>
+<span class="line"><span style="color:#E1E4E8">              }</span></span>
+<span class="line"><span style="color:#E1E4E8">            ]</span></span>
+<span class="line"><span style="color:#E1E4E8">          }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#E1E4E8">          {</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;role&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;tool&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;contents&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">              {</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;</span><span style="color:#E1E4E8">$type</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;functionResult&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;callId&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;86D17B64&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;result&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;{\n  \&quot;</span><span style="color:#E1E4E8">timezone\</span><span style="color:#9ECBFF">&quot;: \&quot;</span><span style="color:#E1E4E8">Europe</span><span style="color:#F97583">/</span><span style="color:#E1E4E8">Paris\</span><span style="color:#9ECBFF">&quot;,\n  \&quot;</span><span style="color:#E1E4E8">datetime\</span><span style="color:#9ECBFF">&quot;: \&quot;</span><span style="color:#79B8FF">2025</span><span style="color:#F97583">-</span><span style="color:#79B8FF">03</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">15T12:</span><span style="color:#79B8FF">51</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">31</span><span style="color:#F97583">+</span><span style="color:#79B8FF">01</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">00</span><span style="color:#E1E4E8">\</span><span style="color:#9ECBFF">&quot;,\n  \&quot;</span><span style="color:#E1E4E8">is_dst\</span><span style="color:#9ECBFF">&quot;: false\n}&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">              }</span></span>
+<span class="line"><span style="color:#E1E4E8">            ]</span></span>
+<span class="line"><span style="color:#E1E4E8">          }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#E1E4E8">          {</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;role&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;assistant&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;contents&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">              {</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;</span><span style="color:#E1E4E8">$type</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;text&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;text&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;The current time in Illzach, France (CET) is 12:51 PM.&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">              }</span></span>
+<span class="line"><span style="color:#E1E4E8">            ]</span></span>
+<span class="line"><span style="color:#E1E4E8">          }</span></span>
+<span class="line"><span style="color:#E1E4E8">        ]</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;responseId&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;2025-03-15T11:51:32.2116206Z&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;modelId&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;llama3.2:3b&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;createdAt&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;2025-03-15T11:51:32.2116206+00:00&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;finishReason&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;stop&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;usage&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;inputTokenCount&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">614</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;outputTokenCount&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">41</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;totalTokenCount&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">655</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;additionalCounts&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;load_duration&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2706148300</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;total_duration&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">3390812700</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;prompt_eval_duration&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">238000000</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;eval_duration&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">439000000</span></span>
+<span class="line"><span style="color:#E1E4E8">          }</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">      }.</span></span>
+<span class="line"><span style="color:#E1E4E8">The current time </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> Illzach</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> France (CET) is </span><span style="color:#79B8FF">12</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">51</span><span style="color:#E1E4E8"> PM.</span></span></code></pre>
+<p>The trace logs reveal how the application interacts with the AI model: first, it receives a <code>functionCall</code> response from the assistant, then the <code>Microsoft.Extensions.AI</code> client calls the MCP server and receives a <code>functionResult</code> from the tool. Finally, the assistant formulates an answer for the user based on the function call result.</p>
+<p>We can also examine the logs from the <strong>Time MCP Server</strong> Docker container to observe the interaction with our application:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#79B8FF">2025</span><span style="color:#F97583">-</span><span style="color:#79B8FF">03</span><span style="color:#F97583">-</span><span style="color:#79B8FF">15</span><span style="color:#79B8FF"> 11</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">01</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">11</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#9ECBFF">  &quot;jsonrpc&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;2.0&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">  &quot;id&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">  &quot;result&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;protocolVersion&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;2024-11-05&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;capabilities&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">      &quot;experimental&quot;</span><span style="color:#E1E4E8">: {}</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">      &quot;tools&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;listChanged&quot;</span><span style="color:#E1E4E8">: false</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;serverInfo&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">      &quot;name&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;mcp-time&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">      &quot;version&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;1.0.0&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">2025</span><span style="color:#F97583">-</span><span style="color:#79B8FF">03</span><span style="color:#F97583">-</span><span style="color:#79B8FF">15</span><span style="color:#79B8FF"> 11</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">01</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">11</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#9ECBFF">  &quot;jsonrpc&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;2.0&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">  &quot;id&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">3</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">  &quot;result&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;tools&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">      {</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;name&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;get_current_time&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;description&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Get current time in a specific timezone&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;inputSchema&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;object&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;properties&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;timezone&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;string&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;description&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;IANA timezone name (e.g., &#39;America/New_York&#39;, &#39;Europe/London&#39;). Use &#39;UTC&#39; as local timezone if no timezone provided by the user.&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">          }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;required&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;timezone&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">          ]</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#E1E4E8">      {</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;name&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;convert_time&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;description&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Convert time between timezones&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;inputSchema&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;object&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;properties&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;source_timezone&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;string&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;description&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Source IANA timezone name (e.g., &#39;America/New_York&#39;, &#39;Europe/London&#39;). Use &#39;UTC&#39; as local timezone if no source timezone provided by the user.&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;time&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;string&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;description&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Time to convert in 24-hour format (HH:MM)&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;target_timezone&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;string&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;description&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Target IANA timezone name (e.g., &#39;Asia/Tokyo&#39;, &#39;America/San_Francisco&#39;). Use &#39;UTC&#39; as local timezone if no target timezone provided by the user.&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">          }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;required&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;source_timezone&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;time&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;target_timezone&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">          ]</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#E1E4E8">    ]</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">2025</span><span style="color:#F97583">-</span><span style="color:#79B8FF">03</span><span style="color:#F97583">-</span><span style="color:#79B8FF">15</span><span style="color:#79B8FF"> 11</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">01</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">14</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#9ECBFF">  &quot;jsonrpc&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;2.0&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">  &quot;id&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">4</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">  &quot;result&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;content&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">      {</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;text&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;text&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;{\n  \&quot;</span><span style="color:#E1E4E8">timezone\</span><span style="color:#9ECBFF">&quot;: \&quot;</span><span style="color:#E1E4E8">Europe</span><span style="color:#F97583">/</span><span style="color:#E1E4E8">Paris\</span><span style="color:#9ECBFF">&quot;,\n  \&quot;</span><span style="color:#E1E4E8">datetime\</span><span style="color:#9ECBFF">&quot;: \&quot;</span><span style="color:#79B8FF">2025</span><span style="color:#F97583">-</span><span style="color:#79B8FF">03</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">15T11:</span><span style="color:#79B8FF">01</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">14</span><span style="color:#F97583">+</span><span style="color:#79B8FF">01</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">00</span><span style="color:#E1E4E8">\</span><span style="color:#9ECBFF">&quot;,\n  \&quot;</span><span style="color:#E1E4E8">is_dst\</span><span style="color:#9ECBFF">&quot;: false\n}&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#E1E4E8">    ]</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;isError&quot;</span><span style="color:#E1E4E8">: false</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>These logs show the connection being established, tools being listed, and a function call being made to retrieve the current time. Note that this log comes from a previous run of the application, so the time differs from our main example.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>The Model Context Protocol (MCP) represents a transformative advancement for AI integrations. By providing a standardized, unified approach for connecting AI agents to tools and data sources, MCP simplifies development, enhances flexibility, and enables real-time, context-rich interactions. Its dynamic discovery capabilities and bidirectional communication distinguish it from traditional APIs, creating a foundation for more intelligent, responsive AI systems.</p>
+<p>The future of AI has never looked brighter, with MCP driving seamless integrations and powering intelligent solutions across numerous use cases. It’s truly an exciting time for AI enthusiasts and professionals as we embark on a new era of connectivity and possibility! 🚀</p>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://www.anthropic.com/news/model-context-protocol">Introducing the Model Context Protocol</a></li>
+<li><a href="https://modelcontextprotocol.io/introduction">Model Context Protocol</a></li>
+<li><a href="https://github.com/PederHP/mcpdotnet">PederHP/mcpdotnet</a></li>
+<li><a href="https://devblogs.microsoft.com/dotnet/introducing-microsoft-extensions-ai-preview/">Introducing Microsoft.Extensions.AI Preview – Unified AI Building Blocks for .NET</a></li>
+<li><a href="https://github.com/modelcontextprotocol/servers/tree/main/src/time">Time MCP Server</a></li>
+<li><a href="https://devblogs.microsoft.com/semantic-kernel/integrating-model-context-protocol-tools-with-semantic-kernel-a-step-by-step-guide/">Integrating Model Context Protocol Tools with Semantic Kernel: A Step-by-Step Guide</a></li>
+</ul>
+<p>Get the source code on GitHub <a href="https://github.com/laurentkempe/aiPlayground/tree/main/OllamaMCPServerMicrosoftExtensions">laurentkempe/aiPlayground/OllamaMCPServerMicrosoftExtensions</a>.</p>
+<div class="my-5"> <a class="block max-w-[700px] p-8 rounded-lg border border-text/5 bg-text/[0.025] transition-all duration-200 ease-in-out hover:bg-text/[0.12] hover:border-text/10 text-text dark:bg-text/[0.15] dark:border-text/20 dark:hover:bg-text/[0.25] dark:hover:border-text/30 no-underline" href="https://github.com/laurentkempe/aiPlayground" target="_blank" style="color: inherit; text-decoration: none;"> <img class="w-20 h-20 rounded-full float-right ml-8 mb-8 mt-2.5" src="https://avatars.githubusercontent.com/u/272612?v=4" alt="laurentkempe avatar"> <p class="text-[1.8rem] tracking-wide m-0"> <span>laurentkempe/</span><b>aiPlayground</b> </p> <p class="text-[0.9rem] my-2.5"> Some experiments around AI to learn. </p> <div class="flex items-center gap-16"> <div class="flex flex-row gap-2.5 justify-center"> <svg class="w-[1.1rem] h-[1.1rem] mt-1.5 text-text/70 dark:text-text/50" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path> </svg> <div class="flex flex-col"> <b class="text-[1.2rem]">20</b> <span class="text-[0.8rem] opacity-70 dark:opacity-50">Stars</span> </div> </div> <div class="flex flex-row gap-2.5 justify-center"> <svg class="w-[1.1rem] h-[1.1rem] mt-1.5 text-text/70 dark:text-text/50" viewBox="0 0 16 16" fill="currentColor"> <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path> </svg> <div class="flex flex-col"> <b class="text-[1.2rem]">6</b> <span class="text-[0.8rem] opacity-70 dark:opacity-50">Forks</span> </div> </div> <div class="flex flex-row gap-2.5 justify-center"> <svg class="w-[1.1rem] h-[1.1rem] mt-1.5 text-text/70 dark:text-text/50" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path> <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"></path> </svg> <div class="flex flex-col"> <b class="text-[1.2rem]">1</b> <span class="text-[0.8rem] opacity-70 dark:opacity-50">Issues</span> </div> </div> </div> </a> </div> </article>  </div>  </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 dark:text-gray-300 text-center"> <div>
+&copy; 2025 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> <script>
+            const theme = (() => {
+              if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+                return localStorage.getItem("theme");
+              }
+              if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                return "dark";
+              }
+              return "light";
+            })();
+          
+            if (theme === "light") {
+              document.documentElement.classList.remove("dark");
+            } else {
+              document.documentElement.classList.add("dark");
+            }
+            window.localStorage.setItem("theme", theme);
+        </script> <script src="https://cdn.vidstack.io/player.core" type="module"></script> <script src="https://cdn.vidstack.io/icons" type="module"></script> </body> </html> 

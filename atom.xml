@@ -3,12 +3,27 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-03-15T16:35:10.493Z</updated>
+<updated>2025-03-15T16:49:58.028Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>Harnessing AI in C# with Microsoft.Extensions.AI, Ollama, and MCP Server</title>
+    <link href="https://laurentkempe.com/2025/03/15/harnessing-ai-in-csharp-with-microsoftextensionsai-ollama-and-mcp-server/"/>
+    <id>https://laurentkempe.com/2025/03/15/harnessing-ai-in-csharp-with-microsoftextensionsai-ollama-and-mcp-server/</id>
+    <published>2025-03-15T15:36:00.000Z</published>
+    <updated>2025-03-15T15:36:00.000Z</updated>
+    <summary type="html">&lt;p&gt;In the previous post &amp;quot;&lt;a href=&quot;https://laurentkempe.com/2025/01/27/leveraging-microsoftextensionsai-for-tool-calling-in-csharp/&quot;&gt;Leveraging Microsoft.Extensions.AI for Tool Calling in C#&lt;/a&gt;&amp;quot;, we explored how to create custom tools that enhance the capabilities of Large Language Models (LLMs). We demonstrated how integrating these technologies enables developers to build applications with advanced AI capabilities, facilitating more complex interactions.&lt;/p&gt;
+&lt;p&gt;In this post, we&apos;ll take a step further and explore how to leverage &lt;strong&gt;Model Context Protocol (MCP)&lt;/strong&gt; servers to utilize external Tools and AI models in C# applications. We&apos;ll continue using Ollama to run local AI models.&lt;/p&gt;
+</summary>
+    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term="MCP" scheme="https://laurentkempe.com/tags/mcp" />
+    <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
+    <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
+  </entry>
   <entry>
     <title>.NET Aspire and Dev Container</title>
     <link href="https://laurentkempe.com/2025/03/06/dotnet-aspire-and-dev-container/"/>
@@ -270,15 +285,4 @@
     <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
     <category term="Build" scheme="https://laurentkempe.com/tags/build" />
     <category term="NUKE" scheme="https://laurentkempe.com/tags/nuke" />
-  </entry>
-  <entry>
-    <title>Dapr binding building block by simple example</title>
-    <link href="https://laurentkempe.com/2021/10/19/dapr-binding-building-block-by-simple-example/"/>
-    <id>https://laurentkempe.com/2021/10/19/dapr-binding-building-block-by-simple-example/</id>
-    <published>2021-10-19T13:32:05.000Z</published>
-    <updated>2021-10-19T13:32:05.000Z</updated>
-    <summary type="html">&lt;p&gt;Till now, we have seen two &lt;a href=&quot;https://laurentkempe.com/tags/Dapr/&quot;&gt;Dapr building blocks&lt;/a&gt; which are the &lt;a href=&quot;https://docs.dapr.io/developing-applications/building-blocks/service-invocation/service-invocation-overview/&quot;&gt;service to service invocation building block&lt;/a&gt; and the &lt;a href=&quot;https://docs.dapr.io/developing-applications/building-blocks/secrets/secrets-overview/&quot;&gt;secrets building block&lt;/a&gt;. The secret building block serves to protect things like a database connection string, an API key... so that they&apos;re never disclosed outside of the application. The service to service invocation building block serves to make calls between services in your distributed application easy. In this post, we will introduce a third one which is the &lt;a href=&quot;https://docs.dapr.io/developing-applications/building-blocks/bindings/bindings-overview/&quot;&gt;bindings building block&lt;/a&gt;. The bindings building block enables your distributed application to handle external events or invoke external services.&lt;/p&gt;
-</summary>
-    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
-    <category term="Dapr" scheme="https://laurentkempe.com/tags/dapr" />
   </entry></feed>
