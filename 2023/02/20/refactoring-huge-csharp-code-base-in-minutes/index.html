@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><meta name="generator" content="Astro v5.5.2"><link rel="alternate" type="application/rss+xml" title="Laurent Kempé blog" href="https://new.laurentkempe.com/atom.xml"><title>Laurent Kempé - Refactoring huge C# code base in minutes</title><link rel="stylesheet" href="/_astro/_slug_.CW85xnAu.css">
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><meta name="generator" content="Astro v5.5.2"><link rel="alternate" type="application/rss+xml" title="Laurent Kempé blog" href="https://new.laurentkempe.com/atom.xml"><title>Laurent Kempé - Refactoring huge C# code base in minutes</title><link rel="stylesheet" href="/_astro/_slug_.CndMBuHZ.css">
 <style>a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}@media (prefers-color-scheme: dark){a[data-astro-cid-5grsw2hi]{color:#7fb3d5}.tag[data-astro-cid-5grsw2hi]{border-color:#5a5a5a;background-color:#2d2d2d}}body,html{margin:0;padding:0;width:100%;overflow-x:hidden}.relative[data-astro-cid-5grsw2hi]{width:100%}.absolute[data-astro-cid-5grsw2hi]{max-width:100%}
 </style><style>.twitter-tweet:not(.twitter-tweet-rendered){padding:var(--tc-padding, 1em);border:1px solid var(--tc-border-color, #cfd9de)}.twitter-tweet:not(.twitter-tweet-rendered)>:first-child{margin-top:0}.twitter-tweet:not(.twitter-tweet-rendered)>:last-child{margin-bottom:0}.twitter-tweet.twitter-tweet-rendered{color-scheme:normal}
 </style><style>lite-youtube>iframe{all:unset!important;width:100%!important;height:100%!important;position:absolute!important;inset:0!important;border:0!important}
@@ -58,7 +58,7 @@
 <p>Is there a better way? Yes, using <strong>ReSharper - Search with Pattern</strong>.</p>
 <p><img src="/images/ReSharperSearchWithPattern.png" alt="ReSharper Search With Pattern"/></p>
 <p>We see that we can use placeholders to specify the name of the parameter. In our case <code>$spans$</code> specifies the identifier placeholder meaning any symbol identifier. Each placeholder must be defined once and can be used several times in the pattern. When defining a placeholder, you need to define its kind and optional constraints. There are five kinds of placeholders:</p>
-<div class=" bg-blue-100 border-l-4 border-blue-500 text-blue-700 dark:bg-blue-900 dark:border-blue-700 dark:text-blue-300 rounded-lg shadow-md p-2"> <!-- Reduced padding to the container --> <div class="flex flex-col items-start"> <div class="flex-none pt-0 mb-0"> <!-- Reduced margin-bottom --> <svg class="fill-current h-6 w-6 text-blue-500 dark:text-blue-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"> <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"></path> </svg> </div> <div class="w-full">  <ul>
+<div class="not-prose bg-blue-100 border-l-4 border-blue-500 text-blue-700 dark:bg-blue-900 dark:border-blue-700 dark:text-blue-300 rounded-lg shadow-md p-2 mb-4"> <div class="flex items-start"> <!-- Changed to items-start --> <svg class="fill-current h-6 w-6 text-blue-500 dark:text-blue-300 flex-none mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"> <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"></path> </svg> <div class="w-full ml-2">  <ul>
 <li>
 <p><strong>Argument Placeholder</strong> — one or more arguments in a method invocation. If necessary, you can specify minimal or maximal number of arguments that should be matched.</p>
 </li>
@@ -74,7 +74,7 @@
 <li>
 <p><strong>Type Placeholder</strong> — a value type or a reference type. By default, a placeholder of this kind will match any type, but you can specify a specific type explicitly.</p>
 </li>
-</ul> </div> </div> </div> <p></p>
+</ul> </div> </div> </div>
 <p>In our code base it’s finding 131 occurrences of the pattern.</p>
 <p><img src="/images/ReSharperSearchWithPatternFindings.png" alt="ReSharper Search With Pattern Findinds"/></p>
 <p>If we use the Search Anywhere feature, we can see that it’s finding 166 occurrences of the string <code>throw new ArgumentNullException</code>.</p>
