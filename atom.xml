@@ -3,12 +3,28 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-03-20T19:46:45.101Z</updated>
+<updated>2025-03-22T09:10:57.021Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>Model Context Protocol Made Easy: Building an MCP Server in C#</title>
+    <link href="https://laurentkempe.com/2025/03/22/model-context-protocol-made-easy-building-an-mcp-server-in-csharp/"/>
+    <id>https://laurentkempe.com/2025/03/22/model-context-protocol-made-easy-building-an-mcp-server-in-csharp/</id>
+    <published>2025-03-22T10:08:37.000Z</published>
+    <updated>2025-03-22T10:08:37.000Z</updated>
+    <summary type="html">&lt;p&gt;In my previous post, I demonstrated how to use C# with &lt;code&gt;Microsoft.Extensions.AI&lt;/code&gt;, Ollama, and a nuget package called &lt;code&gt;mcpdotnet&lt;/code&gt; to interact with an existing MCP Server. Since then, &lt;code&gt;mcpdotnet&lt;/code&gt; has been elevated to become the &amp;quot;&lt;strong&gt;official C# SDK for Model Context Protocol servers and clients, maintained by Microsoft&lt;/strong&gt;&amp;quot;.&lt;/p&gt;
+&lt;p&gt;The Model Context Protocol (MCP) is an open standard that enables seamless integration between AI systems and various data sources, allowing developers to create context-aware applications. In this post, we&apos;ll explore how to build a simple MCP server using C# and the &lt;strong&gt;modelcontextprotocol / csharp-sdk&lt;/strong&gt; library, which simplifies the process of creating and managing MCP servers.&lt;/p&gt;
+</summary>
+    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term="MCP" scheme="https://laurentkempe.com/tags/mcp" />
+    <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
+    <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
+    <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
+  </entry>
   <entry>
     <title>Harnessing AI in C# with Microsoft.Extensions.AI, Ollama, and MCP Server</title>
     <link href="https://laurentkempe.com/2025/03/15/harnessing-ai-in-csharp-with-microsoftextensionsai-ollama-and-mcp-server/"/>
@@ -272,17 +288,4 @@
     <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
     <category term="WPF" scheme="https://laurentkempe.com/tags/wpf" />
     <category term="Unit Test" scheme="https://laurentkempe.com/tags/unit-test" />
-  </entry>
-  <entry>
-    <title>Automate your .NET project builds with NUKE a cross-platform build automation solution</title>
-    <link href="https://laurentkempe.com/2022/02/02/automate-your-dotnet-project-builds-with-nuke-a-cross-platform-build-automation-solution/"/>
-    <id>https://laurentkempe.com/2022/02/02/automate-your-dotnet-project-builds-with-nuke-a-cross-platform-build-automation-solution/</id>
-    <published>2022-02-02T21:26:31.000Z</published>
-    <updated>2022-02-02T21:26:31.000Z</updated>
-    <summary type="html">&lt;p&gt;Early in my journey in developing software, I used to start a project by setting first a way to build my software automatically each time I did a set of changes. Long, very long ago, I used scripts scheduled to run. When JetBrains shipped &lt;a href=&quot;https://www.jetbrains.com/teamcity/&quot;&gt;TeamCity&lt;/a&gt; I started to use it extensively for &lt;a href=&quot;https://laurentkempe.com/tags/NDepend/&quot;&gt;my projects&lt;/a&gt;, here is my first post about &amp;quot;&lt;a href=&quot;https://laurentkempe.com/2008/03/21/Set-Up-a-Build-Computer-using-VisualSVN-Team-City-MsTest-NUnit/&quot;&gt;Set Up a Build Computer using VisualSVN, Team City, MsTest, NUnit&lt;/a&gt;&amp;quot; from March 21, 2008, but used it since version 1.0. Later on, I also used Azure Pipelines to build Git Diff Margin and also GitHub Actions, for example, to build and deploy those pages.&lt;/p&gt;
-</summary>
-    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
-    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
-    <category term="Build" scheme="https://laurentkempe.com/tags/build" />
-    <category term="NUKE" scheme="https://laurentkempe.com/tags/nuke" />
   </entry></feed>
