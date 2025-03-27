@@ -3,12 +3,27 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-03-22T09:10:57.021Z</updated>
+<updated>2025-03-27T22:51:20.194Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>Dockerizing your .NET C# MCP Server for AI Clients like Claude Desktop</title>
+    <link href="https://laurentkempe.com/2025/03/27/dockerizing-your-dotnet-csharp-mcp-server-for-ai-clients-like-claude-desktop/"/>
+    <id>https://laurentkempe.com/2025/03/27/dockerizing-your-dotnet-csharp-mcp-server-for-ai-clients-like-claude-desktop/</id>
+    <published>2025-03-27T23:48:15.000Z</published>
+    <updated>2025-03-27T23:48:15.000Z</updated>
+    <summary type="html">&lt;p&gt;My previous post showed how easy it is to develop a .NET C# MCP server and write a client able to communicate with it. Now, the question is how we can distribute our MCP server to be used by AI clients. In this post, we&apos;ll leverage the knowledge acquired from my previous posts to explore how to dockerize your .NET C# MCP server.&lt;/p&gt;
+</summary>
+    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term="Docker" scheme="https://laurentkempe.com/tags/docker" />
+    <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
+    <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
+    <category term="MCP" scheme="https://laurentkempe.com/tags/mcp" />
+  </entry>
   <entry>
     <title>Model Context Protocol Made Easy: Building an MCP Server in C#</title>
     <link href="https://laurentkempe.com/2025/03/22/model-context-protocol-made-easy-building-an-mcp-server-in-csharp/"/>
@@ -274,18 +289,4 @@
     <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
     <category term="WASM" scheme="https://laurentkempe.com/tags/wasm" />
     <category term="Logseq" scheme="https://laurentkempe.com/tags/logseq" />
-  </entry>
-  <entry>
-    <title>Unit testing Async WPF ICommand</title>
-    <link href="https://laurentkempe.com/2022/02/10/unit-testing-async-wpf-icommand/"/>
-    <id>https://laurentkempe.com/2022/02/10/unit-testing-async-wpf-icommand/</id>
-    <published>2022-02-10T20:37:38.000Z</published>
-    <updated>2022-02-10T20:37:38.000Z</updated>
-    <summary type="html">&lt;p&gt;In the past, within my team at &lt;a href=&quot;http://www.innoveo.com/&quot;&gt;Innoveo&lt;/a&gt;, we had several discussions about the best way to unit test async WPF ICommand. We value quality, so testing is essential to us. We decided to make the methods called by the command &lt;code&gt;internal&lt;/code&gt; so that our tests could call those.&lt;/p&gt;
-&lt;p&gt;What is the problem with unit testing an Async WPF ICommand? The problem is that the command is an &lt;code&gt;async void&lt;/code&gt; method! So, you have no way to &lt;code&gt;await&lt;/code&gt; the end of the execution of your command. So, your test might assert on things that are still executing.&lt;/p&gt;
-</summary>
-    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
-    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
-    <category term="WPF" scheme="https://laurentkempe.com/tags/wpf" />
-    <category term="Unit Test" scheme="https://laurentkempe.com/tags/unit-test" />
   </entry></feed>

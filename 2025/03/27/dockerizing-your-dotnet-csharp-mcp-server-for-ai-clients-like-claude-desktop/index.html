@@ -1,0 +1,260 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><meta name="generator" content="Astro v5.5.2"><link rel="alternate" type="application/rss+xml" title="Laurent Kempé blog" href="https://new.laurentkempe.com/atom.xml"><title>Laurent Kempé - Dockerizing your .NET C# MCP Server for AI Clients like Claude Desktop</title><link rel="stylesheet" href="/_astro/_slug_.CndMBuHZ.css">
+<style>a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}@media (prefers-color-scheme: dark){a[data-astro-cid-5grsw2hi]{color:#7fb3d5}.tag[data-astro-cid-5grsw2hi]{border-color:#5a5a5a;background-color:#2d2d2d}}body,html{margin:0;padding:0;width:100%;overflow-x:hidden}.relative[data-astro-cid-5grsw2hi]{width:100%}.absolute[data-astro-cid-5grsw2hi]{max-width:100%}
+</style><style>.twitter-tweet:not(.twitter-tweet-rendered){padding:var(--tc-padding, 1em);border:1px solid var(--tc-border-color, #cfd9de)}.twitter-tweet:not(.twitter-tweet-rendered)>:first-child{margin-top:0}.twitter-tweet:not(.twitter-tweet-rendered)>:last-child{margin-bottom:0}.twitter-tweet.twitter-tweet-rendered{color-scheme:normal}
+</style><style>lite-youtube>iframe{all:unset!important;width:100%!important;height:100%!important;position:absolute!important;inset:0!important;border:0!important}
+</style><style>lite-youtube{background-color:#000;position:relative;display:block;contain:content;background-position:center center;background-size:cover;cursor:pointer;max-width:720px}lite-youtube:before{content:attr(data-title);display:block;position:absolute;top:0;background-image:linear-gradient(180deg,#000000ab,#0000008a 14%,#00000026 54%,#0000000d 72%,#0000 94%);height:99px;width:100%;font-family:YouTube Noto,Roboto,Arial,Helvetica,sans-serif;color:#eee;text-shadow:0 0 2px rgba(0,0,0,.5);font-size:18px;padding:25px 20px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;box-sizing:border-box}lite-youtube:hover:before{color:#fff}lite-youtube:after{content:"";display:block;padding-bottom:56.25%}lite-youtube>iframe{width:100%;height:100%;position:absolute;top:0;left:0;border:0}lite-youtube>.lty-playbtn{display:block;width:100%;height:100%;background:no-repeat center/68px 48px;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="red"/><path d="M45 24 27 14v20" fill="white"/></svg>');position:absolute;cursor:pointer;z-index:1;filter:grayscale(100%);transition:filter .1s cubic-bezier(0,0,.2,1);border:0}lite-youtube:hover>.lty-playbtn,lite-youtube .lty-playbtn:focus{filter:none}lite-youtube.lyt-activated{cursor:unset}lite-youtube.lyt-activated:before,lite-youtube.lyt-activated>.lty-playbtn{opacity:0;pointer-events:none}.lyt-visually-hidden{clip:rect(0 0 0 0);clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}
+</style></head> <body class="bg-white dark:bg-gray-900"> <header class="py-6 border-b border-gray-200 dark:border-gray-700 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4"> <div class="flex items-center justify-between"> <div class="text-2xl font-bold dark:text-gray-300"> <a href="/">Laurent Kempé</a> </div> <!-- Mobile menu button and utilities --> <div class="flex items-center gap-4 md:hidden text-gray-600 dark:text-gray-300"> <div class="flex items-center gap-4"> <a href="/atom.xml" title="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100"> <title>RSS Feed</title> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode"></button> </theme-toggle> <script type="module">const i=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="currentColor" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="5"/>
+    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </g>
+  </svg>`,s=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M17.293 13.293a8 8 0 11-10.586-10.586 8.003 8.003 0 0010.586 10.586z"/>
+  </svg>`;class o extends HTMLElement{STORAGE_KEY="theme-preference";_darkTheme=!1;button;constructor(){if(super(),this.button=this.querySelector("button"),!this.button){console.error("Theme toggle button not found");return}const e=localStorage.getItem(this.STORAGE_KEY);e?this.darkTheme=e==="dark":this.darkTheme=window.matchMedia("(prefers-color-scheme: dark)").matches,this.button.addEventListener("click",this.toggleTheme.bind(this)),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",t=>{localStorage.getItem(this.STORAGE_KEY)||(this.darkTheme=t.matches)})}get darkTheme(){return this._darkTheme}set darkTheme(e){this._darkTheme=e,document.documentElement.classList.toggle("dark",e),this.button&&(this.button.innerHTML=e?i:s,this.button.setAttribute("aria-label",e?"Switch to light theme":"Switch to dark theme"))}toggleTheme(){this.darkTheme=!this.darkTheme,localStorage.setItem(this.STORAGE_KEY,this.darkTheme?"dark":"light")}}customElements.define("theme-toggle",o);</script> </div> <button id="mobile-menu-button" class="hover:text-gray-900 dark:hover:text-gray-100"> <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </button> </div> <!-- Desktop menu --> <div class="hidden md:flex md:items-center md:gap-6 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 ">About</a> <a href="/all-archives" title="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Archives</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" title="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Tags</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> <a href="/atom.xml" title="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100"> <title>RSS Feed</title> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode"></button> </theme-toggle>  </div> </div> <!-- Mobile menu panel --> <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4"> <div class="flex flex-col gap-4 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 ">About</a> <a href="/all-archives" title="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Archives</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" title="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 "> <title>Tags</title> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> </div> </div> </nav> </header> <script type="module">const e=document.getElementById("mobile-menu-button"),t=document.getElementById("mobile-menu");e?.addEventListener("click",()=>{t?.classList.toggle("hidden")});</script> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p> <div class="relative pt-1" data-astro-cid-5grsw2hi> <img src="https://live.staticflickr.com/1297/1222517468_c54e760a4f_h.jpg" alt="Deshaies, Guadeloupe, France" data-astro-cid-5grsw2hi="true" width="1600" height="1067" loading="lazy" decoding="async" class="w-full"> <div class="absolute text-white top-1/3 left-1/3 transform -translate-x-1/4 -translate-y-1/4" data-astro-cid-5grsw2hi> <p class="text-2xl sm:text-3xl md:text-5xl font-extrabold drop-shadow-[0_4px_3px_rgb(0,0,0,0.5)] dark:drop-shadow-[0_4px_3px_rgb(255,255,255,0.5)]" data-astro-cid-5grsw2hi>Dockerizing your .NET C# MCP Server for AI Clients like Claude Desktop</p> <p class="py-2 text-sm sm:text-base" data-astro-cid-5grsw2hi>Mar 27, 2025</p> </div> <div class="absolute bottom-5 left-5" data-astro-cid-5grsw2hi> <div class="flex gap-1 flex-wrap"><a href="/tags/ai" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">AI</a><a href="/tags/csharp" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">C#</a><a href="/tags/docker" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Docker</a><a href="/tags/llm" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">LLM</a><a href="/tags/mcp" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">MCP</a><a href="/tags/slm" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">SLM</a></div> </div> <p class="absolute text-sm sm:text-xs text-white bottom-5 right-5" data-astro-cid-5grsw2hi>Deshaies, Guadeloupe, France</p> </div><div class="py-4" data-astro-cid-5grsw2hi>  <article class="prose prose-lg max-w-none dark:prose-invert
+                    prose-h1:font-bold prose-h1:text-4xl md:prose-h1:text-4xl prose-h1:text-xl prose-h1:mb-4
+                    prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline
+                    prose-p:text-justify prose-img:rounded-xl"> <p>My previous post showed how easy it is to develop a .NET C# MCP server and write a client able to communicate with it. Now, the question is how we can distribute our MCP server to be used by AI clients. In this post, we’ll leverage the knowledge acquired from my previous posts to explore how to dockerize your .NET C# MCP server.</p>
+
+<h1 id="introduction">Introduction</h1>
+<p>Model Context Protocol is on fire 🔥, and it’s great to get support for it on .NET through an official C# SDK!</p>
+<p>As I wrote in my previous post, the MCP server is a console application that uses the STDIO transport protocol. I wasn’t satisfied with how I had to specify the path in the MCP Client. So, I searched for another approach, and thanks to the great post from <em>Philippe Charrière</em>, <a href="https://k33g.hashnode.dev/creating-an-mcp-server-in-go-and-serving-it-with-docker">Creating an MCP Server in Go and Serving it with Docker</a>, I realized using a Docker container would be a great idea 💡.</p>
+<h1 id="requirements">Requirements</h1>
+<ul>
+<li><a href="https://www.docker.com/">Docker</a> installed on your machine.</li>
+<li><a href="https://claude.ai/download">Claude Desktop</a> or any other MCP client like <a href="https://code.visualstudio.com/insiders/">Visual Studio Code Insider</a> installed on your machine.</li>
+<li><a href="https://dot.net/">.NET 9 SDK</a> for sure.</li>
+</ul>
+<h1 id="update-our-mcp-server">Update our MCP server</h1>
+<p>The code itself doesn’t change at all, from the previous post.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> builder</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> Host.</span><span style="color:#B392F0">CreateEmptyApplicationBuilder</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">settings</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">null</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">builder.Services</span></span>
+<span class="line"><span style="color:#6A737D">    // 👇 We build an MCP Server   </span></span>
+<span class="line"><span style="color:#E1E4E8">    .</span><span style="color:#B392F0">AddMcpServer</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#6A737D">    // 👇 Uses Stdio as transport protocol    </span></span>
+<span class="line"><span style="color:#E1E4E8">    .</span><span style="color:#B392F0">WithStdioServerTransport</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#6A737D">    // 👇 Register all tools with McpToolType attribute    </span></span>
+<span class="line"><span style="color:#E1E4E8">    .</span><span style="color:#B392F0">WithTools</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">await</span><span style="color:#E1E4E8"> builder.</span><span style="color:#B392F0">Build</span><span style="color:#E1E4E8">().</span><span style="color:#B392F0">RunAsync</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 👇 Mark our type as a container for MCP tools</span></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">McpToolType</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> static</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> TimeTool</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#6A737D">    // 👇 Mark a method as an MCP tools</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#B392F0">McpTool</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">Description</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;Get the current time for a city&quot;</span><span style="color:#E1E4E8">)]</span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> static</span><span style="color:#F97583"> string</span><span style="color:#B392F0"> GetCurrentTime</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> city</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=&gt;</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#9ECBFF">        $&quot;It is {</span><span style="color:#E1E4E8">DateTime</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">Now</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">Hour</span><span style="color:#F97583">:</span><span style="color:#79B8FF">00</span><span style="color:#9ECBFF">}:{</span><span style="color:#E1E4E8">DateTime</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">Now</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">Minute</span><span style="color:#F97583">:</span><span style="color:#79B8FF">00</span><span style="color:#9ECBFF">} in {</span><span style="color:#E1E4E8">city</span><span style="color:#9ECBFF">}.&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>We will use the .NET SDK capability to publish our application as a Docker container. This is a great way to distribute our MCP server, as it will be easy to run on any machine with Docker installed. For that we need to add few lines to the <code>csproj</code> configuration to enable the .NET SDK built-in Docker support. This is done by adding the following lines:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">PropertyGroup</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#6A737D">  &lt;!-- 👇🏼 Enable SDK container support --&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">EnableSdkContainerSupport</span><span style="color:#E1E4E8">&gt;true&lt;/</span><span style="color:#85E89D">EnableSdkContainerSupport</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#6A737D">  &lt;!-- 👇🏼 Define the container image name created --&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">ContainerRepository</span><span style="color:#E1E4E8">&gt;laurentkempe/mcpserverdocker&lt;/</span><span style="color:#85E89D">ContainerRepository</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#6A737D">  &lt;!-- 👇🏼 Define the container base image used to build our Docker image --&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">ContainerBaseImage</span><span style="color:#E1E4E8">&gt;mcr.microsoft.com/dotnet/runtime:9.0-alpine&lt;/</span><span style="color:#85E89D">ContainerBaseImage</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#6A737D">  &lt;!-- 👇🏼 Targeting Linux as the OS and an x64 architecture --&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">RuntimeIdentifier</span><span style="color:#E1E4E8">&gt;linux-x64&lt;/</span><span style="color:#85E89D">RuntimeIdentifier</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">PropertyGroup</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<p>As our MCP server is a console application, and it is using STDIO transport protocol, we don’t need to expose any port. We are using the .NET Alpine base image to keep the container lightweight.</p>
+<h1 id="publish-our-mcp-server">Publish our MCP server</h1>
+<p>To publish our MCP server locally, we need to run the following command in the root of our project:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">dotnet</span><span style="color:#9ECBFF"> publish</span><span style="color:#9ECBFF"> /t:PublishContainer</span></span></code></pre>
+<p>Then the Docker image will be created in the local Docker registry. You can check that by running the following command:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0"> ❯</span><span style="color:#9ECBFF">  docker</span><span style="color:#9ECBFF"> images</span></span>
+<span class="line"><span style="color:#B392F0">REPOSITORY</span><span style="color:#9ECBFF">                    TAG</span><span style="color:#9ECBFF">     IMAGE</span><span style="color:#9ECBFF"> ID</span><span style="color:#9ECBFF">       CREATED</span><span style="color:#9ECBFF">          SIZE</span></span>
+<span class="line"><span style="color:#B392F0">laurentkempe/mcpserverdocker</span><span style="color:#9ECBFF">  latest</span><span style="color:#9ECBFF">  2f25817e97b4</span><span style="color:#79B8FF">   15</span><span style="color:#9ECBFF"> seconds</span><span style="color:#9ECBFF"> ago</span><span style="color:#9ECBFF">   133MB</span></span></code></pre>
+<h1 id="update-our-mcp-client-to-use-the-dockerized-mcp-server">Update our MCP client to use the dockerized MCP server</h1>
+<p>To use our dockerized MCP server, we need to update the <code>MCPClient</code> configuration with the following lines:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#6A737D">// 👇🏼 Configure the Model Context Protocol server to use</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> config</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> McpServerConfig</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#E1E4E8">    Id </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;time&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    Name </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;Time MCP Server&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    TransportType </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> TransportTypes.StdIo,</span></span>
+<span class="line"><span style="color:#E1E4E8">    TransportOptions </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Dictionary</span><span style="color:#E1E4E8">&lt;</span><span style="color:#F97583">string</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">string</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#6A737D">        // 👇🏼 The command executed to start the MCP server</span></span>
+<span class="line"><span style="color:#E1E4E8">        [</span><span style="color:#9ECBFF">&quot;command&quot;</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;docker&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        [</span><span style="color:#9ECBFF">&quot;arguments&quot;</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;run -i --rm laurentkempe/mcpserverdocker&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">};</span></span></code></pre>
+<p>This is much nicer than specifying the path to the MCP server executable, but can be cumbersome to build the container image each time you change the server code.</p>
+<h1 id="running-our-own-client">Running our own client</h1>
+<p>To run the client, simply execute dotnet run. The client application starts, then starts the our newly created docker container with our Time MCP Server, interacts with the AI model, and returns the current time in Illzach, France.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8">Hello</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> official MCP csharp</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">sdk and Docker MCP Server</span><span style="color:#F97583">!</span></span>
+<span class="line"><span style="color:#E1E4E8">What is the current (CET) time </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> Illzach</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> France?</span></span>
+<span class="line"><span style="color:#E1E4E8">trce: Microsoft.Extensions.AI.LoggingChatClient[</span><span style="color:#79B8FF">805843669</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">      GetResponseAsync invoked: [</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;role&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;system&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;contents&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;</span><span style="color:#E1E4E8">$type</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;text&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;text&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;You are a helpful assistant delivering time in one sentence\r\nin a short format, like &#39;It is 10:08 in Paris, France.&#39;&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">          ]</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;role&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;user&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;contents&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;</span><span style="color:#E1E4E8">$type</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;text&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">              &quot;text&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;What is the current (CET) time in Illzach, France?&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">          ]</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">      ]</span><span style="color:#F97583">.</span><span style="color:#E1E4E8"> Options: {}</span><span style="color:#F97583">.</span><span style="color:#E1E4E8"> Metadata: {</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;providerName&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;ollama&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;providerUri&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;http://localhost:11434/&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;modelId&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;llama3.2:3b&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">      }.</span></span>
+<span class="line"><span style="color:#E1E4E8">trce: Microsoft.Extensions.AI.LoggingChatClient[</span><span style="color:#79B8FF">384896670</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">      GetResponseAsync completed: {</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;messages&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">          {</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;role&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;assistant&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;contents&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">              {</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;</span><span style="color:#E1E4E8">$type</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;functionCall&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;callId&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;7DFFB38A&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;name&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;GetCurrentTime&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;arguments&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">                  &quot;city&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Illzach&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">                }</span></span>
+<span class="line"><span style="color:#E1E4E8">              }</span></span>
+<span class="line"><span style="color:#E1E4E8">            ]</span></span>
+<span class="line"><span style="color:#E1E4E8">          }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#E1E4E8">          {</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;role&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;tool&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;contents&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">              {</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;</span><span style="color:#E1E4E8">$type</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;functionResult&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;callId&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;7DFFB38A&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;result&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">                  &quot;content&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">                    {</span></span>
+<span class="line"><span style="color:#9ECBFF">                      &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;text&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                      &quot;text&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;It is 20:54 in Illzach.&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">                    }</span></span>
+<span class="line"><span style="color:#E1E4E8">                  ]</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                  &quot;isError&quot;</span><span style="color:#E1E4E8">: false</span></span>
+<span class="line"><span style="color:#E1E4E8">                }</span></span>
+<span class="line"><span style="color:#E1E4E8">              }</span></span>
+<span class="line"><span style="color:#E1E4E8">            ]</span></span>
+<span class="line"><span style="color:#E1E4E8">          }</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#E1E4E8">          {</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;role&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;assistant&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;contents&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#E1E4E8">              {</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;</span><span style="color:#E1E4E8">$type</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;text&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                &quot;text&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;The current time (CET) in Illzach, France is 20:54.&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">              }</span></span>
+<span class="line"><span style="color:#E1E4E8">            ]</span></span>
+<span class="line"><span style="color:#E1E4E8">          }</span></span>
+<span class="line"><span style="color:#E1E4E8">        ]</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;responseId&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;2025-03-27T20:54:27.1080391Z&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;modelId&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;llama3.2:3b&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;createdAt&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;2025-03-27T20:54:27.1080391+00:00&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;finishReason&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;stop&quot;</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;usage&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;inputTokenCount&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">374</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;outputTokenCount&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">39</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;totalTokenCount&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">413</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">          &quot;additionalCounts&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;load_duration&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">7512529000</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;total_duration&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">8348169800</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;prompt_eval_duration&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">365028500</span><span style="color:#F97583">,</span></span>
+<span class="line"><span style="color:#9ECBFF">            &quot;eval_duration&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">445809800</span></span>
+<span class="line"><span style="color:#E1E4E8">          }</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">      }.</span></span>
+<span class="line"><span style="color:#E1E4E8">The current time (CET) </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> Illzach</span><span style="color:#F97583">,</span><span style="color:#E1E4E8"> France is </span><span style="color:#79B8FF">20</span><span style="color:#E1E4E8">:</span><span style="color:#79B8FF">54</span><span style="color:#E1E4E8">.</span></span></code></pre>
+<h1 id="configure-claude-desktop">Configure Claude Desktop</h1>
+<p>To configure Claude Desktop to use our MCP server, we need to update the configuration file <strong>%APPDATA%\Claude\claude_desktop_config.json</strong> with the following content:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  &quot;mcpServers&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;Laurent Time MCP Server&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;command&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;docker&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;args&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;run&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;-i&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;--rm&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;laurentkempe/mcpserverdocker&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">      ]</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<h1 id="using-our-mcp-server-with-claude-desktop">Using our MCP server with Claude Desktop</h1>
+<p>Once the configuration is done, we can start Claude Desktop and see our server and time tools available in the list of tools.
+When asking about the time in a city will use our MCP server to get the answer, but first we need to allow the tool to be used.</p>
+<p><img src="/images/2025/mcp-server-docker-claude-desktop-allow.png" alt="Allow MCP Server tool usage in Claude Desktop"/></p>
+<p>Then we will see that our MCP server is called and get an answer which is used by the LLM to answer the question.</p>
+<p><img src="/images/2025/mcp-server-docker-claude-desktop.png" alt="Using Claude Desktop with our dockerized .NET C# MCP Server"/></p>
+<h1 id="using-our-mcp-server-with-visual-studio-code">Using our MCP server with Visual Studio Code</h1>
+<p>Visual Studio Code Insiders now supports MCP servers. To configure it, follow these steps:</p>
+<p><img src="/images/2025/mcp-server-docker-vscode-config.png" alt="Configure MCP Server in Visual Studio Code"/></p>
+<p>Click on <em>Edit in settings.json</em> and add the following configuration:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;mcp&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">        &quot;inputs&quot;</span><span style="color:#E1E4E8">: [],</span></span>
+<span class="line"><span style="color:#79B8FF">        &quot;servers&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">            &quot;laurent-mcp-server-time&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">                &quot;command&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;docker&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">                &quot;args&quot;</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#9ECBFF">                    &quot;run&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                    &quot;-i&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                    &quot;--rm&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">                    &quot;laurentkempe/mcpserverdocker&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">                ],</span></span>
+<span class="line"><span style="color:#79B8FF">                &quot;env&quot;</span><span style="color:#E1E4E8">: {}</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    },</span></span></code></pre>
+<p>Open Edit with Copilot, select Agent, and see one tool listed</p>
+<p><img src="/images/2025/mcp-server-docker-copilot-edit.png" alt="Edit with Copilot Agent using MCP Server"/></p>
+<p>Clicking on the icon you should see the tool available in the MCP server.</p>
+<p><img src="/images/2025/mcp-server-docker-vscode-mcp-servers.png" alt="Visual Studio Code MCP Servers and Tools"/></p>
+<p>Then, we can ask Copilot our question and see the answer after approving the tool execution.</p>
+<p><img src="/images/2025/mcp-server-docker-copilot-edit-output.png" alt="Result of using the MCP Sever in Copilot"/></p>
+<h1 id="conclusion">Conclusion</h1>
+<p>The future of AI is incredibly exciting, and the Model Context Protocol (MCP) is paving the way for seamless integration between tools, platforms, and AI clients. By containerizing your .NET C# MCP server, you’re not only simplifying deployment but also unlocking the potential for scalable, cross-platform AI solutions. Whether you’re using Claude Desktop, Visual Studio Code, or other MCP-compatible clients, this approach demonstrates how easy it is to bridge the gap between AI and real-world applications.</p>
+<p>As MCP continues to evolve, it’s clear that we’re just scratching the surface of what’s possible. The combination of open standards, powerful SDKs, and containerization is setting the stage for a future where AI tools are more accessible, interoperable, and impactful than ever before. So, dive in, experiment, and be part of this transformative journey. The future of AI with MCP is here, and it’s brighter than ever! 🚀</p>
+<p>Get the source code on GitHub <a href="https://github.com/laurentkempe/aiPlayground/MCPServerDocker">aiPlayground/MCPServerDocker</a> and if you like it please give it a star ⭐️.</p>
+<div class="not-prose my-3"> <a class="block max-w-[600px] p-4 rounded-lg border border-gray-300 bg-white transition-all duration-200 ease-in-out hover:bg-gray-100 text-black no-underline" href="https://github.com/laurentkempe/aiPlayground" target="_blank" style="color: inherit; text-decoration: none;"> <div class="flex items-start"> <svg class="w-8 h-8 text-gray-500" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path> </svg> <div class="ml-3 flex-grow"> <p class="text-[1rem] font-bold text-blue-600 m-0"> <span>laurentkempe/</span><b>aiPlayground</b> </p> <p class="text-[0.85rem] my-1 text-gray-700"> Some experiments around AI to learn. </p> <div class="flex items-center gap-2 text-gray-600 text-[0.85rem]"> <span class="flex items-center gap-1"> <span class="w-3 h-3 bg-green-500 rounded-full inline-block"></span> <span>C#</span> </span> <span class="flex items-center gap-1"> <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path> </svg> <span>39</span> </span> <span class="flex items-center gap-1"> <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"> <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path> </svg> <span>6</span> </span> </div> </div> <img class="w-18 h-18 rounded-full float-right ml-4 mb-4 mt-2.5 sm:ml-4 sm:float-none sm:mx-auto" src="https://avatars.githubusercontent.com/u/272612?v=4" alt="laurentkempe avatar"> </div> </a> </div>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://github.com/modelcontextprotocol/csharp-sdk">modelcontextprotocol / csharp-sdk</a></li>
+<li><a href="https://claude.ai/download">Claude Desktop</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/core/containers/publish-configuration">Containerize a .NET app reference</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/core/docker/container-images">.NET container images</a></li>
+<li><a href="https://laurentkempe.com/all-tags/#docker">My Docker posts</a></li>
+</ul> </article>  </div>  </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 dark:text-gray-300 text-center"> <div>
+&copy; 2025 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> <script>
+            const theme = (() => {
+              if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+                return localStorage.getItem("theme");
+              }
+              if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                return "dark";
+              }
+              return "light";
+            })();
+          
+            if (theme === "light") {
+              document.documentElement.classList.remove("dark");
+            } else {
+              document.documentElement.classList.add("dark");
+            }
+            window.localStorage.setItem("theme", theme);
+        </script> </body> </html> 
