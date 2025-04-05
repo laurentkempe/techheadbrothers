@@ -3,12 +3,28 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-04-04T23:04:14.957Z</updated>
+<updated>2025-04-05T08:36:29.103Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>SSE-Powered MCP Server with C# and .NET in 15.7MB executable</title>
+    <link href="https://laurentkempe.com/2025/04/05/sse-powered-mcp-server-with-csharp-and-dotnet-in-157mb-executable/"/>
+    <id>https://laurentkempe.com/2025/04/05/sse-powered-mcp-server-with-csharp-and-dotnet-in-157mb-executable/</id>
+    <published>2025-04-05T10:35:19.000Z</published>
+    <updated>2025-04-05T10:35:19.000Z</updated>
+    <summary type="html">&lt;p&gt;Now that we&apos;ve explored how to leverage Model Context Protocol (MCP) servers to utilize external Tools and AI models in C# applications, how to write your own Standard Input/Output (STDIO) MCP server in C# using the modelcontextprotocol / csharp-sdk, and how we can dockerize your .NET C# MCP server to be able to distribute it for use by AI clients.
+It&apos;s time to take a step further and explore how to leverage Server-Sent Events (SSE) MCP servers so that we can deploy them remotely, for example on a Raspberry Pi.&lt;/p&gt;
+</summary>
+    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
+    <category term="ASP.NET Core" scheme="https://laurentkempe.com/tags/asp-dotnet-core" />
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
+    <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
+    <category term="MCP" scheme="https://laurentkempe.com/tags/mcp" />
+  </entry>
   <entry>
     <title>Dockerizing your .NET C# MCP Server for AI Clients like Claude Desktop</title>
     <link href="https://laurentkempe.com/2025/03/27/dockerizing-your-dotnet-csharp-mcp-server-for-ai-clients-like-claude-desktop/"/>
@@ -276,17 +292,4 @@
     <category term="WASI" scheme="https://laurentkempe.com/tags/wasi" />
     <category term="ASP.NET Core" scheme="https://laurentkempe.com/tags/asp-dotnet-core" />
     <category term="Raspberry Pi" scheme="https://laurentkempe.com/tags/raspberry-pi" />
-  </entry>
-  <entry>
-    <title>Write Logseq plugins in WebAssembly using .NET and C#</title>
-    <link href="https://laurentkempe.com/2022/10/12/write-logseq-plugins-in-webassembly-using-dotnet-and-csharp/"/>
-    <id>https://laurentkempe.com/2022/10/12/write-logseq-plugins-in-webassembly-using-dotnet-and-csharp/</id>
-    <published>2022-10-12T07:24:08.000Z</published>
-    <updated>2022-10-12T07:24:08.000Z</updated>
-    <summary type="html">&lt;p&gt;I am using a tool called logseq to manage my notes. It is a fantastic tool, and I would like to be able to extend it. I am not an expert web developer, but I am a .NET developer. I would like to be able to write plugins for logseq using .NET and C#. I have found a way to do it using WebAssembly. In this post, I am going to show you how to do it.&lt;/p&gt;
-</summary>
-    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
-    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
-    <category term="WASM" scheme="https://laurentkempe.com/tags/wasm" />
-    <category term="Logseq" scheme="https://laurentkempe.com/tags/logseq" />
   </entry></feed>
