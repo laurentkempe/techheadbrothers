@@ -40,6 +40,39 @@ a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:
 <div class="schedule"><div class="day">Thursday, October 30</div><table cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td class="time" valign="top" width="150">8:30 AM - 10:00 AM</td><td class="item" valign="top"><table border="0" width="100%"><tbody><tr><td valign="top"><div class="schedule"><div>Services Symposium: Expanding Applications to the Cloud</div><div>515B</div><div></div></div></td><td valign="top" width="20"></td></tr></tbody></table></td></tr><tr><td class="time" valign="top" width="150">8:30 AM - 9:45 AM</td><td class="item" valign="top"><table border="0" width="100%"><tbody><tr><td valign="top"><div class="schedule"><div>Live Services: FeedSync and Mesh Synchronization Services</div><div>153</div><div></div></div></td><td valign="top" width="20"></td></tr></tbody></table></td></tr><tr><td class="time" valign="top" width="150">10:15 AM - 11:30 AM</td><td class="item" valign="top"><table border="0" width="100%"><tbody><tr><td valign="top"><div class="schedule"><div>Live Services: The Future of the Device Mesh</div><div>411</div><div></div></div></td><td valign="top" width="20"></td></tr><tr><td valign="top"><div class="schedule"><div>ASP.NET: Cache Extensibility</div><div>403AB</div><div></div></div></td><td valign="top" width="20"></td></tr></tbody></table></td></tr><tr><td class="time" valign="top" width="150">10:15 AM - 11:45 AM</td><td class="item" valign="top"><table border="0" width="100%"><tbody><tr><td valign="top"><div class="schedule"><div>Services Symposium: Enterprise Grade Cloud Applications</div><div>515B</div><div></div></div></td><td valign="top" width="20"></td></tr></tbody></table></td></tr><tr><td class="time" valign="top" width="150">12:00 PM - 1:15 PM</td><td class="item" valign="top"><table border="0" width="100%"><tbody><tr><td valign="top"><div class="schedule"><div>Live Services: Notifications, Awareness, and Communications</div><div>153</div><div></div></div></td><td valign="top" width="20"></td></tr><tr><td valign="top"><div class="schedule"><div>Designing Your Application to Scale</div><div>501B</div><div></div></div></td><td valign="top" width="20"></td></tr><tr><td valign="top"><div class="schedule"><div>Cloud Computing: Programming in the Cloud</div><div>Petree Hall CD</div><div></div></div></td><td valign="top" width="20"></td></tr></tbody></table></td></tr><tr><td class="time" valign="top" width="150">12:00 PM - 1:30 PM</td><td class="item" valign="top"><table border="0" width="100%"><tbody><tr><td valign="top"><div class="schedule"><div>Services Symposium: Cloud or No Cloud, the Laws of Physics Still Apply</div><div>515B</div><div></div></div></td><td valign="top" width="20"></td></tr></tbody></table></td></tr><tr><td class="time" valign="top" width="150">1:45 PM - 3:00 PM</td><td class="item" valign="top"><table border="0" width="100%"><tbody><tr><td valign="top"><div class="schedule"><div><p>Workflow Services: Orchestrating Services and Business Processes Using Cloud-Based Workflow</p></div><div>151</div><div></div></div></td><td valign="top" width="20"></td></tr><tr><td valign="top"><div class="schedule"><div>ASP.NET AJAX Futures</div><div>Petree Hall CD</div><div></div></div><div></div><div></div><div></div></td></tr></tbody></table></td></tr></tbody></table></div>
 <p>See you there!</p> </article>  </div>  <div class="giscus-container mt-8 pt-8 border-t border-gray-200 dark:border-gray-700" data-astro-cid-qdzwzgpn> <div id="giscus-comments" data-astro-cid-qdzwzgpn></div> </div> <script>
   (function() {
+    const STORAGE_KEY = "theme-preference";
+    
+    // Function to get current theme based on ThemeToggle logic
+    function getCurrentTheme() {
+      const savedTheme = localStorage.getItem(STORAGE_KEY);
+      if (savedTheme) {
+        return savedTheme === "dark" ? "dark" : "light";
+      } else {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+    }
+    
+    // Function to get giscus theme name
+    function getGiscusTheme(isDark) {
+      return isDark ? "dark" : "light";
+    }
+    
+    // Function to send theme change message to giscus iframe
+    function updateGiscusTheme(theme) {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      if (iframe) {
+        iframe.contentWindow.postMessage({
+          giscus: {
+            setConfig: {
+              theme: getGiscusTheme(theme === "dark")
+            }
+          }
+        }, 'https://giscus.app');
+      }
+    }
+    
+    // Initialize giscus with correct theme
+    const initialTheme = getCurrentTheme();
     const script = document.createElement('script');
     script.src = 'https://giscus.app/client.js';
     script.setAttribute('data-repo', 'laurentkempe/myblog-comments');
@@ -51,7 +84,7 @@ a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:
     script.setAttribute('data-reactions-enabled', '1');
     script.setAttribute('data-emit-metadata', '0');
     script.setAttribute('data-input-position', 'bottom');
-    script.setAttribute('data-theme', 'preferred_color_scheme');
+    script.setAttribute('data-theme', getGiscusTheme(initialTheme === "dark"));
     script.setAttribute('data-lang', 'en');
     script.setAttribute('data-loading', 'lazy');
     script.setAttribute('crossorigin', 'anonymous');
@@ -61,6 +94,37 @@ a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:
     if (container) {
       container.appendChild(script);
     }
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const isDark = document.documentElement.classList.contains('dark');
+          updateGiscusTheme(isDark ? "dark" : "light");
+        }
+      });
+    });
+    
+    // Start observing changes to the document element's class
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    // Also listen for storage changes (in case theme is changed in another tab)
+    window.addEventListener('storage', function(e) {
+      if (e.key === STORAGE_KEY) {
+        const newTheme = e.newValue === "dark" ? "dark" : "light";
+        updateGiscusTheme(newTheme);
+      }
+    });
+    
+    // Listen for system theme changes when no preference is saved
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
+      if (!localStorage.getItem(STORAGE_KEY)) {
+        updateGiscusTheme(e.matches ? "dark" : "light");
+      }
+    });
   })();
 </script>   </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 dark:text-gray-300 text-center"> <div>
 &copy; 2025 Laurent Kempé. All rights reserved.
