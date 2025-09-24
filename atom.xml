@@ -3,12 +3,27 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-09-21T13:09:48.895Z</updated>
+<updated>2025-09-24T05:11:00.545Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>Decouple yourself from your LLM commodities using Dapr Conversation</title>
+    <link href="https://laurentkempe.com/2025/09/24/decouple-yourself-from-your-llm-commodities-using-dapr-conversation/"/>
+    <id>https://laurentkempe.com/2025/09/24/decouple-yourself-from-your-llm-commodities-using-dapr-conversation/</id>
+    <published>2025-09-24T07:07:56.000Z</published>
+    <updated>2025-09-24T07:07:56.000Z</updated>
+    <summary type="html">&lt;p&gt;As developers, we often find ourselves tied to specific providers. The same applies to Large Language Model (LLM) providers. This can limit our flexibility and control over our applications. In this blog post, we&apos;ll explore how to decouple ourselves from LLM commodities by leveraging Dapr&apos;s Conversation building block. This approach allows us to switch between different LLM providers seamlessly, ensuring that our applications remain adaptable and future-proof.&lt;/p&gt;
+</summary>
+    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
+    <category term="Azure" scheme="https://laurentkempe.com/tags/azure" />
+    <category term="Dapr" scheme="https://laurentkempe.com/tags/dapr" />
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
+    <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
+  </entry>
   <entry>
     <title>SSE-Powered MCP Server with C# and .NET in 15.7MB executable</title>
     <link href="https://laurentkempe.com/2025/04/05/sse-powered-mcp-server-with-csharp-and-dotnet-in-157mb-executable/"/>
@@ -279,17 +294,4 @@ It&apos;s time to take a step further and explore how to leverage Server-Sent Ev
     <category term="WASI" scheme="https://laurentkempe.com/tags/wasi" />
     <category term="Docker" scheme="https://laurentkempe.com/tags/docker" />
     <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
-  </entry>
-  <entry>
-    <title>Using WASM and WASI to run .NET 7 on a Raspberry PI Zero 2 W</title>
-    <link href="https://laurentkempe.com/2022/10/29/using-wasm-and-wasi-to-run-dotnet-7-on-a-raspberry-pi-zero-2-w/"/>
-    <id>https://laurentkempe.com/2022/10/29/using-wasm-and-wasi-to-run-dotnet-7-on-a-raspberry-pi-zero-2-w/</id>
-    <published>2022-10-29T11:04:42.000Z</published>
-    <updated>2022-10-29T11:04:42.000Z</updated>
-    <summary type="html">&lt;p&gt;WebAssembly (WASM) and WebAssembly System Interface (WASI) are opening new opportunities for developers. .NET developers became familiar with WASM when Blazor WebAssembly was released. Blazor WebAssembly runs client-side in the browser on a WebAssembly-based .NET runtime. WASI is bringing WASM out of the browser world by providing a system interface to run WebAssembly outside the web. It is a standard for how WASM modules interact with the host environment. This post will show you how to run .NET 7 on a Raspberry PI Zero 2 W using WASM and WASI.&lt;/p&gt;
-</summary>
-    <category term="WASM" scheme="https://laurentkempe.com/tags/wasm" />
-    <category term="WASI" scheme="https://laurentkempe.com/tags/wasi" />
-    <category term="ASP.NET Core" scheme="https://laurentkempe.com/tags/asp-dotnet-core" />
-    <category term="Raspberry Pi" scheme="https://laurentkempe.com/tags/raspberry-pi" />
   </entry></feed>

@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><meta name="generator" content="Astro v5.13.5"><link rel="alternate" type="application/rss+xml" title="Laurent Kempé blog" href="https://laurentkempe.com/atom.xml"><title>Laurent Kempé - Decouple yourself from your LLM commodities using Dapr Conversation</title><!-- JSON-LD structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Decouple yourself from your LLM commodities using Dapr Conversation","datePublished":"2025-09-24T07:07:56.000Z","image":"https://live.staticflickr.com/65535/54800987707_d241c5c7e3_h.jpg","description":"<div class=\"mb-4 text-gray-900 dark:text-gray-100\"><p>As developers, we often find ourselves tied to specific providers. The same applies to Large Language Model (LLM) providers. This can limit our flexibility and control over our applications. In this blog post, we'll explore how to decouple ourselves from LLM commodities by leveraging Dapr's Conversation building block. This approach allows us to switch between different LLM providers seamlessly, ensuring that our applications remain adaptable and future-proof.</p>\n</div>","author":{"@type":"Person","name":"Laurent Kempé","url":"https://laurentkempe.com","jobTitle":"Team Leader & Distinguished Solution Architect","image":"https://live.staticflickr.com/65535/54218216293_4d1b48b283_w.jpg","sameAs":["https://github.com/laurentkempe","https://www.linkedin.com/in/laurentkempe/","https://bsky.app/profile/laurentkempe.com","https://www.flickr.com/people/laurentkempe/","https://x.com/laurentkempe"]},"publisher":{"@type":"Person","name":"Laurent Kempé","url":"https://laurentkempe.com","jobTitle":"Team Leader & Distinguished Solution Architect","image":"https://live.staticflickr.com/65535/54218216293_4d1b48b283_w.jpg","sameAs":["https://github.com/laurentkempe","https://www.linkedin.com/in/laurentkempe/","https://bsky.app/profile/laurentkempe.com","https://x.com/laurentkempe"]},"mainEntityOfPage":{"@type":"WebPage","@id":"https://laurentkempe.com/2025/09/24/decouple-yourself-from-your-llm-commodities-using-dapr-conversation/"},"keywords":"AI, Azure, Dapr, C#, LLM, SLM","url":"https://laurentkempe.com/2025/09/24/decouple-yourself-from-your-llm-commodities-using-dapr-conversation/"}</script><!-- Open Graph / Facebook --><meta property="og:type" content="blog"><meta property="og:title" content="Laurent Kempé - Decouple yourself from your LLM commodities using Dapr Conversation"><meta property="og:image" content="https://farm2.staticflickr.com/1971/31306281378_02b055ccfe_q.jpg"><meta property="og:url" content="https://laurentkempe.com"><!-- Twitter --><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@laurentkempe"><!-- Canonical URL --><link rel="canonical" href="https://laurentkempe.com/2025/09/24/decouple-yourself-from-your-llm-commodities-using-dapr-conversation/"><link rel="stylesheet" href="/_astro/_slug_.CwwF6ETB.css">
+<style>.giscus-container[data-astro-cid-qdzwzgpn]{width:100%}.giscus-container[data-astro-cid-qdzwzgpn] iframe[data-astro-cid-qdzwzgpn]{color-scheme:auto}
+a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}@media (prefers-color-scheme: dark){a[data-astro-cid-5grsw2hi]{color:#7fb3d5}.tag[data-astro-cid-5grsw2hi]{border-color:#5a5a5a;background-color:#2d2d2d}}body,html{margin:0;padding:0;width:100%;overflow-x:hidden}.relative[data-astro-cid-5grsw2hi]{width:100%}.absolute[data-astro-cid-5grsw2hi]{max-width:100%}
+</style><style>.twitter-tweet:not(.twitter-tweet-rendered){padding:var(--tc-padding, 1em);border:1px solid var(--tc-border-color, #cfd9de)}.twitter-tweet:not(.twitter-tweet-rendered)>:first-child{margin-top:0}.twitter-tweet:not(.twitter-tweet-rendered)>:last-child{margin-bottom:0}.twitter-tweet.twitter-tweet-rendered{color-scheme:normal}
+</style><style>lite-youtube>iframe{all:unset!important;width:100%!important;height:100%!important;position:absolute!important;inset:0!important;border:0!important}
+</style><style>lite-youtube{background-color:#000;position:relative;display:block;contain:content;background-position:center center;background-size:cover;cursor:pointer;max-width:720px}lite-youtube:before{content:attr(data-title);display:block;position:absolute;top:0;background-image:linear-gradient(180deg,#000000ab,#0000008a 14%,#00000026 54%,#0000000d 72%,#0000 94%);height:99px;width:100%;font-family:YouTube Noto,Roboto,Arial,Helvetica,sans-serif;color:#eee;text-shadow:0 0 2px rgba(0,0,0,.5);font-size:18px;padding:25px 20px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;box-sizing:border-box}lite-youtube:hover:before{color:#fff}lite-youtube:after{content:"";display:block;padding-bottom:56.25%}lite-youtube>iframe{width:100%;height:100%;position:absolute;top:0;left:0;border:0}lite-youtube>.lty-playbtn{display:block;width:100%;height:100%;background:no-repeat center/68px 48px;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="red"/><path d="M45 24 27 14v20" fill="white"/></svg>');position:absolute;cursor:pointer;z-index:1;filter:grayscale(100%);transition:filter .1s cubic-bezier(0,0,.2,1);border:0}lite-youtube:hover>.lty-playbtn,lite-youtube .lty-playbtn:focus{filter:none}lite-youtube.lyt-activated{cursor:unset}lite-youtube.lyt-activated:before,lite-youtube.lyt-activated>.lty-playbtn{opacity:0;pointer-events:none}.lyt-visually-hidden{clip:rect(0 0 0 0);clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}
+</style></head> <body class="bg-white dark:bg-gray-900"> <header class="py-6 border-b border-gray-200 dark:border-gray-700 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4"> <div class="flex items-center justify-between"> <div class="text-2xl font-bold dark:text-gray-300"> <a href="/">Laurent Kempé</a> </div> <!-- Mobile menu button and utilities --> <div class="flex items-center gap-4 md:hidden text-gray-600 dark:text-gray-300"> <div class="flex items-center gap-4"> <a href="/atom.xml" aria-label="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode" aria-pressed="false" aria-label="Toggle dark mode" class="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"></button> </theme-toggle> <script type="module">const i=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="5"/>
+    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </g>
+  </svg>`,n=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path d="M17.293 13.293a8 8 0 11-10.586-10.586 8.003 8.003 0 0010.586 10.586z"/>
+  </svg>`;class r extends HTMLElement{STORAGE_KEY="theme-preference";_darkTheme=!1;button;constructor(){if(super(),this.button=this.querySelector("button"),!this.button){console.error("Theme toggle button not found");return}const e=localStorage.getItem(this.STORAGE_KEY);e?this.darkTheme=e==="dark":this.darkTheme=window.matchMedia("(prefers-color-scheme: dark)").matches,this.button.addEventListener("click",this.toggleTheme.bind(this)),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",t=>{localStorage.getItem(this.STORAGE_KEY)||(this.darkTheme=t.matches)})}get darkTheme(){return this._darkTheme}set darkTheme(e){if(this._darkTheme=e,document.documentElement.classList.toggle("dark",e),this.button){this.button.innerHTML=e?i:n,this.button.setAttribute("aria-label",e?"Switch to light theme":"Switch to dark theme"),this.button.setAttribute("aria-pressed",e.toString());const t=document.createElement("div");t.setAttribute("aria-live","polite"),t.setAttribute("class","sr-only"),t.textContent=e?"Dark theme enabled":"Light theme enabled",this.appendChild(t),setTimeout(()=>{t.parentNode===this&&this.removeChild(t)},1e3)}}toggleTheme(){this.darkTheme=!this.darkTheme,localStorage.setItem(this.STORAGE_KEY,this.darkTheme?"dark":"light")}}customElements.define("theme-toggle",r);</script> </div> <button id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </button> </div> <!-- Desktop menu --> <div class="hidden md:flex md:items-center md:gap-6 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">About</a> <a href="/all-archives" aria-label="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" aria-label="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> <a href="/atom.xml" aria-label="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode" aria-pressed="false" aria-label="Toggle dark mode" class="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"></button> </theme-toggle>  </div> </div> <!-- Mobile menu panel --> <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4" role="menu" aria-labelledby="mobile-menu-button"> <div class="flex flex-col gap-4 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">About</a> <a href="/all-archives" aria-label="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" aria-label="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> </div> </div> </nav> </header> <script type="module">const i=document.getElementById("mobile-menu-button"),o=document.getElementById("mobile-menu");let n=[],s,u;function c(){o?.classList.remove("hidden"),i?.setAttribute("aria-expanded","true"),n=o?.querySelectorAll('a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'),n.length&&(s=n[0],u=n[n.length-1],setTimeout(()=>{s.focus()},50)),l("Menu opened")}function d(){o?.classList.add("hidden"),i?.setAttribute("aria-expanded","false"),i?.focus(),l("Menu closed")}function l(e){const t=document.createElement("div");t.setAttribute("aria-live","polite"),t.setAttribute("class","sr-only"),t.textContent=e,document.body.appendChild(t),setTimeout(()=>{t.parentNode===document.body&&document.body.removeChild(t)},1e3)}i?.addEventListener("click",()=>{o?.classList.contains("hidden")===!1?d():c()});document.addEventListener("keydown",e=>{if(!o?.classList.contains("hidden")){if(e.key==="Escape"){d();return}e.key==="Tab"&&(e.shiftKey&&document.activeElement===s?(e.preventDefault(),u.focus()):!e.shiftKey&&document.activeElement===u&&(e.preventDefault(),s.focus()))}});</script> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p> <div class="relative pt-1" data-astro-cid-5grsw2hi> <img src="https://live.staticflickr.com/65535/54800987707_d241c5c7e3_h.jpg" alt="Bastia, Corse, France" data-astro-cid-5grsw2hi="true" loading="lazy" decoding="async" fetchpriority="auto" width="1600" height="1067" class="w-full"> <div class="absolute text-white top-1/3 left-1/3 transform -translate-x-1/4 -translate-y-1/4" data-astro-cid-5grsw2hi> <p class="text-2xl sm:text-3xl md:text-5xl font-extrabold drop-shadow-[0_4px_3px_rgb(0,0,0,0.5)] dark:drop-shadow-[0_4px_3px_rgb(255,255,255,0.5)]" data-astro-cid-5grsw2hi>Decouple yourself from your LLM commodities using Dapr Conversation</p> <p class="py-2 text-sm sm:text-base" data-astro-cid-5grsw2hi>Sep 24, 2025</p> </div> <div class="absolute bottom-5 left-5" data-astro-cid-5grsw2hi> <div class="flex gap-1 flex-wrap"><a href="/tags/ai" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">AI</a><a href="/tags/azure" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Azure</a><a href="/tags/csharp" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">C#</a><a href="/tags/dapr" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Dapr</a><a href="/tags/llm" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">LLM</a><a href="/tags/slm" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">SLM</a></div> </div> <p class="absolute text-sm sm:text-xs text-white bottom-5 right-5" data-astro-cid-5grsw2hi>Bastia, Corse, France</p> </div><div class="py-4" data-astro-cid-5grsw2hi>  <article class="prose prose-lg max-w-none dark:prose-invert
+                    prose-h1:font-bold prose-h1:text-4xl md:prose-h1:text-4xl prose-h1:text-xl prose-h1:mb-4
+                    prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline
+                    prose-p:text-justify prose-img:rounded-xl"> <p>As developers, we often find ourselves tied to specific providers. The same applies to Large Language Model (LLM) providers. This can limit our flexibility and control over our applications. In this blog post, we’ll explore how to decouple ourselves from LLM commodities by leveraging Dapr’s Conversation building block. This approach allows us to switch between different LLM providers seamlessly, ensuring that our applications remain adaptable and future-proof.</p>
+
+<h1 id="introduction">Introduction</h1>
+<p>We will start with the simplest possible example, a console application using .NET 9 leveraging the Dapr Conversation building block and its Ollama component.
+Then we’ll adapt the Dapr configuration and interact with a different LLM provider, Azure OpenAI.</p>
+<h1 id="prerequisites">Prerequisites</h1>
+<ul>
+<li><a href="https://dotnet.microsoft.com/en-us/download/dotnet/9.0">.NET 9 SDK</a></li>
+<li><a href="https://docs.dapr.io/getting-started/install-dapr-cli/">Dapr CLI</a></li>
+<li><a href="https://ollama.com/">Ollama</a> (for local LLM) with a model downloaded (e.g., llama3.2:3b)</li>
+</ul>
+<h1 id="net-console-application-using-dapr-conversation-building-block">.NET console application using Dapr Conversation building block</h1>
+<p>We create a simple console application:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">dotnet</span><span style="color:#9ECBFF"> new</span><span style="color:#9ECBFF"> console</span><span style="color:#79B8FF"> -n</span><span style="color:#9ECBFF"> Conversation</span></span>
+<span class="line"><span style="color:#79B8FF">cd</span><span style="color:#9ECBFF"> Conversation</span></span>
+<span class="line"><span style="color:#B392F0">dotnet</span><span style="color:#9ECBFF"> add</span><span style="color:#9ECBFF"> package</span><span style="color:#9ECBFF"> Dapr.AI</span><span style="color:#79B8FF"> --version</span><span style="color:#79B8FF"> 1.16</span></span></code></pre>
+<p>Then we adapt the <code>Program.cs</code> file:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#6A737D">// 👇🏼 Get Dapr conversation client through DI</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> conversationClient</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> ConversationClientBuilder.</span><span style="color:#B392F0">Create</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 👇🏼 Specify that we want to use the &quot;ollama&quot; Dapr conversation component (./components/ollama.yaml)</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> conversationOptions</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ConversationOptions</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;ollama&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 👇🏼 Use Dapr conversation client to converse with the &quot;ollama&quot; Dapr conversation component</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> response</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> conversationClient.</span><span style="color:#B392F0">ConverseAsync</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span></span>
+<span class="line"><span style="color:#F97583">        new</span><span style="color:#B392F0"> ConversationInput</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">        [</span></span>
+<span class="line"><span style="color:#F97583">            new</span><span style="color:#B392F0"> UserMessage</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#E1E4E8">                Name </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;Laurent&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                Content </span><span style="color:#F97583">=</span></span>
+<span class="line"><span style="color:#E1E4E8">                [</span></span>
+<span class="line"><span style="color:#F97583">                    new</span><span style="color:#B392F0"> MessageContent</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;What is Dapr?&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">                ]</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">        ])</span></span>
+<span class="line"><span style="color:#E1E4E8">    ],</span></span>
+<span class="line"><span style="color:#E1E4E8">    conversationOptions);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">Console.</span><span style="color:#B392F0">WriteLine</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">$&quot;Output response: {</span><span style="color:#E1E4E8">response</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">Outputs</span><span style="color:#9ECBFF">.</span><span style="color:#B392F0">First</span><span style="color:#9ECBFF">().</span><span style="color:#E1E4E8">Choices</span><span style="color:#9ECBFF">.</span><span style="color:#B392F0">First</span><span style="color:#9ECBFF">().</span><span style="color:#E1E4E8">Message</span><span style="color:#9ECBFF">.</span><span style="color:#E1E4E8">Content</span><span style="color:#9ECBFF">}&quot;</span><span style="color:#E1E4E8">);</span></span></code></pre>
+<p><code>ConversationClientBuilder</code> is a simple helper class to get the <code>DaprConversationClient</code> through Dependency Injection:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">internal</span><span style="color:#F97583"> static</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> ConversationClientBuilder</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> static</span><span style="color:#B392F0"> DaprConversationClient</span><span style="color:#B392F0"> Create</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        var</span><span style="color:#B392F0"> services</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ServiceCollection</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">        services.</span><span style="color:#B392F0">AddDaprConversationClient</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">        var</span><span style="color:#B392F0"> serviceProvider</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> services.</span><span style="color:#B392F0">BuildServiceProvider</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8"> serviceProvider.</span><span style="color:#B392F0">GetRequiredService</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">DaprConversationClient</span><span style="color:#E1E4E8">&gt;();</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>We also need to create the Dapr component configuration file for Ollama, <code>./components/ollama.yaml</code>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">apiVersion</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">dapr.io/v1alpha1</span></span>
+<span class="line"><span style="color:#85E89D">kind</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">Component</span></span>
+<span class="line"><span style="color:#85E89D">metadata</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">ollama</span></span>
+<span class="line"><span style="color:#85E89D">spec</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  type</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">conversation.ollama</span></span>
+<span class="line"><span style="color:#85E89D">  metadata</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">model</span></span>
+<span class="line"><span style="color:#85E89D">      value</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">llama3.2:3b</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">cacheTTL</span></span>
+<span class="line"><span style="color:#85E89D">      value</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">10m</span></span></code></pre>
+<p>We configure the model to use (llama3.2:3b). The Conversation API includes a built-in caching mechanism (enabled by the cacheTTL parameter) that optimizes both performance and cost by storing previous model responses for faster delivery to repetitive requests.</p>
+<p>Finally, we can run the application with Dapr:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">dapr</span><span style="color:#9ECBFF"> run</span><span style="color:#79B8FF"> --app-id</span><span style="color:#9ECBFF"> conversation</span><span style="color:#79B8FF"> --app-port</span><span style="color:#79B8FF"> 5000</span><span style="color:#79B8FF"> --components-path</span><span style="color:#9ECBFF"> ./components</span><span style="color:#79B8FF"> --</span><span style="color:#9ECBFF"> dotnet</span><span style="color:#9ECBFF"> run</span></span></code></pre>
+<p>Or use the provided <code>dapr.yaml</code> script by running it with <code>dapr run -f .</code></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">version</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1</span></span>
+<span class="line"><span style="color:#85E89D">common</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  resourcesPath</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">./components/</span></span>
+<span class="line"><span style="color:#85E89D">apps</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#85E89D">appDirPath</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">./</span></span>
+<span class="line"><span style="color:#85E89D">    appID</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">conversation</span></span>
+<span class="line"><span style="color:#85E89D">    daprHTTPPort</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">3500</span></span>
+<span class="line"><span style="color:#85E89D">    daprGRPCPort</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">50001</span></span>
+<span class="line"><span style="color:#85E89D">    command</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">&quot;dotnet&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;run&quot;</span><span style="color:#E1E4E8">]</span></span></code></pre>
+<p>And we can see that the application is working:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="plaintext"><code><span class="line"><span> ❯  dapr run -f .</span></span>
+<span class="line"><span>Validating config and starting app &quot;conversation&quot;</span></span>
+<span class="line"><span>Started Dapr with app id &quot;conversation&quot;. HTTP Port: 3500. gRPC Port: 50001</span></span>
+<span class="line"><span>Writing log files to directory : D:\projects\tmp\Conversation\.dapr\logs</span></span>
+<span class="line"><span>== APP - conversation == Output response: Dapr (pronounced &quot;daper&quot;) is an open-source, cross-platform microservices framework that enables the development of distributed applications. It was created by Microsoft and is designed to simplify the process of building, deploying, and managing microservices-based systems.</span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == Dapr provides a set of APIs and tools for building, scaling, and managing microservices, including:</span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == 1. Service discovery: Dapr provides a service discovery mechanism that allows components to register themselves with the system and be discovered by other components.</span></span>
+<span class="line"><span>== APP - conversation == 2. Task queuing: Dapr supports task queuing, which enables components to offload tasks to other components or external services.</span></span>
+<span class="line"><span>== APP - conversation == 3. Event sourcing: Dapr provides an event sourcing feature that allows components to publish and subscribe to events.</span></span>
+<span class="line"><span>== APP - conversation == 4. Caching: Dapr includes a caching layer that can be used to improve performance by storing frequently accessed data in memory.</span></span>
+<span class="line"><span>== APP - conversation == 5. Load balancing: Dapr supports load balancing, which enables components to distribute incoming requests across multiple instances.</span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == Dapr is designed to work with a variety of programming languages and frameworks, including .NET, Python, Java, and Go. It also provides a set of tools for building, testing, and deploying microservices-based systems.</span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == Some key benefits of using Dapr include:   </span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == 1. Simplified development: Dapr provides a set of pre-built APIs and tools that simplify the process of building and managing microservices.</span></span>
+<span class="line"><span>== APP - conversation == 2. Improved scalability: Dapr&#39;s load balancing and task queuing features enable components to scale more easily and efficiently.</span></span>
+<span class="line"><span>== APP - conversation == 3. Increased reliability: Dapr&#39;s caching and event sourcing features can improve the reliability and fault tolerance of microservices-based systems.</span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == Overall, Dapr is a powerful tool for building and managing distributed applications, and can help developers simplify the process of creating scalable, reliable, and maintainable microservices-based systems.</span></span></code></pre>
+<h1 id="changing-the-llm-provider-to-azure-openai">Changing the LLM provider to Azure OpenAI</h1>
+<p>To change the LLM provider, we simply need to update the Dapr component configuration file. We do not need to change the application code. For example, to use Azure OpenAI instead of Ollama, we would create a new component file <code>./components/azureopenai.yaml</code>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">apiVersion</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">dapr.io/v1alpha1</span></span>
+<span class="line"><span style="color:#85E89D">kind</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">Component</span></span>
+<span class="line"><span style="color:#85E89D">metadata</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">azure-openai</span></span>
+<span class="line"><span style="color:#85E89D">spec</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  type</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">conversation.openai</span></span>
+<span class="line"><span style="color:#85E89D">  metadata</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">key</span></span>
+<span class="line"><span style="color:#85E89D">    value</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;eb147b4e1e714356b5b38f8cd4244409&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">model</span></span>
+<span class="line"><span style="color:#85E89D">    value</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Phi-4-mini-instruct&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">endpoint</span></span>
+<span class="line"><span style="color:#85E89D">    value</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;https://your-resource.openai.azure.com/&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">apiType</span></span>
+<span class="line"><span style="color:#85E89D">    value</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;azure&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">apiVersion</span></span>
+<span class="line"><span style="color:#85E89D">    value</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;2025-01-01-preview&quot;</span></span></code></pre>
+<p>This time, we are using Phi-4-mini-instruct, a smaller model from Mistral AI, available in Azure OpenAI.
+You also need to set up an Azure OpenAI resource in your Azure subscription and get the API key and endpoint.</p>
+<p>Note that we could use the Dapr configuration API building block to dynamically get the component name at runtime. In this blog post, we’ll keep it simple.
+Since we hardcoded the component name in the application code, we need to update it to use the new component.
+We update the <code>Program.cs</code> file to use the new component:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> conversationOptions</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ConversationOptions</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;azure-openai&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#6A737D">// previous code remains unchanged</span></span></code></pre>
+<p>Run the console application again using <code>dapr run -f .</code>, this time with the new component configuration file:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="plaintext"><code><span class="line"><span>  ❯  dapr run -f .</span></span>
+<span class="line"><span>Validating config and starting app &quot;conversation&quot;</span></span>
+<span class="line"><span>Started Dapr with app id &quot;conversation&quot;. HTTP Port: 3500. gRPC Port: 50001</span></span>
+<span class="line"><span>Writing log files to directory : D:\projects\tmp\Conversation\.dapr\logs</span></span>
+<span class="line"><span>== APP - conversation == Output response: Dapr, which stands for Distributed Application Runtime, is an open-source platform that simplifies the development and operation of distributed applications. It provides a set of building blocks that help developers build resilient, scalable, and portable applications without having to worry about the underlying infrastructure.</span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == Key features of Dapr include:</span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == 1. **State Management**: Dapr provides a consistent and scalable way to manage state across different services and environments. It supports various state stores like Redis, Cosmos DB, and others.</span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == 2. **Pub/Sub Messaging**: Dapr offers a messaging system that allows services to communicate asynchronously. It supports multiple messaging providers like Azure Service Bus, Google Cloud Pub/Sub, and RabbitMQ.</span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == 3. **Service Invocation**: Dapr enables services to invoke each other in a decoupled manner. It supports various invocation patterns, including REST, gRPC, and AMQP.</span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == 4. **Binding and Discovery**: Dapr simplifies service discovery and binding, allowing services to find and connect to each other dynamically. It supports multiple discovery mechanisms like Consul, Eureka, and Kubernetes.</span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == 5. **Resilience and Observability**: Dapr provides built-in resilience patterns like retries, circuit breakers, and timeouts. It also offers observability features like tracing, logging, and metrics.</span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == 6. **Portability**: Dapr is designed to be portable across different cloud providers and environments, including Kubernetes, Docker, and standalone applications.</span></span>
+<span class="line"><span>== APP - conversation == </span></span>
+<span class="line"><span>== APP - conversation == Dapr aims to abstract away the complexities of building distributed systems, allowing developers to focus on writing business logic and improving the overall application experience. It is built on top of the OpenAPI specification, which ensures that it can easily integrate with other tools and services.</span></span></code></pre>
+<h1 id="conclusion">Conclusion</h1>
+<p>In this blog post, we demonstrated how to decouple ourselves from LLM commodities by leveraging the Dapr Conversation building block. By using Dapr, we can easily switch between different LLM providers without changing our application code. This approach provides flexibility and adaptability, allowing us to choose the best LLM provider for our needs at any given time.</p>
+<p>Out of the box, Dapr 1.16 supports several LLM providers, including:</p>
+<ul>
+<li>Ollama</li>
+<li>Azure OpenAI</li>
+<li>OpenAI</li>
+<li>Mistral</li>
+<li>AWS Bedrock</li>
+<li>Anthropic</li>
+<li>DeepSeek</li>
+<li>GoogleAI</li>
+<li>HuggingFace</li>
+</ul>
+<p>The Dapr Conversation building block comes with more features, which will be the topic of other blog posts.</p>
+<p>Get the source code on GitHub <a href="TODO">laurentkempe/daprPlayground/Conversation</a>.</p>
+<div class="not-prose my-3"> <a class="block max-w-[600px] p-4 rounded-lg border border-gray-300 bg-white transition-all duration-200 ease-in-out hover:bg-gray-100 text-black no-underline" href="https://github.com/laurentkempe/daprPlayground" target="_blank" style="color: inherit; text-decoration: none;"> <div class="flex items-start"> <svg class="w-8 h-8 text-gray-500" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path> </svg> <div class="ml-3 flex-grow"> <p class="text-[1rem] font-bold text-blue-600 m-0"> <span>laurentkempe/</span><b>daprPlayground</b> </p> <p class="text-[0.85rem] my-1 text-gray-700"> Playground and samples in .NET C# for Dapr </p> <div class="flex items-center gap-2 text-gray-600 text-[0.85rem]"> <span class="flex items-center gap-1"> <span class="w-3 h-3 bg-green-500 rounded-full inline-block"></span> <span>C#</span> </span> <span class="flex items-center gap-1"> <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path> </svg> <span>18</span> </span> <span class="flex items-center gap-1"> <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"> <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path> </svg> <span>6</span> </span> </div> </div> <img class="w-18 h-18 rounded-full float-right ml-4 mb-4 mt-2.5 sm:ml-4 sm:float-none sm:mx-auto" src="https://avatars.githubusercontent.com/u/272612?v=4" alt="laurentkempe avatar"> </div> </a> </div>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://dapr.io/">Dapr</a></li>
+<li><a href="https://docs.dapr.io/reference/api/conversation_api/">Dapr Conversation API reference</a></li>
+<li><a href="https://docs.dapr.io/reference/components-reference/supported-conversation/">Dapr Supported Conversation Components</a></li>
+<li><a href="https://github.com/dapr/quickstarts/blob/release-1.16/conversation/csharp/sdk/README.md">Dapr Conversation API (C# SDK) quickstart</a></li>
+<li><a href="https://ollama.com/">Ollama</a></li>
+<li><a href="https://mistral.ai/">Mistral AI</a></li>
+</ul> </article>  </div>  <div class="giscus-container mt-8 pt-8 border-t border-gray-200 dark:border-gray-700" data-astro-cid-qdzwzgpn> <div id="giscus-comments" data-astro-cid-qdzwzgpn></div> </div> <script>
+  (function() {
+    const STORAGE_KEY = "theme-preference";
+    
+    // Function to get current theme based on ThemeToggle logic
+    function getCurrentTheme() {
+      const savedTheme = localStorage.getItem(STORAGE_KEY);
+      if (savedTheme) {
+        return savedTheme === "dark" ? "dark" : "light";
+      } else {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+    }
+    
+    // Function to get giscus theme name
+    function getGiscusTheme(isDark) {
+      return isDark ? "dark" : "light";
+    }
+    
+    // Function to send theme change message to giscus iframe
+    function updateGiscusTheme(theme) {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      if (iframe) {
+        iframe.contentWindow.postMessage({
+          giscus: {
+            setConfig: {
+              theme: getGiscusTheme(theme === "dark")
+            }
+          }
+        }, 'https://giscus.app');
+      }
+    }
+    
+    // Initialize giscus with correct theme
+    const initialTheme = getCurrentTheme();
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', 'laurentkempe/myblog-comments');
+    script.setAttribute('data-repo-id', 'R_kgDOPHtNGA');
+    script.setAttribute('data-category', 'General');
+    script.setAttribute('data-category-id', 'DIC_kwDOPHtNGM4Csi4o');
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', getGiscusTheme(initialTheme === "dark"));
+    script.setAttribute('data-lang', 'en');
+    script.setAttribute('data-loading', 'lazy');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    
+    const container = document.getElementById('giscus-comments');
+    if (container) {
+      container.appendChild(script);
+    }
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const isDark = document.documentElement.classList.contains('dark');
+          updateGiscusTheme(isDark ? "dark" : "light");
+        }
+      });
+    });
+    
+    // Start observing changes to the document element's class
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    // Also listen for storage changes (in case theme is changed in another tab)
+    window.addEventListener('storage', function(e) {
+      if (e.key === STORAGE_KEY) {
+        const newTheme = e.newValue === "dark" ? "dark" : "light";
+        updateGiscusTheme(newTheme);
+      }
+    });
+    
+    // Listen for system theme changes when no preference is saved
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
+      if (!localStorage.getItem(STORAGE_KEY)) {
+        updateGiscusTheme(e.matches ? "dark" : "light");
+      }
+    });
+  })();
+</script>   </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 dark:text-gray-300 text-center"> <div>
+&copy; 2025 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> <script>
+            const theme = (() => {
+              if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+                return localStorage.getItem("theme");
+              }
+              if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                return "dark";
+              }
+              return "light";
+            })();
+
+            if (theme === "light") {
+              document.documentElement.classList.remove("dark");
+            } else {
+              document.documentElement.classList.add("dark");
+            }
+            window.localStorage.setItem("theme", theme);
+        </script> </body> </html> 
