@@ -141,7 +141,7 @@ Then we’ll adapt the Dapr configuration and interact with a different LLM prov
 <span class="line"><span style="color:#85E89D">    value</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;azure&quot;</span></span>
 <span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">apiVersion</span></span>
 <span class="line"><span style="color:#85E89D">    value</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;2025-01-01-preview&quot;</span></span></code></pre>
-<p>This time, we are using Phi-4-mini-instruct, a smaller model from Mistral AI, available in Azure OpenAI.
+<p>This time, we are using Phi-4-mini-instruct, a smaller model from Microsoft, available in Azure OpenAI.
 You also need to set up an Azure OpenAI resource in your Azure subscription and get the API key and endpoint.</p>
 <p>Note that we could use the Dapr configuration API building block to dynamically get the component name at runtime. In this blog post, we’ll keep it simple.
 Since we hardcoded the component name in the application code, we need to update it to use the new component.
