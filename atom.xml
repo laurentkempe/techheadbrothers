@@ -3,12 +3,23 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-11-20T16:49:34.483Z</updated>
+<updated>2025-12-27T13:27:24.205Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>C# 14 Field Keyword: Simplifying Property Accessors</title>
+    <link href="https://laurentkempe.com/2025/12/27/csharp-14-field-keyword-simplifying-property-accessors/"/>
+    <id>https://laurentkempe.com/2025/12/27/csharp-14-field-keyword-simplifying-property-accessors/</id>
+    <published>2025-12-27T14:12:15.000Z</published>
+    <updated>2025-12-27T14:12:15.000Z</updated>
+    <summary type="html">&lt;p&gt;C# 14 introduces the &lt;code&gt;field&lt;/code&gt; keyword, a contextual keyword that reshapes how we write property accessors. This feature eliminates the need for explicit backing fields while maintaining full control over property logic. Let&apos;s explore how this powerful addition simplifies C# code and improves developer productivity.&lt;/p&gt;
+</summary>
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
+  </entry>
   <entry>
     <title>Decouple yourself from your LLM commodities using Dapr Conversation</title>
     <link href="https://laurentkempe.com/2025/09/24/decouple-yourself-from-your-llm-commodities-using-dapr-conversation/"/>
@@ -281,17 +292,4 @@ It&apos;s time to take a step further and explore how to leverage Server-Sent Ev
     <category term="Docker" scheme="https://laurentkempe.com/tags/docker" />
     <category term="Ubuntu" scheme="https://laurentkempe.com/tags/ubuntu" />
     <category term=".NET SDK" scheme="https://laurentkempe.com/tags/dotnet-sdk" />
-  </entry>
-  <entry>
-    <title>Experimenting with .NET 7, WASM, and WASI on Docker</title>
-    <link href="https://laurentkempe.com/2022/10/31/experimenting-with-dotnet-7-wasm-and-wasi-on-docker/"/>
-    <id>https://laurentkempe.com/2022/10/31/experimenting-with-dotnet-7-wasm-and-wasi-on-docker/</id>
-    <published>2022-10-31T13:25:10.000Z</published>
-    <updated>2022-10-31T13:25:10.000Z</updated>
-    <summary type="html">&lt;p&gt;On October 24th, Docker announced the support of WASM and WASI in a new technical preview release. I wanted to try it out and see how it works with .NET 7. If you want to know more about WASM and WASI you can read the introduction from my previous post, &amp;quot;&lt;a href=&quot;https://laurentkempe.com/2022/10/29/using-wasm-and-wasi-to-run-dotnet-7-on-a-raspberry-pi-zero-2-w/&quot;&gt;Using WASM and WASI to run .NET 7 on a Raspberry PI Zero 2 W&lt;/a&gt;&amp;quot;.&lt;/p&gt;
-</summary>
-    <category term="WASM" scheme="https://laurentkempe.com/tags/wasm" />
-    <category term="WASI" scheme="https://laurentkempe.com/tags/wasi" />
-    <category term="Docker" scheme="https://laurentkempe.com/tags/docker" />
-    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
   </entry></feed>
