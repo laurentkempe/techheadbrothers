@@ -3,12 +3,23 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-12-27T22:41:14.319Z</updated>
+<updated>2025-12-28T09:13:06.557Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>C# 14 Null-conditional Assignment: Complete Guide to Elegant Null Handling</title>
+    <link href="https://laurentkempe.com/2025/12/28/csharp-14-null-conditional-assignment-complete-guide/"/>
+    <id>https://laurentkempe.com/2025/12/28/csharp-14-null-conditional-assignment-complete-guide/</id>
+    <published>2025-12-28T10:08:51.000Z</published>
+    <updated>2025-12-28T10:08:51.000Z</updated>
+    <summary type="html">&lt;p&gt;If you&apos;ve been working with C# since the introduction of null-conditional operators in C# 6.0, you&apos;ve likely appreciated how &lt;code&gt;?.&lt;/code&gt; and &lt;code&gt;?[]&lt;/code&gt; simplified null-checking when &lt;em&gt;reading&lt;/em&gt; values. But what about &lt;em&gt;writing&lt;/em&gt; values conditionally? That&apos;s where C# 14&apos;s null-conditional assignment comes in—and it&apos;s a nice improvement for modern C# development.&lt;/p&gt;
+</summary>
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
+  </entry>
   <entry>
     <title>C# 14 Field Keyword: Simplifying Property Accessors</title>
     <link href="https://laurentkempe.com/2025/12/27/csharp-14-field-keyword-simplifying-property-accessors/"/>
@@ -279,17 +290,4 @@ It&apos;s time to take a step further and explore how to leverage Server-Sent Ev
     <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
     <category term="ReSharper" scheme="https://laurentkempe.com/tags/resharper" />
     <category term="Rider" scheme="https://laurentkempe.com/tags/rider" />
-  </entry>
-  <entry>
-    <title>.NET 7 SDK built-in container support and Ubuntu Chiseled</title>
-    <link href="https://laurentkempe.com/2022/11/14/dotnet-7-sdk-built-in-container-support-and-ubuntu-chiseled/"/>
-    <id>https://laurentkempe.com/2022/11/14/dotnet-7-sdk-built-in-container-support-and-ubuntu-chiseled/</id>
-    <published>2022-11-14T13:40:41.000Z</published>
-    <updated>2022-11-14T13:40:41.000Z</updated>
-    <summary type="html">&lt;p&gt;End of summer 2022, the .NET team at Microsoft announced two things related to containers: .NET in Chiseled Ubuntu containers and then a week after built-in container support in the .NET 7 SDK. I have talked about both topics on two episodes of the French podcast &lt;a href=&quot;https://devdevdev.net/&quot;&gt;devdevdev.net&lt;/a&gt; by my friend &lt;a href=&quot;https://twitter.com/c2iClark&quot;&gt;Richard Clark&lt;/a&gt;. In this post, I will explain what those are and how to combine them.&lt;/p&gt;
-</summary>
-    <category term="ASP.NET Core" scheme="https://laurentkempe.com/tags/asp-dotnet-core" />
-    <category term="Docker" scheme="https://laurentkempe.com/tags/docker" />
-    <category term="Ubuntu" scheme="https://laurentkempe.com/tags/ubuntu" />
-    <category term=".NET SDK" scheme="https://laurentkempe.com/tags/dotnet-sdk" />
   </entry></feed>
