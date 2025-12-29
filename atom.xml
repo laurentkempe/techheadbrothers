@@ -3,12 +3,24 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-12-29T14:29:28.005Z</updated>
+<updated>2025-12-29T14:34:21.896Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>C# 14 Extension Members: Complete Guide to Properties, Operators, and Static Extensions</title>
+    <link href="https://laurentkempe.com/2025/12/29/csharp-14-extension-members-complete-guide/"/>
+    <id>https://laurentkempe.com/2025/12/29/csharp-14-extension-members-complete-guide/</id>
+    <published>2025-12-29T15:32:57.000Z</published>
+    <updated>2025-12-29T15:32:57.000Z</updated>
+    <summary type="html">&lt;p&gt;Extension methods have been a core C# feature since version 3.0, enabling developers to add methods to types without modifying source code. With C# 14 and .NET 10, Microsoft introduces &lt;strong&gt;extension members&lt;/strong&gt;—a powerful enhancement that extends beyond methods to include properties, operators, and static members.&lt;/p&gt;
+&lt;p&gt;This comprehensive guide explores how C# 14 extension members enable you to add mathematical operators to &lt;code&gt;Point&lt;/code&gt;, create static factory properties for &lt;code&gt;IEnumerable&amp;lt;T&amp;gt;&lt;/code&gt;, and organize extensions more elegantly than ever before.&lt;/p&gt;
+</summary>
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
+  </entry>
   <entry>
     <title>C# 14 Null-conditional Assignment: Complete Guide to Elegant Null Handling</title>
     <link href="https://laurentkempe.com/2025/12/28/csharp-14-null-conditional-assignment-complete-guide/"/>
@@ -16,18 +28,6 @@
     <published>2025-12-28T10:08:51.000Z</published>
     <updated>2025-12-28T10:08:51.000Z</updated>
     <summary type="html">&lt;p&gt;If you&apos;ve been working with C# since the introduction of null-conditional operators in C# 6.0, you&apos;ve likely appreciated how &lt;code&gt;?.&lt;/code&gt; and &lt;code&gt;?[]&lt;/code&gt; simplified null-checking when &lt;em&gt;reading&lt;/em&gt; values. But what about &lt;em&gt;writing&lt;/em&gt; values conditionally? That&apos;s where C# 14&apos;s null-conditional assignment comes in—and it&apos;s a nice improvement for modern C# development.&lt;/p&gt;
-</summary>
-    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
-    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
-  </entry>
-  <entry>
-    <title>C# 14 Extension Members: Complete Guide to Properties, Operators, and Static Extensions</title>
-    <link href="https://laurentkempe.com/2025/12/27/csharp-14-extension-members-complete-guide/"/>
-    <id>https://laurentkempe.com/2025/12/27/csharp-14-extension-members-complete-guide/</id>
-    <published>2025-12-27T14:12:35.000Z</published>
-    <updated>2025-12-27T14:12:35.000Z</updated>
-    <summary type="html">&lt;p&gt;Extension methods have been a core C# feature since version 3.0, enabling developers to add methods to types without modifying source code. With C# 14 and .NET 10, Microsoft introduces &lt;strong&gt;extension members&lt;/strong&gt;—a powerful enhancement that extends beyond methods to include properties, operators, and static members.&lt;/p&gt;
-&lt;p&gt;This comprehensive guide explores how C# 14 extension members enable you to add mathematical operators to &lt;code&gt;Point&lt;/code&gt;, create static factory properties for &lt;code&gt;IEnumerable&amp;lt;T&amp;gt;&lt;/code&gt;, and organize extensions more elegantly than ever before.&lt;/p&gt;
 </summary>
     <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
     <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
