@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><meta name="generator" content="Astro v5.16.0"><link rel="alternate" type="application/rss+xml" title="Laurent Kempé blog" href="https://laurentkempe.com/atom.xml"><title>Laurent Kempé - C# 14 More Partial Members: Partial Events and Partial Constructors</title><!-- JSON-LD structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"C# 14 More Partial Members: Partial Events and Partial Constructors","datePublished":"2026-01-03T13:16:41.000Z","image":"https://live.staticflickr.com/65535/55013633930_2886bcd5db_h.jpg","description":"<div class=\"prose dark:prose-invert max-w-none mb-4 text-gray-900 dark:text-gray-100\"><p>In C#, <code>partial</code> has long been a practical bridge between human-authored code and tool-generated code. With C# 14, that bridge gets wider: <strong>instance constructors</strong> and <strong>events</strong> can now be declared as partial members.</p>\n<p>This article explains what “more partial members” means in C# 14, the rules that keep it predictable, and the generator-heavy scenarios it's intended to support.</p>\n</div>","author":{"@type":"Person","name":"Laurent Kempé","url":"https://laurentkempe.com","jobTitle":"Team Leader & Distinguished Solution Architect","image":"https://live.staticflickr.com/65535/54218216293_4d1b48b283_w.jpg","sameAs":["https://github.com/laurentkempe","https://www.linkedin.com/in/laurentkempe/","https://bsky.app/profile/laurentkempe.com","https://www.flickr.com/people/laurentkempe/","https://x.com/laurentkempe"]},"publisher":{"@type":"Person","name":"Laurent Kempé","url":"https://laurentkempe.com","jobTitle":"Team Leader & Distinguished Solution Architect","image":"https://live.staticflickr.com/65535/54218216293_4d1b48b283_w.jpg","sameAs":["https://github.com/laurentkempe","https://www.linkedin.com/in/laurentkempe/","https://bsky.app/profile/laurentkempe.com","https://x.com/laurentkempe"]},"mainEntityOfPage":{"@type":"WebPage","@id":"https://laurentkempe.com/2026/01/03/csharp-14-more-partial-members-partial-events-and-constructors/"},"keywords":"C#, .NET","url":"https://laurentkempe.com/2026/01/03/csharp-14-more-partial-members-partial-events-and-constructors/"}</script><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:title" content="Laurent Kempé - C# 14 More Partial Members: Partial Events and Partial Constructors"><meta property="og:description" content="In C#, partial has long been a practical bridge between human-authored code and tool-generated code. With C# 14, that bridge gets wider: instance constructor..."><meta property="og:image" content="https://live.staticflickr.com/65535/55013633930_2886bcd5db_h.jpg"><meta property="og:url" content="https://laurentkempe.com/2026/01/03/csharp-14-more-partial-members-partial-events-and-constructors/"><meta property="og:site_name" content="Laurent Kempé"><meta property="article:author" content="https://laurentkempe.com"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@laurentkempe"><meta name="twitter:creator" content="@laurentkempe"><meta name="twitter:title" content="Laurent Kempé - C# 14 More Partial Members: Partial Events and Partial Constructors"><meta name="twitter:description" content="In C#, partial has long been a practical bridge between human-authored code and tool-generated code. With C# 14, that bridge gets wider: instance constructor..."><meta name="twitter:image" content="https://live.staticflickr.com/65535/55013633930_2886bcd5db_h.jpg"><!-- Author --><meta name="author" content="Laurent Kempé"><!-- Canonical URL --><link rel="canonical" href="https://laurentkempe.com/2026/01/03/csharp-14-more-partial-members-partial-events-and-constructors/"><link rel="stylesheet" href="/_astro/_slug_.D4bdc-2k.css">
+<style>.giscus-container[data-astro-cid-qdzwzgpn]{width:100%}.giscus-container[data-astro-cid-qdzwzgpn] iframe[data-astro-cid-qdzwzgpn]{color-scheme:auto}
+a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}@media(prefers-color-scheme:dark){a[data-astro-cid-5grsw2hi]{color:#7fb3d5}.tag[data-astro-cid-5grsw2hi]{border-color:#5a5a5a;background-color:#2d2d2d}}body,html{margin:0;padding:0;width:100%;overflow-x:hidden}.relative[data-astro-cid-5grsw2hi]{width:100%}.absolute[data-astro-cid-5grsw2hi]{max-width:100%}
+</style><style>.twitter-tweet:not(.twitter-tweet-rendered){padding:var(--tc-padding, 1em);border:1px solid var(--tc-border-color, #cfd9de)}.twitter-tweet:not(.twitter-tweet-rendered)>:first-child{margin-top:0}.twitter-tweet:not(.twitter-tweet-rendered)>:last-child{margin-bottom:0}.twitter-tweet.twitter-tweet-rendered{color-scheme:normal}
+</style><style>lite-youtube>iframe{all:unset!important;width:100%!important;height:100%!important;position:absolute!important;inset:0!important;border:0!important}
+</style><style>lite-youtube{background-color:#000;position:relative;display:block;contain:content;background-position:center center;background-size:cover;cursor:pointer;max-width:720px}lite-youtube:before{content:attr(data-title);display:block;position:absolute;top:0;background-image:linear-gradient(180deg,#000000ab,#0000008a 14%,#00000026 54%,#0000000d 72%,#0000 94%);height:99px;width:100%;font-family:YouTube Noto,Roboto,Arial,Helvetica,sans-serif;color:#eee;text-shadow:0 0 2px rgba(0,0,0,.5);font-size:18px;padding:25px 20px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;box-sizing:border-box}lite-youtube:hover:before{color:#fff}lite-youtube:after{content:"";display:block;padding-bottom:56.25%}lite-youtube>iframe{width:100%;height:100%;position:absolute;top:0;left:0;border:0}lite-youtube>.lty-playbtn{display:block;width:100%;height:100%;background:no-repeat center/68px 48px;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="red"/><path d="M45 24 27 14v20" fill="white"/></svg>');position:absolute;cursor:pointer;z-index:1;filter:grayscale(100%);transition:filter .1s cubic-bezier(0,0,.2,1);border:0}lite-youtube:hover>.lty-playbtn,lite-youtube .lty-playbtn:focus{filter:none}lite-youtube.lyt-activated{cursor:unset}lite-youtube.lyt-activated:before,lite-youtube.lyt-activated>.lty-playbtn{opacity:0;pointer-events:none}.lyt-visually-hidden{clip:rect(0 0 0 0);clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}
+</style></head> <body class="bg-white dark:bg-gray-900"> <header class="py-6 border-b border-gray-200 dark:border-gray-700 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4"> <div class="flex items-center justify-between"> <div class="text-2xl font-bold dark:text-gray-300"> <a href="/">Laurent Kempé</a> </div> <!-- Mobile menu button and utilities --> <div class="flex items-center gap-4 md:hidden text-gray-600 dark:text-gray-300"> <div class="flex items-center gap-4"> <a href="/atom.xml" aria-label="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode" aria-pressed="false" aria-label="Toggle dark mode" class="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"></button> </theme-toggle> <script type="module">const i=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="5"/>
+    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </g>
+  </svg>`,n=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path d="M17.293 13.293a8 8 0 11-10.586-10.586 8.003 8.003 0 0010.586 10.586z"/>
+  </svg>`;class r extends HTMLElement{STORAGE_KEY="theme-preference";_darkTheme=!1;button;constructor(){if(super(),this.button=this.querySelector("button"),!this.button){console.error("Theme toggle button not found");return}const e=localStorage.getItem(this.STORAGE_KEY);e?this.darkTheme=e==="dark":this.darkTheme=window.matchMedia("(prefers-color-scheme: dark)").matches,this.button.addEventListener("click",this.toggleTheme.bind(this)),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",t=>{localStorage.getItem(this.STORAGE_KEY)||(this.darkTheme=t.matches)})}get darkTheme(){return this._darkTheme}set darkTheme(e){if(this._darkTheme=e,document.documentElement.classList.toggle("dark",e),this.button){this.button.innerHTML=e?i:n,this.button.setAttribute("aria-label",e?"Switch to light theme":"Switch to dark theme"),this.button.setAttribute("aria-pressed",e.toString());const t=document.createElement("div");t.setAttribute("aria-live","polite"),t.setAttribute("class","sr-only"),t.textContent=e?"Dark theme enabled":"Light theme enabled",this.appendChild(t),setTimeout(()=>{t.parentNode===this&&this.removeChild(t)},1e3)}}toggleTheme(){this.darkTheme=!this.darkTheme,localStorage.setItem(this.STORAGE_KEY,this.darkTheme?"dark":"light")}}customElements.define("theme-toggle",r);</script> </div> <button id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </button> </div> <!-- Desktop menu --> <div class="hidden md:flex md:items-center md:gap-6 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">About</a> <a href="/all-archives" aria-label="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" aria-label="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> <a href="/atom.xml" aria-label="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode" aria-pressed="false" aria-label="Toggle dark mode" class="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"></button> </theme-toggle>  </div> </div> <!-- Mobile menu panel --> <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4" role="menu" aria-labelledby="mobile-menu-button"> <div class="flex flex-col gap-4 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">About</a> <a href="/all-archives" aria-label="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" aria-label="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> </div> </div> </nav> </header> <script type="module">const i=document.getElementById("mobile-menu-button"),o=document.getElementById("mobile-menu");let n=[],s,u;function c(){o?.classList.remove("hidden"),i?.setAttribute("aria-expanded","true"),n=o?.querySelectorAll('a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'),n.length&&(s=n[0],u=n[n.length-1],setTimeout(()=>{s.focus()},50)),l("Menu opened")}function d(){o?.classList.add("hidden"),i?.setAttribute("aria-expanded","false"),i?.focus(),l("Menu closed")}function l(e){const t=document.createElement("div");t.setAttribute("aria-live","polite"),t.setAttribute("class","sr-only"),t.textContent=e,document.body.appendChild(t),setTimeout(()=>{t.parentNode===document.body&&document.body.removeChild(t)},1e3)}i?.addEventListener("click",()=>{o?.classList.contains("hidden")===!1?d():c()});document.addEventListener("keydown",e=>{if(!o?.classList.contains("hidden")){if(e.key==="Escape"){d();return}e.key==="Tab"&&(e.shiftKey&&document.activeElement===s?(e.preventDefault(),u.focus()):!e.shiftKey&&document.activeElement===u&&(e.preventDefault(),s.focus()))}});</script> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p>  <div class="relative pt-1 cover-image-container" data-astro-cid-5grsw2hi> <img src="https://live.staticflickr.com/65535/55013633930_2886bcd5db_h.jpg" alt="Fish Hoek, South Africa" data-astro-cid-5grsw2hi="true" loading="lazy" decoding="async" fetchpriority="auto" width="1600" height="1067" class="w-full"> <div class="absolute text-white top-1/3 left-1/3 transform -translate-x-1/4 -translate-y-1/4" data-astro-cid-5grsw2hi> <p class="text-2xl sm:text-3xl md:text-5xl font-extrabold drop-shadow-[0_4px_3px_rgb(0,0,0,0.5)] dark:drop-shadow-[0_4px_3px_rgb(255,255,255,0.5)]" data-astro-cid-5grsw2hi>C# 14 More Partial Members: Partial Events and Partial Constructors</p> <p class="py-2 text-sm sm:text-base" data-astro-cid-5grsw2hi>Jan 3, 2026</p> </div> <p class="absolute text-sm sm:text-xs text-white bottom-5 right-5 hidden md:block" data-astro-cid-5grsw2hi>Fish Hoek, South Africa</p> <div class="absolute bottom-5 left-5 hidden md:block" data-astro-cid-5grsw2hi> <div class="flex gap-1 flex-wrap"><a href="/tags/dotnet" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">.NET</a><a href="/tags/csharp" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">C#</a></div> </div> </div> <p class="text-sm text-center py-2 text-gray-600 dark:text-gray-400 block md:hidden" data-astro-cid-5grsw2hi>Fish Hoek, South Africa</p><div class="py-2 block md:hidden" data-astro-cid-5grsw2hi> <div class="flex gap-1 flex-wrap"><a href="/tags/dotnet" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">.NET</a><a href="/tags/csharp" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">C#</a></div> </div><div class="py-4" data-astro-cid-5grsw2hi>  <article class="prose prose-lg max-w-none dark:prose-invert
+                    prose-h1:font-bold prose-h1:text-4xl md:prose-h1:text-4xl prose-h1:text-xl prose-h1:mb-4
+                    prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline
+                    prose-p:text-justify prose-img:rounded-xl"> <p>In C#, <code>partial</code> has long been a practical bridge between human-authored code and tool-generated code. With C# 14, that bridge gets wider: <strong>instance constructors</strong> and <strong>events</strong> can now be declared as partial members.</p>
+<p>This article explains what “more partial members” means in C# 14, the rules that keep it predictable, and the generator-heavy scenarios it’s intended to support.</p>
+
+<h1 id="what-are-partial-members-in-c">What are partial members in C#?</h1>
+<p>A partial member is split across two declarations:</p>
+<ul>
+<li>A <strong>defining (declaring) declaration</strong> that establishes the member’s signature (and typically has no body).</li>
+<li>An <strong>implementing declaration</strong> that provides the body (or accessors).</li>
+</ul>
+<p>That split is especially valuable when:</p>
+<ul>
+<li>You want a clean “shape” in handwritten code.</li>
+<li>A source generator can supply the implementation during compilation.</li>
+</ul>
+<p>C# has supported partial methods for a long time. C# 13 expanded partial members to properties and indexers. C# 14 continues that progression by adding <strong>partial events</strong> and <strong>partial instance constructors</strong>.</p>
+<h1 id="whats-new-in-c-14-partial-events-and-partial-constructors">What’s new in C# 14: partial events and partial constructors</h1>
+<p>C# 14 adds support for:</p>
+<ul>
+<li><code>partial</code> <strong>instance constructors</strong></li>
+<li><code>partial</code> <strong>events</strong></li>
+</ul>
+<p>In both cases, the language enforces a strict pairing model:</p>
+<ul>
+<li>You must have <strong>exactly one defining declaration</strong> and <strong>exactly one implementing declaration</strong>.</li>
+</ul>
+<p>That “one-and-one” rule is a big part of the appeal: it’s explicit, easy to reason about, and maps cleanly to generator output.</p>
+<h1 id="partial-constructors-in-c-14-rules-and-implications">Partial constructors in C# 14: rules and implications</h1>
+<p>Partial constructors are built around a straightforward split: one place declares the constructor, another place implements it.</p>
+<h2 id="one-defining-declaration-and-one-implementing-declaration">One defining declaration and one implementing declaration</h2>
+<p>A partial constructor must have:</p>
+<ul>
+<li>A <strong>defining declaration</strong>.</li>
+<li>An <strong>implementing declaration</strong>.</li>
+</ul>
+<p>The defining declaration simply advertises the constructor signature while the implementing declaration provides the body (and any initializer). The spec shows this pattern with paired partial classes:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#6A737D">// WidgetBase.cs</span></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> WidgetBase</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> name</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> string</span><span style="color:#B392F0"> Name</span><span style="color:#E1E4E8"> { </span><span style="color:#F97583">get</span><span style="color:#E1E4E8">; } </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> name;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// Widget.cs defining constructor declaration</span></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> sealed</span><span style="color:#F97583"> partial</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> Widget</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> partial</span><span style="color:#B392F0"> Widget</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> name</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#B392F0"> size</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// Widget.generated.cs implementing declaration</span></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> partial</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> Widget</span><span style="color:#E1E4E8"> : </span><span style="color:#B392F0">WidgetBase</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> int</span><span style="color:#B392F0"> Size</span><span style="color:#E1E4E8"> { </span><span style="color:#F97583">get</span><span style="color:#E1E4E8">; }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> partial</span><span style="color:#B392F0"> Widget</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> name</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">int</span><span style="color:#B392F0"> size</span><span style="color:#E1E4E8">) : </span><span style="color:#79B8FF">base</span><span style="color:#E1E4E8">(name)</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#E1E4E8">        Size </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> size;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>Only the implementing declaration can include <code>: this(...)</code> or <code>: base(...)</code>, so consumers always see the defining declaration’s clean surface.</p>
+<p>The defining declaration can’t have an initializer.</p>
+<h2 id="how-lookup-and-metadata-emission-work">How lookup and metadata emission work</h2>
+<p>Partial members follow a “defining declaration wins” approach for lookup and metadata emission:</p>
+<ul>
+<li>The defining declaration participates in lookup and metadata emission.</li>
+<li>The implementing declaration is used for nullable analysis of the associated body.</li>
+</ul>
+<p>If you’re building generators, this separation can help keep the public surface area (and metadata) stable while still allowing generated implementation details to evolve.</p>
+<h1 id="partial-events-in-c-14-not-field-like-by-design">Partial events in C# 14: not field-like by design</h1>
+<p>Events in C# have a “field-like” form (where the compiler provides backing storage and synthesizes <code>add</code>/<code>remove</code>) and an “accessor” form (where you write <code>add</code>/<code>remove</code> yourself). Partial events introduce a split across files, but with an important constraint: <strong>they are intentionally not field-like</strong>.</p>
+<h2 id="one-defining-declaration-and-one-implementing-declaration-1">One defining declaration and one implementing declaration</h2>
+<p>A partial event also requires exactly two pieces:</p>
+<ul>
+<li>A <strong>defining declaration</strong>.</li>
+<li>An <strong>implementing declaration</strong>.</li>
+</ul>
+<h2 id="the-implementation-must-define-both-add-and-remove">The implementation must define both <code>add</code> and <code>remove</code></h2>
+<p>For a partial event, the implementing declaration must include:</p>
+<ul>
+<li><code>add { ... }</code></li>
+<li><code>remove { ... }</code></li>
+</ul>
+<p>The defining declaration stays field-like to advertise the delegate type, but the implementation carries the real accessors. Here’s how a event implementation marries the two halves:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#6A737D">// ScoreBoard.cs defining declaration</span></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> sealed</span><span style="color:#F97583"> partial</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> ScoreBoard</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> partial</span><span style="color:#F97583"> event</span><span style="color:#B392F0"> EventHandler</span><span style="color:#E1E4E8">&lt;</span><span style="color:#F97583">int</span><span style="color:#E1E4E8">&gt;? </span><span style="color:#B392F0">ScoreUpdated</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// ScoreBoard.generated.cs implementing declaration</span></span>
+<span class="line"><span style="color:#E1E4E8">#nullable enable</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> partial</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> ScoreBoard</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    private</span><span style="color:#F97583"> readonly</span><span style="color:#B392F0"> List</span><span style="color:#E1E4E8">&lt;</span><span style="color:#B392F0">EventHandler</span><span style="color:#E1E4E8">&lt;</span><span style="color:#F97583">int</span><span style="color:#E1E4E8">&gt;&gt; </span><span style="color:#B392F0">_subscribers</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> void</span><span style="color:#B392F0"> UpdateScore</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">int</span><span style="color:#B392F0"> score</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=&gt;</span><span style="color:#E1E4E8"> _subscribers.</span><span style="color:#B392F0">ForEach</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">subscriber</span><span style="color:#F97583"> =&gt;</span><span style="color:#B392F0"> subscriber</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">this</span><span style="color:#E1E4E8">, score));</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> partial</span><span style="color:#F97583"> event</span><span style="color:#B392F0"> EventHandler</span><span style="color:#E1E4E8">&lt;</span><span style="color:#F97583">int</span><span style="color:#E1E4E8">&gt;? </span><span style="color:#B392F0">ScoreUpdated</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#F97583">        add</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8"> (value </span><span style="color:#F97583">is</span><span style="color:#F97583"> not</span><span style="color:#79B8FF"> null</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#E1E4E8">                _subscribers.</span><span style="color:#B392F0">Add</span><span style="color:#E1E4E8">(value);</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#F97583">        remove</span></span>
+<span class="line"><span style="color:#E1E4E8">        {</span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8"> (value </span><span style="color:#F97583">is</span><span style="color:#F97583"> not</span><span style="color:#79B8FF"> null</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span></span>
+<span class="line"><span style="color:#E1E4E8">                _subscribers.</span><span style="color:#B392F0">Remove</span><span style="color:#E1E4E8">(value);</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>Because the implementation supplies both accessors, there is no compiler-generated field, which reinforces the “not field-like” guarantee.</p>
+<h2 id="what-not-field-like-means">What “not field-like” means</h2>
+<p>This is the rule that tends to surprise people:</p>
+<ul>
+<li>A partial event has <strong>no compiler-generated backing storage</strong>.</li>
+<li>A partial event can only be used with <code>+=</code> and <code>-=</code>.</li>
+<li>You can’t use it “as a value.”</li>
+</ul>
+<p>So while the defining declaration can use field-like syntax, the resulting event does not get field-like semantics.</p>
+<h1 id="why-c-14-adds-partial-events-and-constructors">Why C# 14 adds partial events and constructors</h1>
+<p>The motivation here is strongly tied to tooling and code generation.</p>
+<h2 id="weak-event-libraries">Weak-event libraries</h2>
+<p>The feature spec calls out weak-event patterns: a user can write a simple event definition (potentially annotated for a generator), and a generator can produce the <code>add</code>/<code>remove</code> logic and any supporting infrastructure.</p>
+<p>That keeps user-facing code small while still enabling a specialized implementation.</p>
+<h2 id="interop-and-binding-generation">Interop and binding generation</h2>
+<p>Interop scenarios often need constructors and events whose implementation is platform-specific or runtime-specific. The spec highlights binding-generation style use cases where a source generator supplies the runtime calls.</p>
+<p>Partial constructors and partial events provide a first-class way to separate the “API surface” from the generated plumbing.</p>
+<h1 id="attributes-signature-matching-and-documentation-comments">Attributes, signature matching, and documentation comments</h1>
+<p>C# 14 includes detailed rules for how the two halves combine.</p>
+<h2 id="signature-matching">Signature matching</h2>
+<p>Both declarations must have matching signatures. Some differences are errors, others are warnings:</p>
+<ul>
+<li>Differences that are significant to the runtime are compile-time errors.</li>
+<li>Tuple element name differences are errors.</li>
+<li>Many other syntactic differences are warnings.</li>
+</ul>
+<p>One nuance called out in the spec is default parameter values on implementing constructor declarations:</p>
+<ul>
+<li>Default parameter values don’t need to match.</li>
+<li>If the implementing constructor declares default parameter values, you get a warning because those defaults are ignored (only the defining declaration participates in lookup).</li>
+</ul>
+<h2 id="attributes">Attributes</h2>
+<p>Attributes from the partial declarations are combined (concatenated), in an unspecified order, and duplicates are not removed.</p>
+<p>The spec also describes special handling for attribute targets in some cases (for example, around event declarations).</p>
+<h2 id="documentation-comments">Documentation comments</h2>
+<p>Doc comments have a notable rule:</p>
+<ul>
+<li>If doc comments exist on only one declaration, they’re used normally.</li>
+<li>If doc comments exist on both declarations, <strong>the defining declaration’s doc comments are dropped</strong>, and only the implementing declaration’s doc comments are used.</li>
+</ul>
+<p>There’s also a practical pitfall if parameter names differ between declarations: <code>paramref</code> can become confusing because documentation binds to the parameter names from the declaration where the documentation comment lives.</p>
+<h1 id="language-design-edge-parsing-breaks">Language design edge: parsing breaks</h1>
+<p>The feature specification notes that allowing <code>partial</code> in more contexts can introduce a parsing break. In some cases, code that previously parsed as a method could parse as a constructor once <code>partial</code> becomes valid on constructors.</p>
+<p>It’s a reminder that even small grammar changes can have ripple effects, especially around method-like declarations.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>C# 14’s “more partial members” continues a clear trend: making partial members a broader, more consistent language mechanism for collaboration between human-written code and generated code.</p>
+<p>The headline is simple—partial constructors and partial events—but the value is in the details:</p>
+<ul>
+<li>The strict one-defining/one-implementing model.</li>
+<li>Clear rules about lookup/metadata vs implementation/body analysis.</li>
+<li>Intentional semantics for events (not field-like) to avoid hidden compiler-generated state.</li>
+</ul>
+<p>If you’re writing source generators, binding generators, or libraries that want a clean separation between API surface and implementation, partial events and partial constructors are worth a close look.</p>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-14#more-partial-members">What’s new in C# 14 - More partial members</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-14.0/partial-events-and-constructors">Partial Events and Constructors</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/partial-member">Partial member (C# Reference)</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/partial-type">Partial type (C# Reference)</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods">Partial Classes and Members (C# Programming Guide)</a></li>
+</ul>
+<p>Are you generating code? How will you use partial events or partial constructors? Let me know in the comments!</p> </article>  </div>  <div class="giscus-container mt-8 pt-8 border-t border-gray-200 dark:border-gray-700" data-astro-cid-qdzwzgpn> <div id="giscus-comments" data-astro-cid-qdzwzgpn></div> </div> <script>
+  (function() {
+    const STORAGE_KEY = "theme-preference";
+    
+    // Function to get current theme based on ThemeToggle logic
+    function getCurrentTheme() {
+      const savedTheme = localStorage.getItem(STORAGE_KEY);
+      if (savedTheme) {
+        return savedTheme === "dark" ? "dark" : "light";
+      } else {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+    }
+    
+    // Function to get giscus theme name
+    function getGiscusTheme(isDark) {
+      return isDark ? "dark" : "light";
+    }
+    
+    // Function to send theme change message to giscus iframe
+    function updateGiscusTheme(theme) {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      if (iframe) {
+        iframe.contentWindow.postMessage({
+          giscus: {
+            setConfig: {
+              theme: getGiscusTheme(theme === "dark")
+            }
+          }
+        }, 'https://giscus.app');
+      }
+    }
+    
+    // Initialize giscus with correct theme
+    const initialTheme = getCurrentTheme();
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', 'laurentkempe/myblog-comments');
+    script.setAttribute('data-repo-id', 'R_kgDOPHtNGA');
+    script.setAttribute('data-category', 'General');
+    script.setAttribute('data-category-id', 'DIC_kwDOPHtNGM4Csi4o');
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', getGiscusTheme(initialTheme === "dark"));
+    script.setAttribute('data-lang', 'en');
+    script.setAttribute('data-loading', 'lazy');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    
+    const container = document.getElementById('giscus-comments');
+    if (container) {
+      container.appendChild(script);
+    }
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const isDark = document.documentElement.classList.contains('dark');
+          updateGiscusTheme(isDark ? "dark" : "light");
+        }
+      });
+    });
+    
+    // Start observing changes to the document element's class
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    // Also listen for storage changes (in case theme is changed in another tab)
+    window.addEventListener('storage', function(e) {
+      if (e.key === STORAGE_KEY) {
+        const newTheme = e.newValue === "dark" ? "dark" : "light";
+        updateGiscusTheme(newTheme);
+      }
+    });
+    
+    // Listen for system theme changes when no preference is saved
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
+      if (!localStorage.getItem(STORAGE_KEY)) {
+        updateGiscusTheme(e.matches ? "dark" : "light");
+      }
+    });
+  })();
+</script>   </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 dark:text-gray-300 text-center"> <div>
+&copy; 2026 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> <script>
+            const theme = (() => {
+              if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+                return localStorage.getItem("theme");
+              }
+              if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                return "dark";
+              }
+              return "light";
+            })();
+
+            if (theme === "light") {
+              document.documentElement.classList.remove("dark");
+            } else {
+              document.documentElement.classList.add("dark");
+            }
+            window.localStorage.setItem("theme", theme);
+        </script> </body> </html> 

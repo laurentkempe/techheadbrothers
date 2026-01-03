@@ -3,12 +3,24 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2025-12-31T11:16:51.205Z</updated>
+<updated>2026-01-03T12:19:54.232Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>C# 14 More Partial Members: Partial Events and Partial Constructors</title>
+    <link href="https://laurentkempe.com/2026/01/03/csharp-14-more-partial-members-partial-events-and-constructors/"/>
+    <id>https://laurentkempe.com/2026/01/03/csharp-14-more-partial-members-partial-events-and-constructors/</id>
+    <published>2026-01-03T13:16:41.000Z</published>
+    <updated>2026-01-03T13:16:41.000Z</updated>
+    <summary type="html">&lt;p&gt;In C#, &lt;code&gt;partial&lt;/code&gt; has long been a practical bridge between human-authored code and tool-generated code. With C# 14, that bridge gets wider: &lt;strong&gt;instance constructors&lt;/strong&gt; and &lt;strong&gt;events&lt;/strong&gt; can now be declared as partial members.&lt;/p&gt;
+&lt;p&gt;This article explains what “more partial members” means in C# 14, the rules that keep it predictable, and the generator-heavy scenarios it&apos;s intended to support.&lt;/p&gt;
+</summary>
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
+  </entry>
   <entry>
     <title>C# 14 Extension Members: Complete Guide to Properties, Operators, and Static Extensions</title>
     <link href="https://laurentkempe.com/2025/12/29/csharp-14-extension-members-complete-guide/"/>
@@ -276,17 +288,4 @@ It&apos;s time to take a step further and explore how to leverage Server-Sent Ev
 </summary>
     <category term=".NET SDK" scheme="https://laurentkempe.com/tags/dotnet-sdk" />
     <category term="Docker" scheme="https://laurentkempe.com/tags/docker" />
-  </entry>
-  <entry>
-    <title>Debugging Dapr applications with Rider or Visual Studio: A better way</title>
-    <link href="https://laurentkempe.com/2023/02/27/debugging-dapr-applications-with-rider-or-visual-studio-a-better-way/"/>
-    <id>https://laurentkempe.com/2023/02/27/debugging-dapr-applications-with-rider-or-visual-studio-a-better-way/</id>
-    <published>2023-02-27T13:07:46.000Z</published>
-    <updated>2023-02-27T13:07:46.000Z</updated>
-    <summary type="html">&lt;p&gt;Dapr is an impressive set of APIs for building distributed applications with any language and platform. It provides a set of building blocks that you can use to build microservices. Dapr is based on sidecar architecture. Meaning that you need to run a Dapr sidecar for each of your applications. &lt;strong&gt;How do you debug your Dapr apps effectively?&lt;/strong&gt; If you have been using PowerShell scripts to run and attach your debugger, you know how tedious and error-prone it can be. Ready to see how to use Rider or Visual Studio to debug your Dapr apps with ease and confidence?&lt;/p&gt;
-</summary>
-    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
-    <category term="Dapr" scheme="https://laurentkempe.com/tags/dapr" />
-    <category term="Rider" scheme="https://laurentkempe.com/tags/rider" />
-    <category term="Visual Studio" scheme="https://laurentkempe.com/tags/visual-studio" />
   </entry></feed>
