@@ -3,12 +3,26 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2026-01-24T13:51:19.655Z</updated>
+<updated>2026-01-27T10:40:35.794Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>Agent Skills: From Claude to Open Standard to Your Daily Coding Workflow</title>
+    <link href="https://laurentkempe.com/2026/01/27/Agent-Skills-From-Claude-to-Open-Standard/"/>
+    <id>https://laurentkempe.com/2026/01/27/Agent-Skills-From-Claude-to-Open-Standard/</id>
+    <published>2026-01-27T11:38:27.000Z</published>
+    <updated>2026-01-27T11:38:27.000Z</updated>
+    <summary type="html">&lt;p&gt;When Anthropic introduced Agent Skills for Claude, it appeared to be another proprietary AI customization feature. Today, we&apos;re witnessing something far more significant: an open standard reshaping how people across roles—developers, designers, product managers, and operations—work with AI assistants. AI coding agents&apos; adoption of Agent Skills has transformed this technology from an interesting experiment into an essential developer tool.&lt;/p&gt;
+&lt;p&gt;If you&apos;ve been using custom instructions or wondering how to make your AI assistant truly understand your project&apos;s workflows, Agent Skills provides a compelling solution.&lt;/p&gt;
+</summary>
+    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
+    <category term="DevX" scheme="https://laurentkempe.com/tags/devx" />
+    <category term="GitHub Copilot" scheme="https://laurentkempe.com/tags/github-copilot" />
+    <category term="VS Code" scheme="https://laurentkempe.com/tags/vs-code" />
+  </entry>
   <entry>
     <title>C# 14 More Partial Members: Partial Events and Partial Constructors</title>
     <link href="https://laurentkempe.com/2026/01/03/csharp-14-more-partial-members-partial-events-and-constructors/"/>
@@ -277,15 +291,4 @@ It&apos;s time to take a step further and explore how to leverage Server-Sent Ev
     <category term=".NET SDK" scheme="https://laurentkempe.com/tags/dotnet-sdk" />
     <category term="Docker" scheme="https://laurentkempe.com/tags/docker" />
     <category term="GitHub" scheme="https://laurentkempe.com/tags/github" />
-  </entry>
-  <entry>
-    <title>.NET 7 SDK built-in container improvements</title>
-    <link href="https://laurentkempe.com/2023/03/13/dotnet-7-sdk-built-in-container-improvements/"/>
-    <id>https://laurentkempe.com/2023/03/13/dotnet-7-sdk-built-in-container-improvements/</id>
-    <published>2023-03-13T13:56:12.000Z</published>
-    <updated>2023-03-13T13:56:12.000Z</updated>
-    <summary type="html">&lt;p&gt;Are you looking for a fast and easy way to &lt;strong&gt;create and run .NET applications using Docker containers without writing any Dockerfile?&lt;/strong&gt; If so, you will be glad to know that Microsoft has introduced a new feature of the .NET SDK 7.0.200 that makes it possible to create and publish OCI container images directly from your project file. We have seen how &amp;quot;&lt;a href=&quot;https://laurentkempe.com/2022/11/14/dotnet-7-sdk-built-in-container-support-and-ubuntu-chiseled/&quot;&gt;.NET 7 SDK built-in container support and Ubuntu Chiseled&lt;/a&gt;&amp;quot; can be used together. It lets us &lt;strong&gt;create small and secure containers&lt;/strong&gt; for our .NET applications easily. We went from a first docker image of 216MB down to 48.3 MB. That is more than a &lt;strong&gt;77% reduction in size&lt;/strong&gt;. .NET SDK 7.0.200 bring some new capabilities. We will explore some in this post.&lt;/p&gt;
-</summary>
-    <category term=".NET SDK" scheme="https://laurentkempe.com/tags/dotnet-sdk" />
-    <category term="Docker" scheme="https://laurentkempe.com/tags/docker" />
   </entry></feed>

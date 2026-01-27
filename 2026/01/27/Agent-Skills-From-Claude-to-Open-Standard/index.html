@@ -1,0 +1,361 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><meta name="generator" content="Astro v5.16.15"><link rel="alternate" type="application/rss+xml" title="Laurent Kempé blog" href="https://laurentkempe.com/atom.xml"><title>Laurent Kempé - Agent Skills: From Claude to Open Standard to Your Daily Coding Workflow</title><!-- JSON-LD structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Agent Skills: From Claude to Open Standard to Your Daily Coding Workflow","datePublished":"2026-01-27T11:38:27.000Z","image":"https://live.staticflickr.com/65535/55058424290_cced09531e_h.jpg","description":"<div class=\"prose dark:prose-invert max-w-none mb-4 text-gray-900 dark:text-gray-100\"><p>When Anthropic introduced Agent Skills for Claude, it appeared to be another proprietary AI customization feature. Today, we're witnessing something far more significant: an open standard reshaping how people across roles—developers, designers, product managers, and operations—work with AI assistants. AI coding agents' adoption of Agent Skills has transformed this technology from an interesting experiment into an essential developer tool.</p>\n<p>If you've been using custom instructions or wondering how to make your AI assistant truly understand your project's workflows, Agent Skills provides a compelling solution.</p>\n</div>","author":{"@type":"Person","name":"Laurent Kempé","url":"https://laurentkempe.com","jobTitle":"Team Leader & Distinguished Solution Architect","image":"https://live.staticflickr.com/65535/54218216293_4d1b48b283_w.jpg","sameAs":["https://github.com/laurentkempe","https://www.linkedin.com/in/laurentkempe/","https://bsky.app/profile/laurentkempe.com","https://www.flickr.com/people/laurentkempe/","https://x.com/laurentkempe"]},"publisher":{"@type":"Person","name":"Laurent Kempé","url":"https://laurentkempe.com","jobTitle":"Team Leader & Distinguished Solution Architect","image":"https://live.staticflickr.com/65535/54218216293_4d1b48b283_w.jpg","sameAs":["https://github.com/laurentkempe","https://www.linkedin.com/in/laurentkempe/","https://bsky.app/profile/laurentkempe.com","https://x.com/laurentkempe"]},"mainEntityOfPage":{"@type":"WebPage","@id":"https://laurentkempe.com/2026/01/27/Agent-Skills-From-Claude-to-Open-Standard/"},"keywords":"AI, DevX, GitHub Copilot, VS Code","url":"https://laurentkempe.com/2026/01/27/Agent-Skills-From-Claude-to-Open-Standard/"}</script><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:title" content="Laurent Kempé - Agent Skills: From Claude to Open Standard to Your Daily Coding Workflow"><meta property="og:description" content="When Anthropic introduced Agent Skills for Claude, it appeared to be another proprietary AI customization feature. Today, we're witnessing something far more..."><meta property="og:image" content="https://live.staticflickr.com/65535/55058424290_cced09531e_h.jpg"><meta property="og:url" content="https://laurentkempe.com/2026/01/27/Agent-Skills-From-Claude-to-Open-Standard/"><meta property="og:site_name" content="Laurent Kempé"><meta property="article:author" content="https://laurentkempe.com"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@laurentkempe"><meta name="twitter:creator" content="@laurentkempe"><meta name="twitter:title" content="Laurent Kempé - Agent Skills: From Claude to Open Standard to Your Daily Coding Workflow"><meta name="twitter:description" content="When Anthropic introduced Agent Skills for Claude, it appeared to be another proprietary AI customization feature. Today, we're witnessing something far more..."><meta name="twitter:image" content="https://live.staticflickr.com/65535/55058424290_cced09531e_h.jpg"><!-- Author --><meta name="author" content="Laurent Kempé"><!-- Canonical URL --><link rel="canonical" href="https://laurentkempe.com/2026/01/27/Agent-Skills-From-Claude-to-Open-Standard/"><link rel="stylesheet" href="/_astro/_slug_.D4bdc-2k.css">
+<style>.giscus-container[data-astro-cid-qdzwzgpn]{width:100%}.giscus-container[data-astro-cid-qdzwzgpn] iframe[data-astro-cid-qdzwzgpn]{color-scheme:auto}
+a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}@media(prefers-color-scheme:dark){a[data-astro-cid-5grsw2hi]{color:#7fb3d5}.tag[data-astro-cid-5grsw2hi]{border-color:#5a5a5a;background-color:#2d2d2d}}body,html{margin:0;padding:0;width:100%;overflow-x:hidden}.relative[data-astro-cid-5grsw2hi]{width:100%}.absolute[data-astro-cid-5grsw2hi]{max-width:100%}
+</style><style>.twitter-tweet:not(.twitter-tweet-rendered){padding:var(--tc-padding, 1em);border:1px solid var(--tc-border-color, #cfd9de)}.twitter-tweet:not(.twitter-tweet-rendered)>:first-child{margin-top:0}.twitter-tweet:not(.twitter-tweet-rendered)>:last-child{margin-bottom:0}.twitter-tweet.twitter-tweet-rendered{color-scheme:normal}
+</style><style>lite-youtube>iframe{all:unset!important;width:100%!important;height:100%!important;position:absolute!important;inset:0!important;border:0!important}
+</style><style>lite-youtube{background-color:#000;position:relative;display:block;contain:content;background-position:center center;background-size:cover;cursor:pointer;max-width:720px}lite-youtube:before{content:attr(data-title);display:block;position:absolute;top:0;background-image:linear-gradient(180deg,#000000ab,#0000008a 14%,#00000026 54%,#0000000d 72%,#0000 94%);height:99px;width:100%;font-family:YouTube Noto,Roboto,Arial,Helvetica,sans-serif;color:#eee;text-shadow:0 0 2px rgba(0,0,0,.5);font-size:18px;padding:25px 20px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;box-sizing:border-box}lite-youtube:hover:before{color:#fff}lite-youtube:after{content:"";display:block;padding-bottom:56.25%}lite-youtube>iframe{width:100%;height:100%;position:absolute;top:0;left:0;border:0}lite-youtube>.lty-playbtn{display:block;width:100%;height:100%;background:no-repeat center/68px 48px;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="red"/><path d="M45 24 27 14v20" fill="white"/></svg>');position:absolute;cursor:pointer;z-index:1;filter:grayscale(100%);transition:filter .1s cubic-bezier(0,0,.2,1);border:0}lite-youtube:hover>.lty-playbtn,lite-youtube .lty-playbtn:focus{filter:none}lite-youtube.lyt-activated{cursor:unset}lite-youtube.lyt-activated:before,lite-youtube.lyt-activated>.lty-playbtn{opacity:0;pointer-events:none}.lyt-visually-hidden{clip:rect(0 0 0 0);clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}
+</style></head> <body class="bg-white dark:bg-gray-900"> <header class="py-6 border-b border-gray-200 dark:border-gray-700 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4"> <div class="flex items-center justify-between"> <div class="text-2xl font-bold dark:text-gray-300"> <a href="/">Laurent Kempé</a> </div> <!-- Mobile menu button and utilities --> <div class="flex items-center gap-4 md:hidden text-gray-600 dark:text-gray-300"> <div class="flex items-center gap-4"> <a href="/atom.xml" aria-label="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode" aria-pressed="false" aria-label="Toggle dark mode" class="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"></button> </theme-toggle> <script type="module">const i=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="5"/>
+    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </g>
+  </svg>`,n=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path d="M17.293 13.293a8 8 0 11-10.586-10.586 8.003 8.003 0 0010.586 10.586z"/>
+  </svg>`;class r extends HTMLElement{STORAGE_KEY="theme-preference";_darkTheme=!1;button;constructor(){if(super(),this.button=this.querySelector("button"),!this.button){console.error("Theme toggle button not found");return}const e=localStorage.getItem(this.STORAGE_KEY);e?this.darkTheme=e==="dark":this.darkTheme=window.matchMedia("(prefers-color-scheme: dark)").matches,this.button.addEventListener("click",this.toggleTheme.bind(this)),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",t=>{localStorage.getItem(this.STORAGE_KEY)||(this.darkTheme=t.matches)})}get darkTheme(){return this._darkTheme}set darkTheme(e){if(this._darkTheme=e,document.documentElement.classList.toggle("dark",e),this.button){this.button.innerHTML=e?i:n,this.button.setAttribute("aria-label",e?"Switch to light theme":"Switch to dark theme"),this.button.setAttribute("aria-pressed",e.toString());const t=document.createElement("div");t.setAttribute("aria-live","polite"),t.setAttribute("class","sr-only"),t.textContent=e?"Dark theme enabled":"Light theme enabled",this.appendChild(t),setTimeout(()=>{t.parentNode===this&&this.removeChild(t)},1e3)}}toggleTheme(){this.darkTheme=!this.darkTheme,localStorage.setItem(this.STORAGE_KEY,this.darkTheme?"dark":"light")}}customElements.define("theme-toggle",r);</script> </div> <button id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </button> </div> <!-- Desktop menu --> <div class="hidden md:flex md:items-center md:gap-6 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">About</a> <a href="/all-archives" aria-label="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" aria-label="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> <a href="/atom.xml" aria-label="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode" aria-pressed="false" aria-label="Toggle dark mode" class="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"></button> </theme-toggle>  </div> </div> <!-- Mobile menu panel --> <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4" role="menu" aria-labelledby="mobile-menu-button"> <div class="flex flex-col gap-4 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">About</a> <a href="/all-archives" aria-label="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" aria-label="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> </div> </div> </nav> </header> <script type="module">const i=document.getElementById("mobile-menu-button"),o=document.getElementById("mobile-menu");let n=[],s,u;function c(){o?.classList.remove("hidden"),i?.setAttribute("aria-expanded","true"),n=o?.querySelectorAll('a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'),n.length&&(s=n[0],u=n[n.length-1],setTimeout(()=>{s.focus()},50)),l("Menu opened")}function d(){o?.classList.add("hidden"),i?.setAttribute("aria-expanded","false"),i?.focus(),l("Menu closed")}function l(e){const t=document.createElement("div");t.setAttribute("aria-live","polite"),t.setAttribute("class","sr-only"),t.textContent=e,document.body.appendChild(t),setTimeout(()=>{t.parentNode===document.body&&document.body.removeChild(t)},1e3)}i?.addEventListener("click",()=>{o?.classList.contains("hidden")===!1?d():c()});document.addEventListener("keydown",e=>{if(!o?.classList.contains("hidden")){if(e.key==="Escape"){d();return}e.key==="Tab"&&(e.shiftKey&&document.activeElement===s?(e.preventDefault(),u.focus()):!e.shiftKey&&document.activeElement===u&&(e.preventDefault(),s.focus()))}});</script> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p>  <div class="relative pt-1 cover-image-container" data-astro-cid-5grsw2hi> <img src="https://live.staticflickr.com/65535/55058424290_cced09531e_h.jpg" alt="Aquila Private Game Reserve, South Africa" data-astro-cid-5grsw2hi="true" loading="lazy" decoding="async" fetchpriority="auto" width="1600" height="1067" class="w-full"> <div class="absolute text-white top-1/3 left-1/3 transform -translate-x-1/4 -translate-y-1/4" data-astro-cid-5grsw2hi> <p class="text-2xl sm:text-3xl md:text-5xl font-extrabold drop-shadow-[0_4px_3px_rgb(0,0,0,0.5)] dark:drop-shadow-[0_4px_3px_rgb(255,255,255,0.5)]" data-astro-cid-5grsw2hi>Agent Skills: From Claude to Open Standard to Your Daily Coding Workflow</p> <p class="py-2 text-sm sm:text-base" data-astro-cid-5grsw2hi>Jan 27, 2026</p> </div> <p class="absolute text-sm sm:text-xs text-white bottom-5 right-5 hidden md:block" data-astro-cid-5grsw2hi>Aquila Private Game Reserve, South Africa</p> <div class="absolute bottom-5 left-5 hidden md:block" data-astro-cid-5grsw2hi> <div class="flex gap-1 flex-wrap"><a href="/tags/ai" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">AI</a><a href="/tags/devx" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">DevX</a><a href="/tags/github-copilot" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">GitHub Copilot</a><a href="/tags/vs-code" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">VS Code</a></div> </div> </div> <p class="text-sm text-center py-2 text-gray-600 dark:text-gray-400 block md:hidden" data-astro-cid-5grsw2hi>Aquila Private Game Reserve, South Africa</p><div class="py-2 block md:hidden" data-astro-cid-5grsw2hi> <div class="flex gap-1 flex-wrap"><a href="/tags/ai" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">AI</a><a href="/tags/devx" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">DevX</a><a href="/tags/github-copilot" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">GitHub Copilot</a><a href="/tags/vs-code" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">VS Code</a></div> </div><div class="py-4" data-astro-cid-5grsw2hi>  <article class="prose prose-lg max-w-none dark:prose-invert
+                    prose-h1:font-bold prose-h1:text-4xl md:prose-h1:text-4xl prose-h1:text-xl prose-h1:mb-4
+                    prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline
+                    prose-p:text-justify prose-img:rounded-xl"> <p>When Anthropic introduced Agent Skills for Claude, it appeared to be another proprietary AI customization feature. Today, we’re witnessing something far more significant: an open standard reshaping how people across roles—developers, designers, product managers, and operations—work with AI assistants. AI coding agents’ adoption of Agent Skills has transformed this technology from an interesting experiment into an essential developer tool.</p>
+<p>If you’ve been using custom instructions or wondering how to make your AI assistant truly understand your project’s workflows, Agent Skills provides a compelling solution.</p>
+
+<h1 id="from-proprietary-feature-to-open-standard">From Proprietary Feature to Open Standard</h1>
+<p>Agent Skills began with Anthropic’s Claude AI, where developers first experienced giving AI agents specialized capabilities through structured instructions. Unlike simple prompts or one-off commands, Agent Skills introduced a sophisticated approach: packaging instructions, scripts, templates, and documentation into reusable, discoverable units.</p>
+<p>Anthropic’s decision to release Agent Skills as an open standard transformed it from a Claude-specific feature into a movement. The format’s simplicity and effectiveness attracted attention across the AI development tools ecosystem. Today, major players—Claude Code, GitHub Copilot, Cursor, OpenCode, Mistral Vibe, Antigravity, OpenAI Codex, and Kiro—have adopted the standard. Others are exploring integration, and more are joining it (I’m looking at you, JetBrains Junie).</p>
+<h1 id="what-are-agent-skills">What Are Agent Skills?</h1>
+<p>Agent Skills are elegantly simple: a folder containing a <code>SKILL.md</code> file. This file uses YAML frontmatter for metadata and Markdown for instructions. No complex APIs, no proprietary formats—just structured text any AI agent can understand.</p>
+<p>Here’s a basic Agent Skills example for creating NUnit unit tests in C#:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#E1E4E8">---</span></span>
+<span class="line"><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">create-nunit-unit-test</span></span>
+<span class="line"><span style="color:#85E89D">description</span><span style="color:#E1E4E8">: </span><span style="color:#F97583">&gt;</span></span>
+<span class="line"><span style="color:#9ECBFF">  A skill that teaches the agent how to generate NUnit unit tests following</span></span>
+<span class="line"><span style="color:#9ECBFF">  standard Arrange/Act/Assert structure, consistent naming conventions, and</span></span>
+<span class="line"><span style="color:#9ECBFF">  idiomatic C# patterns.</span></span>
+<span class="line"><span style="color:#E1E4E8">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold"># Purpose</span></span>
+<span class="line"><span style="color:#E1E4E8">This skill provides procedural knowledge for generating NUnit unit tests.</span></span>
+<span class="line"><span style="color:#E1E4E8">It ensures consistent structure, naming, and formatting across all generated tests.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold"># When to Use This Skill</span></span>
+<span class="line"><span style="color:#E1E4E8">The agent should load this skill when the user asks for:</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Creating a unit test in C#</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Using NUnit specifically</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Generating test scaffolding for a method, class, or scenario</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Producing Arrange/Act/Assert‑style tests</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold"># Style &amp; Conventions</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Use </span><span style="color:#E1E4E8;font-weight:bold">**NUnit**</span><span style="color:#E1E4E8"> attributes: </span><span style="color:#79B8FF">`[TestFixture]`</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">`[Test]`</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">`[SetUp]`</span><span style="color:#E1E4E8"> when needed.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Use </span><span style="color:#E1E4E8;font-weight:bold">**Arrange / Act / Assert**</span><span style="color:#E1E4E8"> sections with comments.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Use </span><span style="color:#E1E4E8;font-weight:bold">**PascalCase**</span><span style="color:#E1E4E8"> for class names and test method names.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Test method naming convention:</span></span>
+<span class="line"><span style="color:#79B8FF">  `{MethodName}_{ScenarioDescription}_{ExpectedOutcome}`</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold"># Required Inputs</span></span>
+<span class="line"><span style="color:#E1E4E8">The agent should ask for missing information if not provided:</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Class name</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Method name</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Scenario description</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Expected result or behavior</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Optional: method parameters</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold"># Output Format</span></span>
+<span class="line"><span style="color:#E1E4E8">The agent must output a complete C# file containing:</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#79B8FF"> `using NUnit.Framework;`</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> A namespace named </span><span style="color:#79B8FF">`GeneratedTests`</span><span style="color:#E1E4E8"> unless the user specifies otherwise</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> A test fixture class named </span><span style="color:#79B8FF">`{ClassName}Tests`</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> One or more </span><span style="color:#79B8FF">`[Test]`</span><span style="color:#E1E4E8"> methods</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold"># Test Generation Procedure</span></span>
+<span class="line"><span style="color:#FFAB70">1.</span><span style="color:#E1E4E8;font-weight:bold"> **Validate Inputs**</span></span>
+<span class="line"><span style="color:#FFAB70">   -</span><span style="color:#E1E4E8"> Ensure class name and method name are valid C# identifiers.</span></span>
+<span class="line"><span style="color:#FFAB70">   -</span><span style="color:#E1E4E8"> If scenario or expected outcome is missing, ask the user.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">2.</span><span style="color:#E1E4E8;font-weight:bold"> **Construct Test Class**</span></span>
+<span class="line"><span style="color:#FFAB70">   -</span><span style="color:#E1E4E8"> Name: </span><span style="color:#79B8FF">`{ClassName}Tests`</span></span>
+<span class="line"><span style="color:#FFAB70">   -</span><span style="color:#E1E4E8"> Include </span><span style="color:#79B8FF">`[TestFixture]`</span><span style="color:#E1E4E8"> attribute.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">3.</span><span style="color:#E1E4E8;font-weight:bold"> **Generate Test Method**</span></span>
+<span class="line"><span style="color:#FFAB70">   -</span><span style="color:#E1E4E8"> Name: </span><span style="color:#79B8FF">`{MethodName}_{Scenario}_{Expected}`</span></span>
+<span class="line"><span style="color:#FFAB70">   -</span><span style="color:#E1E4E8"> Use underscores instead of spaces.</span></span>
+<span class="line"><span style="color:#FFAB70">   -</span><span style="color:#E1E4E8"> Include </span><span style="color:#79B8FF">`[Test]`</span><span style="color:#E1E4E8"> attribute.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">4.</span><span style="color:#E1E4E8;font-weight:bold"> **Write Test Body**</span></span>
+<span class="line"><span style="color:#FFAB70">   -</span><span style="color:#E1E4E8;font-weight:bold"> **Arrange**</span><span style="color:#E1E4E8">: instantiate the SUT (</span><span style="color:#79B8FF">`var sut = new {ClassName}();`</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#FFAB70">   -</span><span style="color:#E1E4E8;font-weight:bold"> **Act**</span><span style="color:#E1E4E8">: call the method under test</span></span>
+<span class="line"><span style="color:#FFAB70">   -</span><span style="color:#E1E4E8;font-weight:bold"> **Assert**</span><span style="color:#E1E4E8">: use </span><span style="color:#79B8FF">`Assert.That(...)`</span><span style="color:#E1E4E8"> or other NUnit assertions</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">5.</span><span style="color:#E1E4E8;font-weight:bold"> **Return Final C# Code Block**</span></span>
+<span class="line"><span style="color:#FFAB70">   -</span><span style="color:#E1E4E8"> The agent must return a single fenced code block containing the full file.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold"># Example Output (for reference only)</span></span>
+<span class="line"><span style="color:#E1E4E8">The agent should follow this pattern:</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">```csharp</span></span>
+<span class="line"><span style="color:#F97583">using</span><span style="color:#B392F0"> NUnit</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">Framework</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">namespace</span><span style="color:#B392F0"> GeneratedTests</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#B392F0">TestFixture</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> class</span><span style="color:#B392F0"> CalculatorTests</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#E1E4E8">    [</span><span style="color:#B392F0">Test</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#F97583">    public</span><span style="color:#F97583"> void</span><span style="color:#B392F0"> Add_WithPositiveNumbers_ReturnsSum</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">    {</span></span>
+<span class="line"><span style="color:#6A737D">        // Arrange</span></span>
+<span class="line"><span style="color:#F97583">        var</span><span style="color:#B392F0"> sut</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Calculator</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        // Act</span></span>
+<span class="line"><span style="color:#F97583">        var</span><span style="color:#B392F0"> result</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> sut.</span><span style="color:#B392F0">Add</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">3</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">        // Assert</span></span>
+<span class="line"><span style="color:#E1E4E8">        Assert.</span><span style="color:#B392F0">That</span><span style="color:#E1E4E8">(result, Is.</span><span style="color:#B392F0">EqualTo</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">5</span><span style="color:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>Those Agent Skills files live in your agent configuration, for example for GitHub Copilot <code>.github/skills/create-nunit-unit-test/SKILL.md</code> in your repository. Or they can be globally installed for your user account, e.g. <code>~/.copilot/skills/create-nunit-unit-test/SKILL.md</code>.</p>
+<div class="not-prose bg-blue-100 border-l-4 border-blue-500 text-blue-700 dark:bg-blue-900 dark:border-blue-700 dark:text-blue-300 rounded-lg shadow-md p-2 mb-4"> <div class="flex items-start"> <!-- Changed to items-start --> <svg class="fill-current h-6 w-6 text-blue-500 dark:text-blue-300 flex-none mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"> <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"></path> </svg> <div class="w-full ml-2">  <p>This is a minimal example. You can add resources like templates, example configurations, or helper scripts in the same directory, and the skill can reference them.</p> </div> </div> </div>
+<h1 id="progressive-disclosure-the-secret-sauce">Progressive Disclosure: The Secret Sauce</h1>
+<p>What makes Agent Skills innovative isn’t just the format—it’s how AI agents consume them. The system uses a three-level progressive disclosure approach that optimizes context window usage:</p>
+<p><strong>Level 1: Discovery</strong> — At startup, the agent reads only the <code>name</code> and <code>description</code> from each skill. This lightweight metadata helps the agent understand available capabilities without consuming context.</p>
+<p><strong>Level 2: Activation</strong> — When your request matches a skill’s description, the agent loads the full instructions from the <code>SKILL.md</code> file. Only then do detailed procedures become available.</p>
+<p><strong>Level 3: Execution</strong> — The agent accesses additional files (scripts, examples, documentation) only as needed during execution.</p>
+<p>This architecture solves a critical problem: you can install dozens of Agent Skills without overwhelming the AI’s context window. The agent loads only what’s relevant to your current development task.</p>
+<h1 id="setting-up-agent-skills-in-github-copilot">Setting Up Agent Skills in GitHub Copilot</h1>
+<p>GitHub Copilot’s Agent Skills are experimental since December 2025 (version 1.108) for VS Code. Here’s your step-by-step setup guide:</p>
+<ol>
+<li>
+<p><strong>Install VS Code</strong> — Download from <a href="https://code.visualstudio.com/">code.visualstudio.com</a></p>
+</li>
+<li>
+<p><strong>Enable Agent Skills</strong> — Open settings (Ctrl+,) and enable <code>chat.useAgentSkills</code></p>
+</li>
+<li>
+<p><strong>Create your skills directory</strong> — In your project root, create <code>.github/skills/</code></p>
+</li>
+<li>
+<p><strong>Add your first skill</strong> — Create a subdirectory for each skill with its <code>SKILL.md</code> file</p>
+</li>
+<li>
+<p><strong>Use Agent Mode</strong> — In Copilot Chat, switch to Agent mode to leverage skills</p>
+</li>
+</ol>
+<p>Once configured, Agent Skills activate automatically based on your prompts. No manual selection required—the AI determines which skills are relevant based on your descriptions.</p>
+<h1 id="agent-skills-vs-mcp">Agent Skills vs. MCP</h1>
+<p>Skills share knowledge—best practices, workflows, and procedural guidance—in simple Markdown <code>SKILL.md</code> files that anyone can author; they load progressively to conserve tokens, require no server, and run on web, desktop, and CLI, making them ideal for documentation, checklists, examples, and repeatable workflows.</p>
+<p>MCP extends functionality by connecting to APIs, databases, and external tools: it consists of code and service/tool definitions that require development and hosting, loads tool definitions up front (consuming more context), so it’s best suited for tasks needing direct access to external systems.</p>
+<p>Use Skills to make knowledge discoverable and consistent, and use MCP to perform integrated actions and extend platform capabilities; together they provide both lightweight guidance and powerful automation.</p>
+<p>Nevertheless, I can imagine a future where Agent Skills replace MCP for many scenarios, given their simplicity, portability, and ease of authoring. As you can bundle scripts and resources with skills, they can cover many use cases MCP currently serves.</p>
+<h1 id="agent-skills-vs-custom-instructions">Agent Skills vs. Custom Instructions</h1>
+<p>You might wonder how Agent Skills differ from the custom instructions feature. Custom Instructions are best for defining coding standards and conventions, setting language or framework preferences, specifying code-review guidelines, and establishing commit-message formats. Agent Skills are designed to package reusable workflows, include executable scripts and templates, define specialized procedures (testing, debugging, deployment), and enable capabilities that run beyond the IDE (CLI and coding agents).</p>
+<p>Think of custom instructions as your coding style guide and Agent Skills as your AI development toolbox. Custom instructions tell the AI <em>how</em> you want code written; Agent Skills give the AI <em>specialized capabilities</em> to perform complex development tasks.</p>
+<h1 id="real-world-examples-for-developers">Real-World Examples for Developers</h1>
+<p>Here are some practical Agent Skills that can transform your daily development workflow. Check the <a href="#references">references section</a> for pointers to more ready-to-use skills:</p>
+<ul>
+<li><a href="https://github.com/github/awesome-copilot/blob/main/skills/git-commit/SKILL.md">Git Commit with Conventional Commits</a></li>
+<li><a href="https://github.com/github/awesome-copilot/blob/main/skills/gh-cli/SKILL.md">GitHub CLI (gh)</a></li>
+<li><a href="https://github.com/github/awesome-copilot/blob/main/skills/github-issues/SKILL.md">GitHub Issues</a></li>
+<li><a href="https://github.com/github/awesome-copilot/blob/main/skills/nuget-manager/SKILL.md">NuGet Manager</a></li>
+<li><a href="https://github.com/Aaronontheweb/claude-code-dotnet/blob/master/agents/dotnet-concurrency-specialist.md">.NET Concurrency Specialist</a></li>
+<li><a href="https://github.com/Aaronontheweb/claude-code-dotnet/blob/master/agents/dotnet-performance-analyst.md">.NET Performance Analyst</a></li>
+<li><a href="https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices">React Best Practices</a></li>
+</ul>
+<h1 id="building-your-agent-skills-library">Building Your Agent Skills Library</h1>
+<p>Read the <a href="https://agentskills.io/specification">Agent Skills Specification</a> to understand the format and capabilities. Use <a href="https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md">Skill Creator</a>, an Agent Skill to create and refine new Agent Skills. Inception moment anyone 🤔?</p>
+<p>Start building your Agent Skills collection with these proven strategies:</p>
+<p><strong>Identify Repetitive Tasks</strong> — Notice which development workflows you explain to the AI repeatedly. Each recurring explanation is a candidate for an Agent Skill.</p>
+<p><strong>Start Simple</strong> — Begin with straightforward skills that codify standard development procedures. As you gain confidence, add scripts and more complex resources.</p>
+<p><strong>Make Descriptions Specific</strong> — The quality of your skill’s description directly impacts how well the AI knows when to activate it. Be explicit about use cases and capabilities.</p>
+<p><strong>Include Examples</strong> — Agent Skills with concrete code examples are more effective. Show the AI what good output looks like.</p>
+<p><strong>Leverage Community Skills</strong> — Explore the <a href="https://github.com/github/awesome-copilot">github/awesome-copilot</a> and <a href="https://github.com/anthropics/skills">anthropics/skills</a> repositories for inspiration and ready-to-use skills.</p>
+<p><strong>Organize by Domain</strong> — Group related Agent Skills together. Create separate skills for testing, deployment, documentation, code review, and other specialized development domains.</p>
+<h1 id="skills-in-action-a-real-workflow-example">Skills in Action: A Real Workflow Example</h1>
+<p>Here’s how Agent Skills enhance your workflow in a typical development scenario:</p>
+<p>You’re working on a web application and need to add a new REST API endpoint with proper testing and documentation. With appropriate Agent Skills in place:</p>
+<ol>
+<li>
+<p><strong>You ask:</strong> “Help me add a new user registration endpoint with validation”</p>
+</li>
+<li>
+<p><strong>The <code>rest-api-integration</code> skill activates</strong>, providing structured guidance on implementing the endpoint with proper authentication, validation, and error handling.</p>
+</li>
+<li>
+<p><strong>You ask:</strong> “Create tests for this endpoint”</p>
+</li>
+<li>
+<p><strong>The <code>webapp-testing</code> skill engages</strong>, generating test cases for success scenarios, validation failures, and edge cases.</p>
+</li>
+<li>
+<p><strong>You ask:</strong> “Generate documentation for this endpoint”</p>
+</li>
+<li>
+<p><strong>The <code>api-documentation</code> skill activates</strong>, producing comprehensive documentation with examples, error codes, and authentication details.</p>
+</li>
+</ol>
+<p>Each Agent Skill ensures consistency in approach and completeness in implementation. Without skills, you’d need to provide detailed instructions for each request or rely on the AI’s general knowledge, which might miss project-specific patterns.</p>
+<h1 id="security-best-practices">Security Best Practices</h1>
+<p>When working with Agent Skills, especially community-shared skills, keep these security considerations in mind:</p>
+<p><strong>Review Before Use</strong> — Always examine shared Agent Skills before adding them to your project. Check for potentially <strong>malicious scripts</strong> or unexpected behaviors in the <code>SKILL.md</code> file and associated resources.</p>
+<p><strong>Use Terminal Controls</strong> — VS Code’s terminal tool provides controls for script execution, including auto-approve options with configurable allow-lists. Configure these appropriately for your security requirements.</p>
+<p><strong>Version Control Your Skills</strong> — Agent Skills are just files, so commit them to your repository. This enables code review, versioning, and team collaboration on AI capabilities.</p>
+<p><strong>Test in Safe Environments</strong> — Try new Agent Skills in development environments before using them in production contexts. Dev containers or isolated workspaces are ideal for testing.</p>
+<p><strong>Document Team Skills</strong> — If your team uses shared Agent Skills, maintain documentation about what each skill does and when to use it.</p>
+<h1 id="the-future-of-portable-ai-capabilities">The Future of Portable AI Capabilities</h1>
+<p>Agent Skills represent more than a new feature—it’s a glimpse into a future where AI development capabilities are portable, shareable, and composable. As more AI tools adopt the standard, we’re moving toward an ecosystem where:</p>
+<ul>
+<li>Agent Skills you write work across your entire development environment</li>
+<li>Development teams can package organizational knowledge into discoverable, reusable capabilities</li>
+<li>Community-developed skills solve common development problems once, benefiting everyone</li>
+<li>AI assistants become truly specialized for domain-specific development tasks</li>
+</ul>
+<p>Whether you’re using VS Code or any other editor/IDE, working in the terminal with Copilot CLI, or leveraging any coding agent for automated tasks, your Agent Skills come with you.</p>
+<h1 id="getting-started-today">Getting Started Today</h1>
+<p>Ready to integrate Agent Skills into your development workflow? Follow this action plan:</p>
+<ol>
+<li><strong>Install VS Code</strong> and enable Agent Skills support</li>
+<li><strong>Create your first skill</strong> addressing a development task you repeat frequently</li>
+<li><strong>Test it</strong> by asking GitHub Copilot to perform that task in Agent mode.</li>
+<li><strong>Refine the description</strong> based on when the skill activates (or doesn’t)</li>
+<li><strong>Add more skills</strong> gradually as you identify development opportunities</li>
+<li><strong>Share useful skills</strong> with your team or the developer community</li>
+</ol>
+<p>The goal isn’t to create dozens of Agent Skills immediately. Start with one or two that solve real problems in your development workflow, then expand your library organically as needs arise.</p>
+<p>You can also use Agent Skills with GitHub Copilot CLI or Gemini CLI for terminal-based workflows, or with other coding agents that support the open standard. This portability ensures your investment in creating skills pays off across all your AI-assisted development tools.</p>
+<h1 id="the-complete-guide-to-agent-skills-video">The complete guide to Agent Skills Video</h1>
+<p>My preferred introduction to Agent Skills is the following video from <a href="https://github.com/burkeholland">Burke Holland</a>, which covers the concepts, setup, and practical examples in under 20 minutes:</p>
+<lite-youtube videoid="fabAI1OKKww" params="start=0" class="yt-width " style="background-image: url('https://i.ytimg.com/vi/fabAI1OKKww/hqdefault.jpg');"> <a href="https://youtube.com/watch?v=fabAI1OKKww" class="lty-playbtn"> <span class="lyt-visually-hidden">Play</span> </a> </lite-youtube> <script type="module">class i extends HTMLElement{connectedCallback(){this.videoId=this.getAttribute("videoid");let e=this.querySelector(".lty-playbtn");if(this.playLabel=e&&e.textContent.trim()||this.getAttribute("playlabel")||"Play",this.dataset.title=this.getAttribute("title")||"",this.style.backgroundImage||(this.style.backgroundImage=`url("https://i.ytimg.com/vi/${this.videoId}/hqdefault.jpg")`,this.upgradePosterImage()),e||(e=document.createElement("button"),e.type="button",e.classList.add("lty-playbtn"),this.append(e)),!e.textContent){const t=document.createElement("span");t.className="lyt-visually-hidden",t.textContent=this.playLabel,e.append(t)}this.addNoscriptIframe(),e.nodeName==="A"&&(e.removeAttribute("href"),e.setAttribute("tabindex","0"),e.setAttribute("role","button"),e.addEventListener("keydown",t=>{(t.key==="Enter"||t.key===" ")&&(t.preventDefault(),this.activate())})),this.addEventListener("pointerover",i.warmConnections,{once:!0}),this.addEventListener("focusin",i.warmConnections,{once:!0}),this.addEventListener("click",this.activate),this.needsYTApi=this.hasAttribute("js-api")||navigator.vendor.includes("Apple")||navigator.userAgent.includes("Mobi")}static addPrefetch(e,t,a){const r=document.createElement("link");r.rel=e,r.href=t,a&&(r.as=a),document.head.append(r)}static warmConnections(){i.preconnected||(i.addPrefetch("preconnect","https://www.youtube-nocookie.com"),i.addPrefetch("preconnect","https://www.google.com"),i.addPrefetch("preconnect","https://googleads.g.doubleclick.net"),i.addPrefetch("preconnect","https://static.doubleclick.net"),i.preconnected=!0)}fetchYTPlayerApi(){window.YT||window.YT&&window.YT.Player||(this.ytApiPromise=new Promise((e,t)=>{var a=document.createElement("script");a.src="https://www.youtube.com/iframe_api",a.async=!0,a.onload=r=>{YT.ready(e)},a.onerror=t,this.append(a)}))}async getYTPlayer(){return this.playerPromise||await this.activate(),this.playerPromise}async addYTPlayerIframe(){this.fetchYTPlayerApi(),await this.ytApiPromise;const e=document.createElement("div");this.append(e);const t=Object.fromEntries(this.getParams().entries());this.playerPromise=new Promise(a=>{let r=new YT.Player(e,{width:"100%",videoId:this.videoId,playerVars:t,events:{onReady:n=>{n.target.playVideo(),a(r)}}})})}addNoscriptIframe(){const e=this.createBasicIframe(),t=document.createElement("noscript");t.innerHTML=e.outerHTML,this.append(t)}getParams(){const e=new URLSearchParams(this.getAttribute("params")||[]);return e.append("autoplay","1"),e.append("playsinline","1"),e}async activate(){if(this.classList.contains("lyt-activated"))return;if(this.classList.add("lyt-activated"),this.needsYTApi)return this.addYTPlayerIframe(this.getParams());const e=this.createBasicIframe();this.append(e),e.focus()}createBasicIframe(){const e=document.createElement("iframe");return e.width=560,e.height=315,e.title=this.playLabel,e.allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",e.allowFullscreen=!0,e.src=`https://www.youtube-nocookie.com/embed/${encodeURIComponent(this.videoId)}?${this.getParams().toString()}`,e}upgradePosterImage(){setTimeout(()=>{const e=`https://i.ytimg.com/vi_webp/${this.videoId}/sddefault.webp`,t=new Image;t.fetchPriority="low",t.referrerpolicy="origin",t.src=e,t.onload=a=>{a.target.naturalHeight==90&&a.target.naturalWidth==120||(this.style.backgroundImage=`url("${e}")`)}},100)}}customElements.define("lite-youtube",i);</script> 
+<br/>
+<h1 id="podcast">Podcast</h1>
+<p>For my French readers, I discussed Agent Skills in depth on devdevdev.net in the following episode</p>
+<lite-youtube videoid="HQzcPLEfAIc" params="start=0" class="yt-width " style="background-image: url('https://i.ytimg.com/vi/HQzcPLEfAIc/hqdefault.jpg');"> <a href="https://youtube.com/watch?v=HQzcPLEfAIc" class="lty-playbtn"> <span class="lyt-visually-hidden">Play</span> </a> </lite-youtube>  
+<br/>
+<h1 id="conclusion">Conclusion</h1>
+<p>Agent Skills bridges the gap between generic AI assistance and specialized, context-aware support for your specific development needs. By adopting an open standard that works across AI tools, the industry has created a foundation for truly portable AI capabilities.</p>
+<p>The journey from Claude to open standard to GitHub Copilot adoption demonstrates the power of simplicity and interoperability in developer tools. As developers, we benefit from this ecosystem approach—our investment in creating Agent Skills pays dividends across our entire development toolchain.</p>
+<p>Start small, experiment with the format, and build Agent Skills that improve your daily development work. The progressive disclosure system ensures you won’t overwhelm your AI assistant, and the portable format guarantees your skills remain valuable as AI tools evolve.</p>
+<p>The future of AI-assisted development isn’t just about more powerful models—it’s about giving those models the right context, capabilities, and knowledge to be genuinely helpful in your specific development domain. Agent Skills is a significant step in that direction.</p>
+<p>What development workflows could benefit from specialized Agent Skills? Have you tried creating skills for your AI coding assistant? Share your experiences in the comments below.</p>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://agentskills.io/">Agent Skills Official Website</a></li>
+<li><a href="https://agentskills.io/specification">Agent Skills Specification</a></li>
+<li><a href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview">Claude API Docs - Agent Skills</a></li>
+<li><a href="https://github.com/anthropics/skills">Anthropic Skills repository</a></li>
+<li><a href="https://github.com/github/awesome-copilot/tree/main/skills">Awesome GitHub Copilot Customizations - Skills</a></li>
+<li><a href="https://code.visualstudio.com/docs/copilot/customization/agent-skills">VS Code Agent Skills Documentation</a></li>
+<li><a href="https://youtrack.jetbrains.com/issue/JUNIE-1422/Support-for-agentskills">JetBrains Junie Skills support</a></li>
+<li><a href="https://coding-agents-matrix.dev/">AI Coding Agents Matrix</a></li>
+</ul> </article>  </div>  <div class="giscus-container mt-8 pt-8 border-t border-gray-200 dark:border-gray-700" data-astro-cid-qdzwzgpn> <div id="giscus-comments" data-astro-cid-qdzwzgpn></div> </div> <script>
+  (function() {
+    const STORAGE_KEY = "theme-preference";
+    
+    // Function to get current theme based on ThemeToggle logic
+    function getCurrentTheme() {
+      const savedTheme = localStorage.getItem(STORAGE_KEY);
+      if (savedTheme) {
+        return savedTheme === "dark" ? "dark" : "light";
+      } else {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+    }
+    
+    // Function to get giscus theme name
+    function getGiscusTheme(isDark) {
+      return isDark ? "dark" : "light";
+    }
+    
+    // Function to send theme change message to giscus iframe
+    function updateGiscusTheme(theme) {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      if (iframe) {
+        iframe.contentWindow.postMessage({
+          giscus: {
+            setConfig: {
+              theme: getGiscusTheme(theme === "dark")
+            }
+          }
+        }, 'https://giscus.app');
+      }
+    }
+    
+    // Initialize giscus with correct theme
+    const initialTheme = getCurrentTheme();
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', 'laurentkempe/myblog-comments');
+    script.setAttribute('data-repo-id', 'R_kgDOPHtNGA');
+    script.setAttribute('data-category', 'General');
+    script.setAttribute('data-category-id', 'DIC_kwDOPHtNGM4Csi4o');
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', getGiscusTheme(initialTheme === "dark"));
+    script.setAttribute('data-lang', 'en');
+    script.setAttribute('data-loading', 'lazy');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    
+    const container = document.getElementById('giscus-comments');
+    if (container) {
+      container.appendChild(script);
+    }
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const isDark = document.documentElement.classList.contains('dark');
+          updateGiscusTheme(isDark ? "dark" : "light");
+        }
+      });
+    });
+    
+    // Start observing changes to the document element's class
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    // Also listen for storage changes (in case theme is changed in another tab)
+    window.addEventListener('storage', function(e) {
+      if (e.key === STORAGE_KEY) {
+        const newTheme = e.newValue === "dark" ? "dark" : "light";
+        updateGiscusTheme(newTheme);
+      }
+    });
+    
+    // Listen for system theme changes when no preference is saved
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
+      if (!localStorage.getItem(STORAGE_KEY)) {
+        updateGiscusTheme(e.matches ? "dark" : "light");
+      }
+    });
+  })();
+</script>   </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 dark:text-gray-300 text-center"> <div>
+&copy; 2003 - 2026 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> <script>
+            const theme = (() => {
+              if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+                return localStorage.getItem("theme");
+              }
+              if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                return "dark";
+              }
+              return "light";
+            })();
+
+            if (theme === "light") {
+              document.documentElement.classList.remove("dark");
+            } else {
+              document.documentElement.classList.add("dark");
+            }
+            window.localStorage.setItem("theme", theme);
+        </script> </body> </html> 
