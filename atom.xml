@@ -3,12 +3,23 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2026-02-05T20:59:28.449Z</updated>
+<updated>2026-02-14T21:35:01.332Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>Exploring .NET 11 Preview 1 Runtime Async: A dive into the Future of Async in .NET</title>
+    <link href="https://laurentkempe.com/2026/02/14/exploring-net-11-preview-1-runtime-async-a-dive-into-the-future-of-async-in-net/"/>
+    <id>https://laurentkempe.com/2026/02/14/exploring-net-11-preview-1-runtime-async-a-dive-into-the-future-of-async-in-net/</id>
+    <published>2026-02-14T22:32:40.000Z</published>
+    <updated>2026-02-14T22:32:40.000Z</updated>
+    <summary type="html">&lt;p&gt;.NET 11 Preview 1 ships a groundbreaking feature: &lt;strong&gt;Runtime Async&lt;/strong&gt;. Instead of relying solely on the C# compiler to rewrite &lt;code&gt;async&lt;/code&gt;/&lt;code&gt;await&lt;/code&gt; methods into state machines, the .NET runtime itself now understands async methods as a first-class concept. This article explores what Runtime Async is, why it matters, what changed in Preview 1, and how you can experiment with it today.&lt;/p&gt;
+</summary>
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
+  </entry>
   <entry>
     <title>Agent Skills: From Claude to Open Standard to Your Daily Coding Workflow</title>
     <link href="https://laurentkempe.com/2026/01/27/Agent-Skills-From-Claude-to-Open-Standard/"/>
@@ -277,18 +288,4 @@ It&apos;s time to take a step further and explore how to leverage Server-Sent Ev
     <category term="GitHub" scheme="https://laurentkempe.com/tags/github" />
     <category term="GitHub Actions" scheme="https://laurentkempe.com/tags/github-actions" />
     <category term="GitHub Container Registry" scheme="https://laurentkempe.com/tags/github-container-registry" />
-  </entry>
-  <entry>
-    <title>Simplify your .NET Docker image publishing workflow with the .NET SDK</title>
-    <link href="https://laurentkempe.com/2023/10/24/simplify-your-dotnet-docker-image-publishing-workflow-with-the-dotnet-sdk/"/>
-    <id>https://laurentkempe.com/2023/10/24/simplify-your-dotnet-docker-image-publishing-workflow-with-the-dotnet-sdk/</id>
-    <published>2023-10-24T12:14:09.000Z</published>
-    <updated>2023-10-24T12:14:09.000Z</updated>
-    <summary type="html">&lt;p&gt;In my previous blog posts, I wrote about the &lt;strong&gt;built-in container support&lt;/strong&gt; in the &lt;strong&gt;.NET 7 SDK&lt;/strong&gt; that allows you to create and publish Docker images for your .NET applications without writing any Dockerfile. I also showed how to use the &lt;strong&gt;Chiseled Ubuntu&lt;/strong&gt; base images optimized for .NET and containers.&lt;/p&gt;
-&lt;p&gt;For this blog post, I will explain how to publish your Docker images using the .NET SDK to &lt;strong&gt;GitHub Packages / Container Registry&lt;/strong&gt;. It is possible to publish to different &lt;strong&gt;container registries&lt;/strong&gt;, such as Docker Hub, GitHub, Azure Container Registry, or your own private registry. I will show you how to publish to GitHub Packages / Container Registry, but the process is similar for other registries.&lt;/p&gt;
-&lt;p&gt;This blog post will help you learn how to leverage the .NET SDK&apos;s built-in container support to effortlessly distribute and run your .NET applications in the cloud using Docker. Stay tuned!&lt;/p&gt;
-</summary>
-    <category term=".NET SDK" scheme="https://laurentkempe.com/tags/dotnet-sdk" />
-    <category term="Docker" scheme="https://laurentkempe.com/tags/docker" />
-    <category term="GitHub" scheme="https://laurentkempe.com/tags/github" />
   </entry></feed>
