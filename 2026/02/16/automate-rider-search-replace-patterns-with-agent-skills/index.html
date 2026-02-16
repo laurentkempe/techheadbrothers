@@ -1,0 +1,386 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><meta name="generator" content="Astro v5.17.1"><link rel="alternate" type="application/rss+xml" title="Laurent Kempé blog" href="https://laurentkempe.com/atom.xml"><title>Laurent Kempé - Automate Rider Search and Replace Patterns with Agent Skills</title><!-- JSON-LD structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Automate Rider Search and Replace Patterns with Agent Skills","datePublished":"2026-02-16T14:01:17.000Z","image":"https://live.staticflickr.com/65535/55059687336_15ae118ffa_h.jpg","description":"<div class=\"prose dark:prose-invert max-w-none mb-4 text-gray-900 dark:text-gray-100\"><p>A few years ago, I wrote about how <a href=\"/2023/02/20/refactoring-huge-csharp-code-base-in-minutes/\">ReSharper's Search with Pattern feature</a> helped me refactor a massive C# codebase in minutes. The technique was powerful, but creating those custom search and replace patterns meant using ReSharper to define them. Alternatively, you could hand-craft XML in DotSettings files—tedious work that required memorizing the exact structure, generating GUIDs, and configuring placeholder properties correctly.</p>\n<p>Recently, I explored how <a href=\"/2026/01/27/Agent-Skills-From-Claude-to-Open-Standard/\">Agent Skills are becoming an open standard</a> that works across different AI coding assistants like GitHub Copilot, Cursor, and JetBrains Junie. This got me thinking: what if I could combine these two powerful developer tools? What if an Agent Skill could automate the tedious part of creating ReSharper and Rider patterns?</p>\n<p>This post shows how I built exactly that—a practical Agent Skill that generates properly formatted DotSettings XML for custom search and replace patterns in Rider and ReSharper, just by describing what you want in natural language to your AI coding assistant.</p>\n</div>","author":{"@type":"Person","name":"Laurent Kempé","url":"https://laurentkempe.com","jobTitle":"Team Leader & Distinguished Solution Architect","image":"https://live.staticflickr.com/65535/54218216293_4d1b48b283_w.jpg","sameAs":["https://github.com/laurentkempe","https://www.linkedin.com/in/laurentkempe/","https://bsky.app/profile/laurentkempe.com","https://www.flickr.com/people/laurentkempe/","https://x.com/laurentkempe"]},"publisher":{"@type":"Person","name":"Laurent Kempé","url":"https://laurentkempe.com","jobTitle":"Team Leader & Distinguished Solution Architect","image":"https://live.staticflickr.com/65535/54218216293_4d1b48b283_w.jpg","sameAs":["https://github.com/laurentkempe","https://www.linkedin.com/in/laurentkempe/","https://bsky.app/profile/laurentkempe.com","https://x.com/laurentkempe"]},"mainEntityOfPage":{"@type":"WebPage","@id":"https://laurentkempe.com/2026/02/16/automate-rider-search-replace-patterns-with-agent-skills/"},"keywords":"AI, Rider, ReSharper, C#, .NET","url":"https://laurentkempe.com/2026/02/16/automate-rider-search-replace-patterns-with-agent-skills/"}</script><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:title" content="Laurent Kempé - Automate Rider Search and Replace Patterns with Agent Skills"><meta property="og:description" content="A few years ago, I wrote about how ReSharper's Search with Pattern feature helped me refactor a massive C# codebase in minutes. The technique was powerful, b..."><meta property="og:image" content="https://live.staticflickr.com/65535/55059687336_15ae118ffa_h.jpg"><meta property="og:url" content="https://laurentkempe.com/2026/02/16/automate-rider-search-replace-patterns-with-agent-skills/"><meta property="og:site_name" content="Laurent Kempé"><meta property="article:author" content="https://laurentkempe.com"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@laurentkempe"><meta name="twitter:creator" content="@laurentkempe"><meta name="twitter:title" content="Laurent Kempé - Automate Rider Search and Replace Patterns with Agent Skills"><meta name="twitter:description" content="A few years ago, I wrote about how ReSharper's Search with Pattern feature helped me refactor a massive C# codebase in minutes. The technique was powerful, b..."><meta name="twitter:image" content="https://live.staticflickr.com/65535/55059687336_15ae118ffa_h.jpg"><!-- Author --><meta name="author" content="Laurent Kempé"><!-- Canonical URL --><link rel="canonical" href="https://laurentkempe.com/2026/02/16/automate-rider-search-replace-patterns-with-agent-skills/"><link rel="stylesheet" href="/_astro/_slug_.By0JUrpn.css">
+<style>.giscus-container[data-astro-cid-qdzwzgpn]{width:100%}.giscus-container[data-astro-cid-qdzwzgpn] iframe[data-astro-cid-qdzwzgpn]{color-scheme:auto}
+a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}@media(prefers-color-scheme:dark){a[data-astro-cid-5grsw2hi]{color:#7fb3d5}.tag[data-astro-cid-5grsw2hi]{border-color:#5a5a5a;background-color:#2d2d2d}}body,html{margin:0;padding:0;width:100%;overflow-x:hidden}.relative[data-astro-cid-5grsw2hi]{width:100%}.absolute[data-astro-cid-5grsw2hi]{max-width:100%}
+</style><style>.twitter-tweet:not(.twitter-tweet-rendered){padding:var(--tc-padding, 1em);border:1px solid var(--tc-border-color, #cfd9de)}.twitter-tweet:not(.twitter-tweet-rendered)>:first-child{margin-top:0}.twitter-tweet:not(.twitter-tweet-rendered)>:last-child{margin-bottom:0}.twitter-tweet.twitter-tweet-rendered{color-scheme:normal}
+</style><style>lite-youtube>iframe{all:unset!important;width:100%!important;height:100%!important;position:absolute!important;inset:0!important;border:0!important}
+</style><style>lite-youtube{background-color:#000;position:relative;display:block;contain:content;background-position:center center;background-size:cover;cursor:pointer;max-width:720px}lite-youtube:before{content:attr(data-title);display:block;position:absolute;top:0;background-image:linear-gradient(180deg,#000000ab,#0000008a 14%,#00000026 54%,#0000000d 72%,#0000 94%);height:99px;width:100%;font-family:YouTube Noto,Roboto,Arial,Helvetica,sans-serif;color:#eee;text-shadow:0 0 2px rgba(0,0,0,.5);font-size:18px;padding:25px 20px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;box-sizing:border-box}lite-youtube:hover:before{color:#fff}lite-youtube:after{content:"";display:block;padding-bottom:56.25%}lite-youtube>iframe{width:100%;height:100%;position:absolute;top:0;left:0;border:0}lite-youtube>.lty-playbtn{display:block;width:100%;height:100%;background:no-repeat center/68px 48px;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="red"/><path d="M45 24 27 14v20" fill="white"/></svg>');position:absolute;cursor:pointer;z-index:1;filter:grayscale(100%);transition:filter .1s cubic-bezier(0,0,.2,1);border:0}lite-youtube:hover>.lty-playbtn,lite-youtube .lty-playbtn:focus{filter:none}lite-youtube.lyt-activated{cursor:unset}lite-youtube.lyt-activated:before,lite-youtube.lyt-activated>.lty-playbtn{opacity:0;pointer-events:none}.lyt-visually-hidden{clip:rect(0 0 0 0);clip-path:inset(50%);height:1px;overflow:hidden;position:absolute;white-space:nowrap;width:1px}
+</style></head> <body class="bg-white dark:bg-gray-900"> <header class="py-6 border-b border-gray-200 dark:border-gray-700 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4"> <div class="flex items-center justify-between"> <div class="text-2xl font-bold dark:text-gray-300"> <a href="/">Laurent Kempé</a> </div> <!-- Mobile menu button and utilities --> <div class="flex items-center gap-4 md:hidden text-gray-600 dark:text-gray-300"> <div class="flex items-center gap-4"> <a href="/atom.xml" aria-label="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode" aria-pressed="false" aria-label="Toggle dark mode" class="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"></button> </theme-toggle> <script type="module">const i=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="5"/>
+    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </g>
+  </svg>`,n=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path d="M17.293 13.293a8 8 0 11-10.586-10.586 8.003 8.003 0 0010.586 10.586z"/>
+  </svg>`;class r extends HTMLElement{STORAGE_KEY="theme-preference";_darkTheme=!1;button;constructor(){if(super(),this.button=this.querySelector("button"),!this.button){console.error("Theme toggle button not found");return}const e=localStorage.getItem(this.STORAGE_KEY);e?this.darkTheme=e==="dark":this.darkTheme=window.matchMedia("(prefers-color-scheme: dark)").matches,this.button.addEventListener("click",this.toggleTheme.bind(this)),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",t=>{localStorage.getItem(this.STORAGE_KEY)||(this.darkTheme=t.matches)})}get darkTheme(){return this._darkTheme}set darkTheme(e){if(this._darkTheme=e,document.documentElement.classList.toggle("dark",e),this.button){this.button.innerHTML=e?i:n,this.button.setAttribute("aria-label",e?"Switch to light theme":"Switch to dark theme"),this.button.setAttribute("aria-pressed",e.toString());const t=document.createElement("div");t.setAttribute("aria-live","polite"),t.setAttribute("class","sr-only"),t.textContent=e?"Dark theme enabled":"Light theme enabled",this.appendChild(t),setTimeout(()=>{t.parentNode===this&&this.removeChild(t)},1e3)}}toggleTheme(){this.darkTheme=!this.darkTheme,localStorage.setItem(this.STORAGE_KEY,this.darkTheme?"dark":"light")}}customElements.define("theme-toggle",r);</script> </div> <button id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </button> </div> <!-- Desktop menu --> <div class="hidden md:flex md:items-center md:gap-6 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">About</a> <a href="/all-archives" aria-label="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" aria-label="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> <a href="/atom.xml" aria-label="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode" aria-pressed="false" aria-label="Toggle dark mode" class="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"></button> </theme-toggle>  </div> </div> <!-- Mobile menu panel --> <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4" role="menu" aria-labelledby="mobile-menu-button"> <div class="flex flex-col gap-4 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">About</a> <a href="/all-archives" aria-label="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" aria-label="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> </div> </div> </nav> </header> <script type="module">const i=document.getElementById("mobile-menu-button"),o=document.getElementById("mobile-menu");let n=[],s,u;function c(){o?.classList.remove("hidden"),i?.setAttribute("aria-expanded","true"),n=o?.querySelectorAll('a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'),n.length&&(s=n[0],u=n[n.length-1],setTimeout(()=>{s.focus()},50)),l("Menu opened")}function d(){o?.classList.add("hidden"),i?.setAttribute("aria-expanded","false"),i?.focus(),l("Menu closed")}function l(e){const t=document.createElement("div");t.setAttribute("aria-live","polite"),t.setAttribute("class","sr-only"),t.textContent=e,document.body.appendChild(t),setTimeout(()=>{t.parentNode===document.body&&document.body.removeChild(t)},1e3)}i?.addEventListener("click",()=>{o?.classList.contains("hidden")===!1?d():c()});document.addEventListener("keydown",e=>{if(!o?.classList.contains("hidden")){if(e.key==="Escape"){d();return}e.key==="Tab"&&(e.shiftKey&&document.activeElement===s?(e.preventDefault(),u.focus()):!e.shiftKey&&document.activeElement===u&&(e.preventDefault(),s.focus()))}});</script> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p>  <div class="relative pt-1 cover-image-container" data-astro-cid-5grsw2hi> <img src="https://live.staticflickr.com/65535/55059687336_15ae118ffa_h.jpg" alt="Aquila Private Game Reserve, South Africa" data-astro-cid-5grsw2hi="true" loading="lazy" decoding="async" fetchpriority="auto" width="1600" height="1067" class="w-full"> <div class="absolute text-white top-1/3 left-1/3 transform -translate-x-1/4 -translate-y-1/4" data-astro-cid-5grsw2hi> <p class="text-2xl sm:text-3xl md:text-5xl font-extrabold drop-shadow-[0_4px_3px_rgb(0,0,0,0.5)] dark:drop-shadow-[0_4px_3px_rgb(255,255,255,0.5)]" data-astro-cid-5grsw2hi>Automate Rider Search and Replace Patterns with Agent Skills</p> </div> </div> <div class="pt-2 pb-4 space-y-2" data-astro-cid-5grsw2hi> <p class="text-sm text-center text-gray-600 dark:text-gray-400" data-astro-cid-5grsw2hi>Aquila Private Game Reserve, South Africa</p> <div class="flex items-center gap-2 flex-wrap" data-astro-cid-5grsw2hi> <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400" data-astro-cid-5grsw2hi>February 16, 2026</p> <div class="flex gap-1 flex-wrap"><a href="/tags/dotnet" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">.NET</a><a href="/tags/ai" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">AI</a><a href="/tags/csharp" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">C#</a><a href="/tags/resharper" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">ReSharper</a><a href="/tags/rider" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Rider</a></div> </div> </div> <div class="py-4" data-astro-cid-5grsw2hi>  <article class="prose prose-lg max-w-none dark:prose-invert
+                    prose-h1:font-bold prose-h1:text-4xl md:prose-h1:text-4xl prose-h1:text-xl prose-h1:mb-4
+                    prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline
+                    prose-p:text-justify prose-img:rounded-xl"> <p>A few years ago, I wrote about how <a href="/2023/02/20/refactoring-huge-csharp-code-base-in-minutes/">ReSharper’s Search with Pattern feature</a> helped me refactor a massive C# codebase in minutes. The technique was powerful, but creating those custom search and replace patterns meant using ReSharper to define them. Alternatively, you could hand-craft XML in DotSettings files—tedious work that required memorizing the exact structure, generating GUIDs, and configuring placeholder properties correctly.</p>
+<p>Recently, I explored how <a href="/2026/01/27/Agent-Skills-From-Claude-to-Open-Standard/">Agent Skills are becoming an open standard</a> that works across different AI coding assistants like GitHub Copilot, Cursor, and JetBrains Junie. This got me thinking: what if I could combine these two powerful developer tools? What if an Agent Skill could automate the tedious part of creating ReSharper and Rider patterns?</p>
+<p>This post shows how I built exactly that—a practical Agent Skill that generates properly formatted DotSettings XML for custom search and replace patterns in Rider and ReSharper, just by describing what you want in natural language to your AI coding assistant.</p>
+
+<h2 id="the-challenge-dotsettings-xml-configuration-is-complex">The Challenge: DotSettings XML Configuration is Complex</h2>
+<p>Back in 2023, when I needed to refactor thousands of lines of legacy C# code, ReSharper’s structural search and replace was a lifesaver. I could define Rider patterns like “find all old-style null checks and replace them with modern <code>ArgumentNullException.ThrowIfNull</code>” and apply them across the entire codebase.</p>
+<p>The catch? I am using Rider, and creating these patterns meant first running Visual Studio with ReSharper, manually defining the pattern in the UI, and then exporting the DotSettings XML to share with my team. If I wanted to create or modify patterns without opening Visual Studio, I had to hand-write the XML in DotSettings files. This was a nightmare.</p>
+<p>Each custom ReSharper pattern required manually creating XML entries in a DotSettings file. Here’s what a simple Rider search and replace pattern looks like:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">wpf:ResourceDictionary</span><span style="color:#B392F0"> xml:space</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;preserve&quot;</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#B392F0">    xmlns:x</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#B392F0">    xmlns:s</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;clr-namespace:System;assembly=mscorlib&quot;</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#B392F0">    xmlns:ss</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;urn:shemas-jetbrains-com:settings-storage-xaml&quot;</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#B392F0">    xmlns:wpf</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">    &lt;</span><span style="color:#85E89D">s:String</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=ABC123/@EntryIndexedValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">        Replace old null check</span></span>
+<span class="line"><span style="color:#E1E4E8">    &lt;/</span><span style="color:#85E89D">s:String</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">    &lt;</span><span style="color:#85E89D">s:String</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=ABC123/SearchPattern/@EntryIndexedValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">        if ($param$ == null) throw new ArgumentNullException(nameof($param$));</span></span>
+<span class="line"><span style="color:#E1E4E8">    &lt;/</span><span style="color:#85E89D">s:String</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">    &lt;</span><span style="color:#85E89D">s:String</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=ABC123/ReplacePattern/@EntryIndexedValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">        ArgumentNullException.ThrowIfNull($param$);</span></span>
+<span class="line"><span style="color:#E1E4E8">    &lt;/</span><span style="color:#85E89D">s:String</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">    &lt;</span><span style="color:#85E89D">s:Boolean</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=ABC123/MatchSimilarConstructs/@EntryIndexedValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">        True</span></span>
+<span class="line"><span style="color:#E1E4E8">    &lt;/</span><span style="color:#85E89D">s:Boolean</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">    &lt;</span><span style="color:#85E89D">s:String</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=ABC123/Severity/@EntryIndexedValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">        WARNING</span></span>
+<span class="line"><span style="color:#E1E4E8">    &lt;/</span><span style="color:#85E89D">s:String</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#6A737D">    &lt;!-- Plus more entries for placeholders, descriptions, etc. --&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">wpf:ResourceDictionary</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<p>And this is a simple ReSharper pattern! If you need placeholders with type constraints, minimum/maximum occurrence counts, or regex matching, the DotSettings XML gets even more complex. You need to:</p>
+<ol>
+<li>Generate a unique GUID for each Rider pattern</li>
+<li>Know the exact XML key paths for different ReSharper configuration options</li>
+<li>Understand placeholder types (Identifier, Expression, Statement, Type, Argument)</li>
+<li>Remember the severity levels (DO_NOT_SHOW, HINT, SUGGESTION, WARNING, ERROR)</li>
+<li>Get the XML structure perfect—one typo and Rider won’t load it</li>
+</ol>
+<p>After creating a few ReSharper patterns manually, I’d inevitably make mistakes. Wrong GUID format. Forgot to configure a placeholder property. Used the wrong severity key. It was frustrating because the <em>idea</em> was simple, but the <em>implementation</em> was error-prone.</p>
+<h2 id="the-solution-an-agent-skill-for-ai-coding-assistants">The Solution: An Agent Skill for AI Coding Assistants</h2>
+<p>With Agent Skills now an open standard that works across different AI coding assistants like GitHub Copilot, and Junie, I realized this was the perfect use case.
+I could use some of my DotSettings as examples to create an Agent Skill, and then simply describe Rider patterns in natural language to my AI assistant:</p>
+<blockquote>
+<p>“Create a Rider pattern to replace Assert.That(count, Is.EqualTo(0)); with Assert.That(count, Is.Zero); and show it as an error message.”</p>
+</blockquote>
+<p>The AI coding agent, armed with the Agent Skill, would generate the correct DotSettings XML automatically. No more looking up the ReSharper schema, no more GUID typos, no more forgetting placeholder configurations.</p>
+<h2 id="building-the-agent-skill-for-rider-pattern-generation">Building the Agent Skill for Rider Pattern Generation</h2>
+<p>An Agent Skill is a specialized instruction set that lives in a markdown file. When you mention certain keywords or the skill name, the AI agent loads the skill and follows its instructions. This makes Agent Skills perfect for automating complex, domain-specific tasks like generating Rider and ReSharper configuration XML.</p>
+<p>I used the Anthropic Agent Skill skill-creator to build this skill, passing two example of search and replace patterns I had created manually and added my team DotSettingss for more examples.</p>
+<p>It created an Agent Skill called <code>rider-ssr-config</code> with this structure:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="plaintext"><code><span class="line"><span>rider-ssr-config/</span></span>
+<span class="line"><span>├── SKILL.md        # Main skill file with instructions</span></span>
+<span class="line"><span>└── references/</span></span>
+<span class="line"><span>    └── schema.md   # DotSettings Structural Search XML Schema</span></span>
+<span class="line"><span>└── dist/</span></span>
+<span class="line"><span>    └── rider-ssr-config.skill   # Compiled skill file</span></span></code></pre>
+<h3 id="the-agent-skill-definition-skillmd">The Agent Skill Definition: SKILL.md</h3>
+<p>Here’s the complete Agent Skill definition for generating Rider and ReSharper patterns:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#E1E4E8">---</span></span>
+<span class="line"><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">rider-ssr-config</span></span>
+<span class="line"><span style="color:#85E89D">description</span><span style="color:#E1E4E8">: </span><span style="color:#F97583">&gt;</span></span>
+<span class="line"><span style="color:#9ECBFF">  Generate Rider/ReSharper Structural Search and Replace (SSR) XML configuration for DotSettings files.</span></span>
+<span class="line"><span style="color:#9ECBFF">  Use this skill when the user wants to create a structural search pattern, a search-and-replace pattern,</span></span>
+<span class="line"><span style="color:#9ECBFF">  or custom code inspection rules for Rider, ReSharper, or IntelliJ IDEA in the DotSettings XML format.</span></span>
+<span class="line"><span style="color:#9ECBFF">  Handles placeholder definitions (Expression, Type, Identifier, Argument, Statement), severity levels,</span></span>
+<span class="line"><span style="color:#9ECBFF">  and all pattern options. Outputs ready-to-paste XML — does NOT modify any project files.</span></span>
+<span class="line"><span style="color:#E1E4E8">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold"># Rider Structural Search &amp; Replace Configuration Generator</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">Generate DotSettings XML for Rider/ReSharper Structural Search and Replace patterns. Output XML to the chat — never modify project files.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Workflow</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">1.</span><span style="color:#E1E4E8"> Gather pattern details from the user (search pattern, optional replace pattern, placeholders, options).</span></span>
+<span class="line"><span style="color:#FFAB70">2.</span><span style="color:#E1E4E8"> Generate a GUID for the pattern (uppercase hex, 32 chars, no hyphens).</span></span>
+<span class="line"><span style="color:#FFAB70">3.</span><span style="color:#E1E4E8"> Build the XML lines following the schema in [</span><span style="color:#DBEDFF;text-decoration:underline">references/schema.md</span><span style="color:#E1E4E8">](</span><span style="color:#E1E4E8;text-decoration:underline">references/schema.md</span><span style="color:#E1E4E8">).</span></span>
+<span class="line"><span style="color:#FFAB70">4.</span><span style="color:#E1E4E8"> Present the XML in a fenced code block with guidance on where to paste it.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Gathering Input</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">Ask for or infer from context:</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8;font-weight:bold"> **Search pattern**</span><span style="color:#E1E4E8"> (required): C# code with </span><span style="color:#79B8FF">`$name$`</span><span style="color:#E1E4E8"> placeholders. Example: </span><span style="color:#79B8FF">`$args$.State = $value$;`</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8;font-weight:bold"> **Replace pattern**</span><span style="color:#E1E4E8"> (optional): if provided, generates a replace pattern. Example: </span><span style="color:#79B8FF">`$args$.SetState($value$);`</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8;font-weight:bold"> **Placeholders**</span><span style="color:#E1E4E8">: for each </span><span style="color:#79B8FF">`$name$`</span><span style="color:#E1E4E8"> in the patterns, determine the type and properties. See [</span><span style="color:#DBEDFF;text-decoration:underline">references/schema.md</span><span style="color:#E1E4E8">](</span><span style="color:#E1E4E8;text-decoration:underline">references/schema.md</span><span style="color:#E1E4E8">) for all placeholder types.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8;font-weight:bold"> **Options**</span><span style="color:#E1E4E8"> (all optional, have defaults):</span></span>
+<span class="line"><span style="color:#FFAB70">  -</span><span style="color:#79B8FF"> `Severity`</span><span style="color:#E1E4E8">: ERROR (default), WARNING, SUGGESTION, HINT, DO_NOT_SHOW</span></span>
+<span class="line"><span style="color:#FFAB70">  -</span><span style="color:#79B8FF"> `Comment`</span><span style="color:#E1E4E8"> / </span><span style="color:#79B8FF">`ReplaceComment`</span><span style="color:#E1E4E8">: description shown in the inspection list</span></span>
+<span class="line"><span style="color:#FFAB70">  -</span><span style="color:#79B8FF"> `SuppressionKey`</span><span style="color:#E1E4E8">: custom key for </span><span style="color:#79B8FF">`// ReSharper disable`</span><span style="color:#E1E4E8"> comments</span></span>
+<span class="line"><span style="color:#FFAB70">  -</span><span style="color:#79B8FF"> `FormatAfterReplace`</span><span style="color:#E1E4E8">: default False</span></span>
+<span class="line"><span style="color:#FFAB70">  -</span><span style="color:#79B8FF"> `ShortenReferences`</span><span style="color:#E1E4E8">: default False (omitted when default)</span></span>
+<span class="line"><span style="color:#FFAB70">  -</span><span style="color:#79B8FF"> `MatchCatchClauseWithoutExceptionFilter`</span><span style="color:#E1E4E8">: default False</span></span>
+<span class="line"><span style="color:#FFAB70">  -</span><span style="color:#79B8FF"> `LanguageName`</span><span style="color:#E1E4E8">: CSHARP (default), VBASIC, or others</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Generating the XML</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">Read [</span><span style="color:#DBEDFF;text-decoration:underline">references/schema.md</span><span style="color:#E1E4E8">](</span><span style="color:#E1E4E8;text-decoration:underline">references/schema.md</span><span style="color:#E1E4E8">) for the full XML schema, placeholder types, property details, and encoding rules.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">Key rules:</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Generate a random 32-character uppercase hex GUID (no hyphens) for each pattern.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> XML-encode </span><span style="color:#79B8FF">`&lt;`</span><span style="color:#E1E4E8"> as </span><span style="color:#79B8FF">`&amp;lt;`</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">`&gt;`</span><span style="color:#E1E4E8"> as </span><span style="color:#79B8FF">`&amp;gt;`</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">`&amp;`</span><span style="color:#E1E4E8"> as </span><span style="color:#79B8FF">`&amp;amp;`</span><span style="color:#E1E4E8"> in SearchPattern, ReplacePattern, and placeholder property values.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Only emit </span><span style="color:#79B8FF">`IsReplacePattern`</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">`ReplacePattern`</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">`FormatAfterReplace`</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">`ShortenReferences`</span><span style="color:#E1E4E8">, and </span><span style="color:#79B8FF">`MatchCatchClauseWithoutExceptionFilter`</span><span style="color:#E1E4E8"> when a replace pattern is provided.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Always emit </span><span style="color:#79B8FF">`@KeyIndexDefined`</span><span style="color:#E1E4E8"> as the first line.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> Emit placeholder lines grouped per placeholder, after all pattern-level lines.</span></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> For search-only patterns (no replace), emit: </span><span style="color:#79B8FF">`@KeyIndexDefined`</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">`Comment`</span><span style="color:#E1E4E8"> (if provided), </span><span style="color:#79B8FF">`LanguageName`</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">`SearchPattern`</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">`Severity`</span><span style="color:#E1E4E8">, and placeholder blocks.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold">## Output Format</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">Present the XML inside a fenced XML code block. Add a brief note:</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">&gt; Paste this XML into your </span><span style="color:#79B8FF">`.DotSettings`</span><span style="color:#85E89D"> file (team-shared or personal) inside the root </span><span style="color:#79B8FF">`&lt;wpf:ResourceDictionary&gt;`</span><span style="color:#85E89D"> element, alongside other </span><span style="color:#79B8FF">`PatternsAndTemplates/StructuralSearch`</span><span style="color:#85E89D"> entries.</span></span></code></pre>
+<p>Note the YAML frontmatter at the top (delimited by <code>---</code>) with <code>name</code> and <code>description</code> fields—this is required by the <a href="https://agentskills.io/specification">Agent Skills specification</a>. The <code>name</code> field uses lowercase-with-hyphens format per the spec.</p>
+<h3 id="the-reference-file">The Reference File</h3>
+<p>The <code>references/schema.md</code> file contains detailed examples of different placeholder configurations, complex Rider patterns, and edge cases. This gives the AI coding assistant comprehensive reference material when it needs to handle more advanced ReSharper scenarios.</p>
+<h2 id="using-the-agent-skill-with-jetbrains-junie-and-other-ai-assistants">Using the Agent Skill with JetBrains Junie and Other AI Assistants</h2>
+<p>Once the Agent Skill is in place, using it with your AI coding assistant is incredibly simple. Here’s a real example with Junie:</p>
+<p><strong>Me</strong>: “Hey, I need a Rider pattern to catch usage <code>Assert.That(count, Is.EqualTo(0));</code> with <code>Assert.That(count, Is.Zero);</code> and show it as a warning message.</p>
+<p><strong>Junie</strong> (with the Agent Skill loaded):</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="xml"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">wpf:ResourceDictionary</span><span style="color:#B392F0"> xml:space</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;preserve&quot;</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#B392F0">    xmlns:x</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#B392F0">    xmlns:s</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;clr-namespace:System;assembly=mscorlib&quot;</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#B392F0">    xmlns:ss</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;urn:shemas-jetbrains-com:settings-storage-xaml&quot;</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#B392F0">    xmlns:wpf</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:Boolean</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/@KeyIndexDefined&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    True</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:Boolean</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:String</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/Comment/@EntryValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    Prefer Assert.That(x, Is.Zero) to Assert.That(x, Is.EqualTo(0))</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:String</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:Boolean</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/FormatAfterReplace/@EntryValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    False</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:Boolean</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:Boolean</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/IsReplacePattern/@EntryValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    True</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:Boolean</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:String</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/LanguageName/@EntryValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    CSHARP</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:String</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:Boolean</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/MatchCatchClauseWithoutExceptionFilter/@EntryValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    False</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:Boolean</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">  &lt;!-- Pattern Definition --&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:String</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/ReplaceComment/@EntryValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    Prefer Assert.That(x, Is.Zero) to Assert.That(x, Is.EqualTo(0))</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:String</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#6A737D">  &lt;!-- Replace Pattern --&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    &lt;</span><span style="color:#85E89D">s:String</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/ReplacePattern/@EntryValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    Assert.That($expr$, Is.Zero);</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:String</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">  &lt;!-- Search Pattern --&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:String</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/SearchPattern/@EntryValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    Assert.That($expr$, Is.EqualTo(0));</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:String</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:String</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/Severity/@EntryValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    WARNING</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:String</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:Boolean</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/ShortenReferences/@EntryValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    False</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:Boolean</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:Boolean</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/CustomPatternPlaceholder/=expr/@KeyIndexDefined&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    True</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:Boolean</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:String</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/CustomPatternPlaceholder/=expr/Properties/=ExactType/@EntryIndexedValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    False</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:String</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:String</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/CustomPatternPlaceholder/=expr/Properties/=ExpressionType/@EntryIndexedValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:String</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;</span><span style="color:#85E89D">s:String</span><span style="color:#B392F0"> x:Key</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;/Default/PatternsAndTemplates/StructuralSearch/Pattern/=05F62B00505742A9B05E039DB46B798A/CustomPatternPlaceholder/=expr/Type/@EntryValue&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    ExpressionPlaceholder</span></span>
+<span class="line"><span style="color:#E1E4E8">  &lt;/</span><span style="color:#85E89D">s:String</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">wpf:ResourceDictionary</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<p>The Agent Skill generated the complete DotSettings XML for this Rider pattern:</p>
+<ul>
+<li>Unique GUIDs in the correct format</li>
+<li>Proper XML structure for ReSharper</li>
+<li>Appropriate severity and helpful descriptions</li>
+</ul>
+<p>Junie even updated it directly into my team’s shared <code>MySolution.sln.DotSettings</code> file, and everyone on the team immediately gets the Rider pattern. ReSharper and Rider will start showing warnings wherever old-style <code>Assert.That(expr, Is.EqualTo(0));</code> calls are used, with a quick-fix to automatically apply the replacement.</p>
+<p>What was really cool, when Junie finished the XML generation, the code was highlighted with squiggly lines immediately.</p>
+<p><img src="/images/2026/Rider-Search-and-Replace-Patterns.png" alt="JetBrains Gateway Dev Container building"/></p>
+<h2 id="where-to-store-your-agent-skills">Where to Store Your Agent Skills</h2>
+<p>Agent Skills can live in different locations depending on their scope:</p>
+<h3 id="project-level-agent-skills">Project-Level Agent Skills</h3>
+<p>For JetBrains Junie in Rider specific to a project, create:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="plaintext"><code><span class="line"><span>.junie/skills/rider-ssr-config/SKILL.md</span></span></code></pre>
+<p>This works also with GitHub Copilot, or CLI:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="plaintext"><code><span class="line"><span>.github/skills/rider-ssr-config/SKILL.md</span></span></code></pre>
+<h3 id="user-level-agent-skills">User-Level Agent Skills</h3>
+<p>For Agent Skills you want available across all your .NET projects:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="plaintext"><code><span class="line"><span>~/.junie/skills/rider-ssr-config/SKILL.md</span></span></code></pre>
+<p>I keep this Rider pattern generation skill at the user level since I use it across multiple C# projects.</p>
+<h2 id="enforcing-rider-patterns-in-cicd-pipelines">Enforcing Rider Patterns in CI/CD Pipelines</h2>
+<p>One of the most powerful aspects of ReSharper patterns in DotSettings files is that they’re not just IDE configuration—you can enforce them in your CI/CD pipeline using JetBrains’ InspectCode command-line tool.</p>
+<p>This means:</p>
+<ol>
+<li>Define your Rider and ReSharper patterns once using the Agent Skill</li>
+<li>Share them via the team DotSettings file in version control</li>
+<li>Enforce them in pull request builds with InspectCode</li>
+</ol>
+<p>If someone tries to merge C# code that violates a WARNING or ERROR pattern, the CI build fails. Combined with the Agent Skill making pattern creation trivial, this becomes a powerful way to codify and enforce team conventions for .NET development.</p>
+<h2 id="cross-tool-portability-agent-skills-work-everywhere">Cross-Tool Portability: Agent Skills Work Everywhere</h2>
+<p>The beauty of Agent Skills as an open standard is that this same skill works across different AI coding assistants:</p>
+<ul>
+<li><strong>JetBrains Junie</strong>: Works with the same Agent Skills format</li>
+<li><strong>GitHub Copilot</strong>: Works today in VS Code, GitHub Copilot CLI, and other IDEs</li>
+<li>…</li>
+</ul>
+<p>Write the Agent Skill once, use it with any AI coding assistant. This is the promise of an open standard, and it’s already delivering value for .NET developers using Rider and ReSharper.</p>
+<h2 id="key-lessons-from-building-this-agent-skill">Key Lessons from Building This Agent Skill</h2>
+<p>Building this Agent Skill for Rider pattern generation taught me a few things:</p>
+<p><strong>Agent Skills excel at domain-specific knowledge.</strong> The DotSettings XML format for ReSharper is complex and poorly documented. Encoding it in an Agent Skill means I never have to look it up again, and my AI coding assistant always generates correct XML.</p>
+<p><strong>Reference files are essential.</strong> For complex formats like DotSettings, splitting the Agent Skill into a concise SKILL.md and detailed REFERENCE.md works well. The AI assistant can consult the reference when needed without cluttering the main instructions.</p>
+<p><strong>Examples matter.</strong> Including example interactions in the Agent Skill helps the AI coding assistant understand the expected input/output format for Rider patterns.</p>
+<p><strong>Agent Skills compose.</strong> I can imagine combining this with other Agent Skills—perhaps one that analyzes existing C# code to suggest ReSharper patterns, or one that tests Rider patterns before committing them to DotSettings.</p>
+<h2 id="conclusion-a-trilogy-complete">Conclusion: A Trilogy Complete</h2>
+<p>This Agent Skill completes a trilogy of sorts:</p>
+<ol>
+<li><strong>2023</strong>: I presented the power of <a href="/2023/02/20/refactoring-huge-csharp-code-base-in-minutes/">ReSharper structural search and replace</a> for large-scale refactoring</li>
+<li><strong>2026</strong>: I explored <a href="/2026/01/27/Agent-Skills-From-Claude-to-Open-Standard/">Agent Skills as a portable standard</a> for AI assistants</li>
+<li><strong>Today</strong>: I combined them to automate the tedious parts while keeping the power</li>
+</ol>
+<p>The result is something genuinely useful for .NET developers. Creating custom ReSharper patterns went from “I need to open Visual Studio with R# or look up the XML format again” to “just describe what I want to my AI coding assistant.” The AI agent handles the DotSettings XML generation, GUID creation, and placeholder configuration. I focus on the <em>what</em> (the refactoring I want) instead of the <em>how</em> (the XML structure).</p>
+<p>If you’re using Rider or ReSharper and haven’t explored custom search and replace patterns, I highly recommend it. And if you are using them, I hope this Agent Skill makes creating new Rider patterns as painless as it should have been from the start.</p>
+<p>You can find the complete Agent Skill implementation in my GitHub repository. Happy prompting!</p>
+<div class="not-prose my-3"> <a class="block max-w-[600px] p-4 rounded-lg border border-gray-300 bg-white transition-all duration-200 ease-in-out hover:bg-gray-100 text-black no-underline" href="https://github.com/laurentkempe/dotfiles" target="_blank" style="color: inherit; text-decoration: none;"> <div class="flex items-start"> <svg class="w-8 h-8 text-gray-500" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path> </svg> <div class="ml-3 flex-grow"> <p class="text-[1rem] font-bold text-blue-600 m-0"> <span>laurentkempe/</span><b>dotfiles</b> </p> <p class="text-[0.85rem] my-1 text-gray-700"> @laurentkempe dotfiles and scripts for dev </p> <div class="flex items-center gap-2 text-gray-600 text-[0.85rem]"> <span class="flex items-center gap-1"> <span class="w-3 h-3 bg-green-500 rounded-full inline-block"></span> <span>C#</span> </span> <span class="flex items-center gap-1"> <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path> </svg> <span>17</span> </span> <span class="flex items-center gap-1"> <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"> <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path> </svg> <span>6</span> </span> </div> </div> <img class="w-18 h-18 rounded-full float-right ml-4 mb-4 mt-2.5 sm:ml-4 sm:float-none sm:mx-auto" src="https://avatars.githubusercontent.com/u/272612?v=4" alt="laurentkempe avatar"> </div> </a> </div>
+<p>What kind of search and replace patterns would you create with this Agent Skill? Let me know in the comments!</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="/2023/02/20/refactoring-huge-csharp-code-base-in-minutes/">Refactoring huge C# code base in minutes</a> — My original post on ReSharper structural search</li>
+<li><a href="/2026/01/27/Agent-Skills-From-Claude-to-Open-Standard/">Agent Skills: From Claude to Open Standard</a> — How Agent Skills became portable</li>
+<li><a href="https://agentskills.io/specification">Agent Skills Specification</a> — The open standard specification</li>
+<li><a href="https://www.jetbrains.com/help/resharper/InspectCode.html">ReSharper Command Line Tools</a> — Documentation on InspectCode for CI integration</li>
+</ul> </article>  </div>  <div class="giscus-container mt-8 pt-8 border-t border-gray-200 dark:border-gray-700" data-astro-cid-qdzwzgpn> <div id="giscus-comments" data-astro-cid-qdzwzgpn></div> </div> <script>
+  (function() {
+    const STORAGE_KEY = "theme-preference";
+    
+    // Function to get current theme based on ThemeToggle logic
+    function getCurrentTheme() {
+      const savedTheme = localStorage.getItem(STORAGE_KEY);
+      if (savedTheme) {
+        return savedTheme === "dark" ? "dark" : "light";
+      } else {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+    }
+    
+    // Function to get giscus theme name
+    function getGiscusTheme(isDark) {
+      return isDark ? "dark" : "light";
+    }
+    
+    // Function to send theme change message to giscus iframe
+    function updateGiscusTheme(theme) {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      if (iframe) {
+        iframe.contentWindow.postMessage({
+          giscus: {
+            setConfig: {
+              theme: getGiscusTheme(theme === "dark")
+            }
+          }
+        }, 'https://giscus.app');
+      }
+    }
+    
+    // Initialize giscus with correct theme
+    const initialTheme = getCurrentTheme();
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', 'laurentkempe/myblog-comments');
+    script.setAttribute('data-repo-id', 'R_kgDOPHtNGA');
+    script.setAttribute('data-category', 'General');
+    script.setAttribute('data-category-id', 'DIC_kwDOPHtNGM4Csi4o');
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', getGiscusTheme(initialTheme === "dark"));
+    script.setAttribute('data-lang', 'en');
+    script.setAttribute('data-loading', 'lazy');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    
+    const container = document.getElementById('giscus-comments');
+    if (container) {
+      container.appendChild(script);
+    }
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const isDark = document.documentElement.classList.contains('dark');
+          updateGiscusTheme(isDark ? "dark" : "light");
+        }
+      });
+    });
+    
+    // Start observing changes to the document element's class
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    // Also listen for storage changes (in case theme is changed in another tab)
+    window.addEventListener('storage', function(e) {
+      if (e.key === STORAGE_KEY) {
+        const newTheme = e.newValue === "dark" ? "dark" : "light";
+        updateGiscusTheme(newTheme);
+      }
+    });
+    
+    // Listen for system theme changes when no preference is saved
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
+      if (!localStorage.getItem(STORAGE_KEY)) {
+        updateGiscusTheme(e.matches ? "dark" : "light");
+      }
+    });
+  })();
+</script>   </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 dark:text-gray-300 text-center"> <div>
+&copy; 2003 - 2026 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> <script>
+            const theme = (() => {
+              if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+                return localStorage.getItem("theme");
+              }
+              if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                return "dark";
+              }
+              return "light";
+            })();
+
+            if (theme === "light") {
+              document.documentElement.classList.remove("dark");
+            } else {
+              document.documentElement.classList.add("dark");
+            }
+            window.localStorage.setItem("theme", theme);
+        </script> <script type="module">function r(){const e=document.createElement("button");return e.className="copy-code-button",e.setAttribute("aria-label","Copy code to clipboard"),e.innerHTML=`
+    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+    </svg>
+    <svg class="check-icon copy-button-hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  `,e}async function i(e){try{return await navigator.clipboard.writeText(e),!0}catch(t){return console.error("Failed to copy text: ",t),!1}}function d(e){const t=e.querySelector(".copy-icon"),o=e.querySelector(".check-icon");t&&o&&(t.classList.add("copy-button-hidden"),o.classList.remove("copy-button-hidden"),e.classList.add("copied"),setTimeout(()=>{t.classList.remove("copy-button-hidden"),o.classList.add("copy-button-hidden"),e.classList.remove("copied")},2e3))}function a(e){if(e.parentElement?.classList.contains("code-block-wrapper"))return;const t=document.createElement("div");t.className="code-block-wrapper",e.parentNode?.insertBefore(t,e),t.appendChild(e);const o=r();o.addEventListener("click",async()=>{const n=e.querySelector("code");if(n){const s=n.innerText||n.textContent||"";await i(s)&&d(o)}}),t.appendChild(o)}function l(){document.querySelectorAll("pre").forEach(t=>{t.querySelector("code")&&a(t)})}function c(){l()}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",c):c();</script> <script type="module">function a(t){const e=t.split(":").map(Number);return e.length===3?e[0]*3600+e[1]*60+e[2]:e.length===2?e[0]*60+e[1]:e.length===1?e[0]:0}function i(){return document.querySelector("lite-youtube")}function l(){const t=i();return t?t.querySelector("iframe"):null}function m(t){const e=i();if(!e){console.log("No lite-youtube element found");return}if(!e.getAttribute("videoid")){console.log("No video ID found on lite-youtube element");return}let o=l();if(o&&o.contentWindow){const r=o.src,n=new URL(r);n.searchParams.set("start",t.toString()),n.searchParams.set("autoplay","1"),o.src=n.toString(),console.log(`Seeking to ${t} seconds by updating iframe src`)}else e.setAttribute("params",`start=${t}&autoplay=1`),e.click(),console.log(`Starting video at ${t} seconds`);e.scrollIntoView({behavior:"smooth",block:"start"})}function f(){const t=document.querySelectorAll('a[href^="#timestamp-"]');t.length!==0&&(t.forEach(e=>{e.addEventListener("click",s=>{s.preventDefault();const o=e.getAttribute("href");if(!o)return;const r=o.match(/#timestamp-(\d{2}:\d{2}:\d{2})/);if(r){const n=r[1],u=a(n);console.log(`Seeking to ${n} (${u} seconds)`),m(u)}})}),console.log(`YouTube timestamp control: Set up ${t.length} timestamp links`))}function c(){const t=i()||document.querySelector('iframe[src*="youtube.com"]'),e=document.querySelector('a[href^="#timestamp-"]');!t||!e||f()}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",c):c();</script> </body> </html> 
