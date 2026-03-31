@@ -3,12 +3,28 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2026-03-28T18:10:03.928Z</updated>
+<updated>2026-03-31T20:58:16.449Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>From 3 Worktrees to N: How AI Agents Changed My Parallel Development Workflow on Windows</title>
+    <link href="https://laurentkempe.com/2026/03/31/from-3-worktrees-to-n-ai-powered-parallel-development-on-windows/"/>
+    <id>https://laurentkempe.com/2026/03/31/from-3-worktrees-to-n-ai-powered-parallel-development-on-windows/</id>
+    <published>2026-03-31T22:56:05.000Z</published>
+    <updated>2026-03-31T22:56:05.000Z</updated>
+    <summary type="html">&lt;p&gt;For years, my git worktree setup was modest: two worktrees for active development, and one more for code reviews. Three worktrees, tops. It worked. I never questioned it.&lt;/p&gt;
+&lt;p&gt;Then AI coding agents arrived — tools that write code, run tests, and iterate autonomously — and suddenly three worktrees felt like a bottleneck. Each agent needs its own isolated workspace. Each task deserves its own branch, its own directory, its own terminal. The question shifted from &amp;quot;how many worktrees can I manage?&amp;quot; to &amp;quot;how many can I run in parallel?&amp;quot;&lt;/p&gt;
+</summary>
+    <category term="Git" scheme="https://laurentkempe.com/tags/git" />
+    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
+    <category term="Developer Tools" scheme="https://laurentkempe.com/tags/developer-tools" />
+    <category term="GitHub Copilot" scheme="https://laurentkempe.com/tags/github-copilot" />
+    <category term="CLI" scheme="https://laurentkempe.com/tags/cli" />
+    <category term="Windows" scheme="https://laurentkempe.com/tags/windows" />
+  </entry>
   <entry>
     <title>Automate Rider Search and Replace Patterns with Agent Skills</title>
     <link href="https://laurentkempe.com/2026/02/16/automate-rider-search-replace-patterns-with-agent-skills/"/>
@@ -279,14 +295,4 @@ It&apos;s time to take a step further and explore how to leverage Server-Sent Ev
     <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
     <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
     <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
-  </entry>
-  <entry>
-    <title>What's new in C# 12</title>
-    <link href="https://laurentkempe.com/2023/11/14/whats-new-in-csharp-12/"/>
-    <id>https://laurentkempe.com/2023/11/14/whats-new-in-csharp-12/</id>
-    <published>2023-11-14T17:00:00.000Z</published>
-    <updated>2023-11-14T17:00:00.000Z</updated>
-    <summary type="html">&lt;p&gt;C# 12 is the latest, just released, version of the popular programming language that runs on the .NET 8 platform. It introduces several new features that aim to improve the expressiveness, performance, and safety of the language. In this post, we will explore some of these features and see how they can benefit your code.&lt;/p&gt;
-</summary>
-    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
   </entry></feed>
