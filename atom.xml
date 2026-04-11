@@ -3,12 +3,28 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2026-04-09T19:26:40.613Z</updated>
+<updated>2026-04-11T07:11:22.738Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>Automate Astro Upgrades with GitHub Agentic Workflows</title>
+    <link href="https://laurentkempe.com/2026/04/11/github-agentic-workflows-astro-upgrade/"/>
+    <id>https://laurentkempe.com/2026/04/11/github-agentic-workflows-astro-upgrade/</id>
+    <published>2026-04-11T09:09:16.000Z</published>
+    <updated>2026-04-11T09:09:16.000Z</updated>
+    <summary type="html">&lt;p&gt;I opened GitHub on my phone before my morning coffee had finished brewing. There it was — a pull request, freshly opened, titled &lt;strong&gt;&amp;quot;chore: upgrade astro to v6.1.2&amp;quot;&lt;/strong&gt;. I hadn&apos;t asked anyone to do it. I hadn&apos;t filed an issue, assigned a task, or written a single command. An agent had woken up, checked the npm registry, read the Astro changelog, inspected my codebase, applied the changes, run &lt;code&gt;pnpm install&lt;/code&gt;, and handed me a PR to review. All I had to do was drink my coffee and click Merge.&lt;/p&gt;
+&lt;p&gt;This is the promise of what GitHub Next is calling &lt;strong&gt;Continuous AI&lt;/strong&gt; — and it&apos;s already working on my blog.&lt;/p&gt;
+</summary>
+    <category term="GitHub Actions" scheme="https://laurentkempe.com/tags/github-actions" />
+    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
+    <category term="Astro" scheme="https://laurentkempe.com/tags/astro" />
+    <category term="GitHub Copilot" scheme="https://laurentkempe.com/tags/github-copilot" />
+    <category term="Automation" scheme="https://laurentkempe.com/tags/automation" />
+    <category term="GitHub Next" scheme="https://laurentkempe.com/tags/github-next" />
+  </entry>
   <entry>
     <title>From 3 Worktrees to N: How AI Agents Changed My Parallel Development Workflow on Windows</title>
     <link href="https://laurentkempe.com/2026/03/31/from-3-worktrees-to-n-ai-powered-parallel-development-on-windows/"/>
@@ -278,21 +294,4 @@ It&apos;s time to take a step further and explore how to leverage Server-Sent Ev
     <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
     <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
     <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
-  </entry>
-  <entry>
-    <title>Run Phi-3 SLM on your machine with C# Semantic Kernel and Ollama</title>
-    <link href="https://laurentkempe.com/2024/05/01/run-phi-3-slm-on-your-machine-with-csharp-semantic-kernel-and-ollama/"/>
-    <id>https://laurentkempe.com/2024/05/01/run-phi-3-slm-on-your-machine-with-csharp-semantic-kernel-and-ollama/</id>
-    <published>2024-05-01T10:31:03.000Z</published>
-    <updated>2024-05-01T10:31:03.000Z</updated>
-    <summary type="html">&lt;p&gt;Microsoft recently unveiled Phi-3, the latest iteration of their Small Language Model (SLM). And hot on its heels is Ollama, a powerful tool that enables you to run SLMs and LLMs right on your own machine.&lt;/p&gt;
-&lt;p&gt;Excited to dive in? In this guide, I&apos;ll show you how to harness the power of Phi-3 and Ollama using C# and Semantic Kernel. I&apos;ll walk you through the process of creating a simple console application to get you started on your SLM journey.&lt;/p&gt;
-&lt;p&gt;So, let&apos;s get coding and unlock the potential of Phi-3 and Ollama on your machine!&lt;/p&gt;
-</summary>
-    <category term="Semantic Kernel" scheme="https://laurentkempe.com/tags/semantic-kernel" />
-    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
-    <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
-    <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
-    <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
-    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
   </entry></feed>

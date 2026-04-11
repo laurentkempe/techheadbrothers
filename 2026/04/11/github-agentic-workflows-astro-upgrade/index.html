@@ -1,0 +1,339 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><meta name="generator" content="Astro v6.1.5"><link rel="alternate" type="application/rss+xml" title="Laurent Kempé blog" href="https://laurentkempe.com/atom.xml"><title>Laurent Kempé - Automate Astro Upgrades with GitHub Agentic Workflows</title><!-- JSON-LD structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Automate Astro Upgrades with GitHub Agentic Workflows","datePublished":"2026-04-11T09:09:16.000Z","image":"https://live.staticflickr.com/65535/55199117647_ac71dafb8c_h.jpg","description":"<div class=\"prose dark:prose-invert max-w-none mb-4 text-gray-900 dark:text-gray-100\"><p>I opened GitHub on my phone before my morning coffee had finished brewing. There it was — a pull request, freshly opened, titled <strong>&quot;chore: upgrade astro to v6.1.2&quot;</strong>. I hadn't asked anyone to do it. I hadn't filed an issue, assigned a task, or written a single command. An agent had woken up, checked the npm registry, read the Astro changelog, inspected my codebase, applied the changes, run <code>pnpm install</code>, and handed me a PR to review. All I had to do was drink my coffee and click Merge.</p>\n<p>This is the promise of what GitHub Next is calling <strong>Continuous AI</strong> — and it's already working on my blog.</p>\n</div>","author":{"@type":"Person","name":"Laurent Kempé","url":"https://laurentkempe.com","jobTitle":"Team Leader & Distinguished Solution Architect","image":"https://live.staticflickr.com/65535/54218216293_4d1b48b283_w.jpg","sameAs":["https://github.com/laurentkempe","https://www.linkedin.com/in/laurentkempe/","https://bsky.app/profile/laurentkempe.com","https://www.flickr.com/people/laurentkempe/","https://x.com/laurentkempe"]},"publisher":{"@type":"Person","name":"Laurent Kempé","url":"https://laurentkempe.com","jobTitle":"Team Leader & Distinguished Solution Architect","image":"https://live.staticflickr.com/65535/54218216293_4d1b48b283_w.jpg","sameAs":["https://github.com/laurentkempe","https://www.linkedin.com/in/laurentkempe/","https://bsky.app/profile/laurentkempe.com","https://x.com/laurentkempe"]},"mainEntityOfPage":{"@type":"WebPage","@id":"https://laurentkempe.com/2026/04/11/github-agentic-workflows-astro-upgrade/"},"keywords":"GitHub Actions, AI, Astro, GitHub Copilot, Automation, GitHub Next","url":"https://laurentkempe.com/2026/04/11/github-agentic-workflows-astro-upgrade/"}</script><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:title" content="Laurent Kempé - Automate Astro Upgrades with GitHub Agentic Workflows"><meta property="og:description" content="I opened GitHub on my phone before my morning coffee had finished brewing. There it was — a pull request, freshly opened, titled &#34;chore: upgrade astro to v6...."><meta property="og:image" content="https://live.staticflickr.com/65535/55199117647_ac71dafb8c_h.jpg"><meta property="og:url" content="https://laurentkempe.com/2026/04/11/github-agentic-workflows-astro-upgrade/"><meta property="og:site_name" content="Laurent Kempé"><meta property="article:author" content="https://laurentkempe.com"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@laurentkempe"><meta name="twitter:creator" content="@laurentkempe"><meta name="twitter:title" content="Laurent Kempé - Automate Astro Upgrades with GitHub Agentic Workflows"><meta name="twitter:description" content="I opened GitHub on my phone before my morning coffee had finished brewing. There it was — a pull request, freshly opened, titled &#34;chore: upgrade astro to v6...."><meta name="twitter:image" content="https://live.staticflickr.com/65535/55199117647_ac71dafb8c_h.jpg"><!-- Author --><meta name="author" content="Laurent Kempé"><!-- Canonical URL --><link rel="canonical" href="https://laurentkempe.com/2026/04/11/github-agentic-workflows-astro-upgrade/"><link rel="stylesheet" href="/_astro/Layout.BIBtxQSE.css">
+<style>.giscus-container[data-astro-cid-qdzwzgpn]{width:100%}.giscus-container[data-astro-cid-qdzwzgpn] iframe[data-astro-cid-qdzwzgpn]{color-scheme:auto}
+a[data-astro-cid-5grsw2hi]{color:#00539f}.tags[data-astro-cid-5grsw2hi]{display:flex;flex-wrap:wrap}.tag[data-astro-cid-5grsw2hi]{margin:.25em;border:dotted 1px #a1a1a1;border-radius:.5em;padding:.5em 1em;font-size:1.15em;background-color:#f8fcfd}@media(prefers-color-scheme:dark){a[data-astro-cid-5grsw2hi]{color:#7fb3d5}.tag[data-astro-cid-5grsw2hi]{border-color:#5a5a5a;background-color:#2d2d2d}}body,html{margin:0;padding:0;width:100%;overflow-x:hidden}.relative[data-astro-cid-5grsw2hi]{width:100%}.absolute[data-astro-cid-5grsw2hi]{max-width:100%}
+</style><link rel="stylesheet" href="/_astro/YouTube.UVDvx0Xy.css"></head> <body class="bg-white dark:bg-gray-900"> <header class="py-6 border-b border-gray-200 dark:border-gray-700 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"> <nav class="container mx-auto px-4"> <div class="flex items-center justify-between"> <div class="text-2xl font-bold dark:text-gray-300"> <a href="/">Laurent Kempé</a> </div> <!-- Mobile menu button and utilities --> <div class="flex items-center gap-4 md:hidden text-gray-600 dark:text-gray-300"> <div class="flex items-center gap-4"> <a href="/atom.xml" aria-label="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode" aria-pressed="false" aria-label="Toggle dark mode" class="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"></button> </theme-toggle> <script type="module">const i=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="5"/>
+    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </g>
+  </svg>`,n=`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path d="M17.293 13.293a8 8 0 11-10.586-10.586 8.003 8.003 0 0010.586 10.586z"/>
+  </svg>`;class r extends HTMLElement{STORAGE_KEY="theme-preference";_darkTheme=!1;button;constructor(){if(super(),this.button=this.querySelector("button"),!this.button){console.error("Theme toggle button not found");return}const e=localStorage.getItem(this.STORAGE_KEY);e?this.darkTheme=e==="dark":this.darkTheme=window.matchMedia("(prefers-color-scheme: dark)").matches,this.button.addEventListener("click",this.toggleTheme.bind(this)),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",t=>{localStorage.getItem(this.STORAGE_KEY)||(this.darkTheme=t.matches)})}get darkTheme(){return this._darkTheme}set darkTheme(e){if(this._darkTheme=e,document.documentElement.classList.toggle("dark",e),this.button){this.button.innerHTML=e?i:n,this.button.setAttribute("aria-label",e?"Switch to light theme":"Switch to dark theme"),this.button.setAttribute("aria-pressed",e.toString());const t=document.createElement("div");t.setAttribute("aria-live","polite"),t.setAttribute("class","sr-only"),t.textContent=e?"Dark theme enabled":"Light theme enabled",this.appendChild(t),setTimeout(()=>{t.parentNode===this&&this.removeChild(t)},1e3)}}toggleTheme(){this.darkTheme=!this.darkTheme,localStorage.setItem(this.STORAGE_KEY,this.darkTheme?"dark":"light")}}customElements.define("theme-toggle",r);</script> </div> <button id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </button> </div> <!-- Desktop menu --> <div class="hidden md:flex md:items-center md:gap-6 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">About</a> <a href="/all-archives" aria-label="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" aria-label="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> <a href="/atom.xml" aria-label="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path> </svg> </a> <theme-toggle> <button title="Dark/Light mode" aria-pressed="false" aria-label="Toggle dark mode" class="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"></button> </theme-toggle>  </div> </div> <!-- Mobile menu panel --> <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4" role="menu" aria-labelledby="mobile-menu-button"> <div class="flex flex-col gap-4 text-gray-600 dark:text-gray-300"> <a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Home</a> <a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Blog</a> <a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Speaking</a> <a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">About</a> <a href="/all-archives" aria-label="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path> </svg> </a> <a href="/all-tags" aria-label="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"> <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path> <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path> </svg> </a> </div> </div> </nav> </header> <script type="module">const i=document.getElementById("mobile-menu-button"),o=document.getElementById("mobile-menu");let n=[],s,u;function c(){o?.classList.remove("hidden"),i?.setAttribute("aria-expanded","true"),n=o?.querySelectorAll('a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'),n.length&&(s=n[0],u=n[n.length-1],setTimeout(()=>{s.focus()},50)),l("Menu opened")}function d(){o?.classList.add("hidden"),i?.setAttribute("aria-expanded","false"),i?.focus(),l("Menu closed")}function l(e){const t=document.createElement("div");t.setAttribute("aria-live","polite"),t.setAttribute("class","sr-only"),t.textContent=e,document.body.appendChild(t),setTimeout(()=>{t.parentNode===document.body&&document.body.removeChild(t)},1e3)}i?.addEventListener("click",()=>{o?.classList.contains("hidden")===!1?d():c()});document.addEventListener("keydown",e=>{if(!o?.classList.contains("hidden")){if(e.key==="Escape"){d();return}e.key==="Tab"&&(e.shiftKey&&document.activeElement===s?(e.preventDefault(),u.focus()):!e.shiftKey&&document.activeElement===u&&(e.preventDefault(),s.focus()))}});</script> <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">  <p data-astro-cid-5grsw2hi><em data-astro-cid-5grsw2hi></em></p>  <div class="relative pt-1 cover-image-container overflow-hidden" data-astro-cid-5grsw2hi> <img src="https://live.staticflickr.com/65535/55199117647_ac71dafb8c_h.jpg" alt="Table Bay, South Africa" data-astro-cid-5grsw2hi="true" loading="lazy" decoding="async" width="1600" height="1067" class="w-full"> <div class="absolute inset-0 flex items-center p-4 md:inset-auto md:block md:top-1/3 md:left-1/3 md:transform md:-translate-x-1/4 md:-translate-y-1/4 md:p-0" data-astro-cid-5grsw2hi> <h1 class="text-lg sm:text-3xl md:text-5xl font-extrabold text-white drop-shadow-[0_4px_3px_rgb(0,0,0,0.5)] dark:drop-shadow-[0_4px_3px_rgb(255,255,255,0.5)] max-w-[75%] break-words md:max-w-none" data-astro-cid-5grsw2hi>Automate Astro Upgrades with GitHub Agentic Workflows</h1> </div> </div> <div class="pt-2 pb-4 space-y-2" data-astro-cid-5grsw2hi> <p class="text-sm text-center text-gray-600 dark:text-gray-400" data-astro-cid-5grsw2hi>Table Bay, South Africa</p> <div class="flex items-center gap-2 flex-wrap" data-astro-cid-5grsw2hi> <svg width="0.88em" height="1em" class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 shrink-0" aria-hidden="true" focusable="false" data-astro-cid-5grsw2hi="true" data-icon="fa6-solid:calendar">   <symbol id="ai:fa6-solid:calendar" viewBox="0 0 448 512"><path fill="currentColor" d="M96 32v32H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48h-48V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v32H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32m352 160H0v272c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48z"/></symbol><use href="#ai:fa6-solid:calendar"></use>  </svg> <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400" data-astro-cid-5grsw2hi>April 11, 2026</p> <div class="flex items-center gap-1 flex-wrap"><svg width="0.88em" height="1em" class="w-3 h-3 text-gray-500 dark:text-gray-400 shrink-0" aria-hidden="true" focusable="false" data-icon="fa6-solid:tag">   <symbol id="ai:fa6-solid:tag" viewBox="0 0 448 512"><path fill="currentColor" d="M0 80v149.5c0 17 6.7 33.3 18.7 45.3l176 176c25 25 65.5 25 90.5 0l133.5-133.5c25-25 25-65.5 0-90.5l-176-176c-12-12-28.3-18.7-45.3-18.7L48 32C21.5 32 0 53.5 0 80m112 32a32 32 0 1 1 0 64a32 32 0 1 1 0-64"/></symbol><use href="#ai:fa6-solid:tag"></use>  </svg><a href="/tags/ai" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">AI</a><a href="/tags/astro" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Astro</a><a href="/tags/automation" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Automation</a><a href="/tags/github-actions" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">GitHub Actions</a><a href="/tags/github-copilot" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">GitHub Copilot</a><a href="/tags/github-next" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">GitHub Next</a></div> </div> </div> <div class="py-4" data-astro-cid-5grsw2hi>  <article class="prose prose-lg max-w-none dark:prose-invert
+                    prose-h1:font-bold prose-h1:text-4xl md:prose-h1:text-4xl prose-h1:text-xl prose-h1:mb-4
+                    prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline
+                    prose-p:text-justify prose-img:rounded-xl"> <p>I opened GitHub on my phone before my morning coffee had finished brewing. There it was — a pull request, freshly opened, titled <strong>“chore: upgrade astro to v6.1.2”</strong>. I hadn’t asked anyone to do it. I hadn’t filed an issue, assigned a task, or written a single command. An agent had woken up, checked the npm registry, read the Astro changelog, inspected my codebase, applied the changes, run <code>pnpm install</code>, and handed me a PR to review. All I had to do was drink my coffee and click Merge.</p>
+<p>This is the promise of what GitHub Next is calling <strong>Continuous AI</strong> — and it’s already working on my blog.</p>
+
+<h2 id="the-spark-idan-gazit-at-the-mvp-summit">The Spark: Idan Gazit at the MVP Summit</h2>
+<p>The Microsoft MVP Summit is one of those rare, invite-only events where product teams and researchers share things that haven’t been announced yet. Normally those are under NDA, but this was already public. This year, <a href="https://github.com/idan">Idan Gazit</a>, Head of Research at <a href="https://githubnext.com/">GitHub Next</a>, gave a live demo that made me set down my laptop and pay close attention.</p>
+<p>He showed his personal blog repository — also powered by <a href="https://astro.build/">Astro</a> — and walked us through a workflow file he had written in plain Markdown. On a schedule, it checks whether a new version of Astro has been published. If there is one, it fetches the changelog, reads the codebase, and opens a pull request with all the necessary changes already applied. No human involvement until the PR appears.</p>
+<p>I started building my own version that same afternoon.</p>
+<h2 id="how-i-used-to-handle-astro-updates">How I Used to Handle Astro Updates</h2>
+<p>Before I show you the workflow, let me describe the unglamorous reality of how this worked before.</p>
+<p>I’d either stumble across a new Astro release in my timeline, or catch it in GitHub notifications when someone I follow merged an upgrade. I’d open my repository, create a GitHub Issue along the lines of “Upgrade Astro to vX.Y.Z”, and assign it directly to Copilot. Copilot would churn through the issue, figure out what needed changing, and eventually open a pull request.</p>
+<p>That flow wasn’t bad — I genuinely liked it — but it required me to notice the release, decide to act, and manually kick off the dependency update process. Sometimes I’d be a few minor versions behind before I got around to it.</p>
+<p>Now the agent does the noticing. I just show up for review.</p>
+<h2 id="what-github-agentic-workflows-actually-are">What GitHub Agentic Workflows Actually Are</h2>
+<p><a href="https://github.github.com/gh-aw/">GitHub Agentic Workflows</a> is a research demonstrator from <a href="https://githubnext.com/">GitHub Next</a>, announced in February 2026 by Don Syme and Peli de Halleux. The core idea is elegant: instead of writing complex GitHub Actions YAML by hand, you describe your automation intent in a plain Markdown file with a YAML frontmatter block. You then run <code>gh aw compile</code>, which generates a <code>.lock.yml</code> file — a valid, fully inspectable GitHub Actions workflow YAML that you commit alongside it.</p>
+<p>The Markdown file is the source of truth. The <code>.lock.yml</code> is its compiled output. Both live in <code>.github/workflows/</code>.</p>
+<p>One of the most interesting aspects is the concept of <strong>safe outputs</strong>. By default, the agent running your workflow has read-only access to your repository. The only way it can write anything — create a PR, post a comment — is through pre-approved, sanitized channels declared in the frontmatter under <code>safe-outputs</code>. This is careful security architecture: it means the agent cannot do arbitrary things to your repository, regardless of prompt injection or edge cases. It goes through a defined, auditable channel or it does nothing.</p>
+<p>And critically: <strong>PRs are never merged automatically</strong>. The agent opens the PR. You review and merge. That human checkpoint is a deliberate design principle, not an oversight.</p>
+<p>This sits inside a broader research vision GitHub Next calls <a href="https://githubnext.com/projects/continuous-ai"><strong>Continuous AI</strong></a> — the idea that AI-enriched automation in software collaboration will become as routine as CI/CD. Just as we don’t think twice about a test suite running on every push, we’ll eventually not think twice about an agent checking for outdated dependencies, summarizing PRs, or keeping documentation in sync with the code.</p>
+<h2 id="a-tour-of-my-workflow-file">A Tour of My Workflow File</h2>
+<p>Here is the frontmatter of <a href="https://github.com/laurentkempe/myblog/blob/main/.github/workflows/astro-upgrade.md">my <code>astro-upgrade.md</code></a>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#B392F0">---</span></span>
+<span class="line"><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">Astro Upgrade</span></span>
+<span class="line"><span style="color:#85E89D">description</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">Daily check for new Astro releases and automatic upgrade PR creation</span></span>
+<span class="line"><span style="color:#79B8FF">on</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  schedule</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">daily on weekdays</span></span>
+<span class="line"><span style="color:#85E89D">permissions</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  contents</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">read</span></span>
+<span class="line"><span style="color:#85E89D">  pull-requests</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">read</span></span>
+<span class="line"><span style="color:#85E89D">  issues</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">read</span></span>
+<span class="line"><span style="color:#85E89D">tools</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  github</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    toolsets</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">default</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#85E89D">  web-fetch</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  bash</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  edit</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">network</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  allowed</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">github</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">docs.astro.build</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">node</span></span>
+<span class="line"><span style="color:#85E89D">safe-outputs</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  create-pull-request</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    title-prefix</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;chore: &quot;</span></span>
+<span class="line"><span style="color:#85E89D">    labels</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">dependencies</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">astro</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#85E89D">    draft</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">false</span></span>
+<span class="line"><span style="color:#85E89D">    preserve-branch-name</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">    max</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1</span></span>
+<span class="line"><span style="color:#85E89D">    allowed-files</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">package.json</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">pnpm-lock.yaml</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">.github/workflows/astro-upgrade.lock.yml</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">astro.config.mjs</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">tsconfig.json</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#9ECBFF">src/**</span></span>
+<span class="line"><span style="color:#85E89D">    protected-files</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">allowed</span></span>
+<span class="line"><span style="color:#85E89D">  close-pull-request</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    target</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;*&quot;</span></span>
+<span class="line"><span style="color:#85E89D">    required-labels</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">astro</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#85E89D">    max</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">5</span></span>
+<span class="line"><span style="color:#85E89D">  add-comment</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    target</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;*&quot;</span></span>
+<span class="line"><span style="color:#85E89D">    max</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">5</span></span>
+<span class="line"><span style="color:#B392F0">---</span></span></code></pre>
+<p>Let me walk through the important pieces.</p>
+<p><strong><code>on: schedule: daily on weekdays</code></strong> — The workflow runs every weekday. If there is no new version of Astro, it stops immediately and does nothing. No noise.</p>
+<p><strong><code>permissions</code></strong> — Read-only on contents, pull requests, and issues. The agent cannot write to the repository directly. That access comes only through <code>safe-outputs</code>.</p>
+<p><strong><code>tools</code></strong> — I’m granting the agent the default GitHub toolset (for reading repo files and PR state), HTTP fetch capabilities, the ability to run bash commands, and the <code>edit</code> tool so it can modify files locally before creating the PR.</p>
+<p><strong><code>network.allowed</code></strong> — An explicit allowlist of external hosts. The agent can talk to GitHub, the Astro documentation site, and the npm registry. Nothing else. This is enforced at the network layer by what GitHub Next calls the Agent Workflow Firewall — it prevents the agent from reaching arbitrary external services.</p>
+<p><strong><code>safe-outputs.create-pull-request</code></strong> — This is where the write permission lives. The PR must have the title prefix <code>&quot;chore: &quot;</code>, will get the labels <code>dependencies</code> and <code>astro</code>, will never be created as a draft, and is capped at one open PR at a time (<code>max: 1</code>). The <code>allowed-files</code> list is the most important security control here: the agent can only include those specific files in the PR diff. If it tries to touch anything else, the PR creation is blocked. I added <code>protected-files: allowed</code> after an early version of the workflow failed to update <code>astro.config.mjs</code> — without that flag, protected config files are off-limits by default.</p>
+<p>The body of the Markdown file describes the workflow in six steps, written in natural language. It reads almost like a runbook:</p>
+<ol>
+<li><strong>Check for New Astro Releases</strong> — Read <code>package.json</code> to find the current version. Fetch <code>https://registry.npmjs.org/astro/latest</code>. If already on the latest, stop.</li>
+<li><strong>Check for Existing Upgrade PRs</strong> — Before proceeding, search for any open PRs with the <code>astro</code> label or a branch name starting with <code>astro-upgrade/</code>. If a PR already exists for the same version, stop immediately to avoid duplicates. If older version PRs exist, note their numbers for cleanup later.</li>
+<li><strong>Research the Upgrade</strong> — Fetch the Astro changelog from GitHub and the official upgrade guide at <code>docs.astro.build</code>. Identify any breaking changes relevant to my installed version range, including required peer dependency updates.</li>
+<li><strong>Inspect the Codebase</strong> — Read <code>astro.config.mjs</code>, <code>package.json</code>, <code>tsconfig.json</code>, and <code>src/content/config.ts</code> to understand what the blog actually uses. Search for patterns affected by breaking changes.</li>
+<li><strong>Plan the Upgrade</strong> — List all the package bumps (Astro core and all companion <code>@astrojs/*</code> packages), configuration changes, and source code updates required.</li>
+<li><strong>Apply the Changes and Create a PR</strong> — Update the files, run <code>pnpm install</code>, and open a pull request on the branch <code>astro-upgrade/v{version}</code> with a body that describes every change made.</li>
+<li><strong>Close Outdated Upgrade PRs</strong> — If any older Astro upgrade PRs were found in step 2, close them with a comment explaining they’ve been superseded by the new PR.</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="text"><code><span class="line"><span># Astro Upgrade Workflow</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>You are an Astro upgrade automation agent. Your job is to check for new Astro releases</span></span>
+<span class="line"><span>and, if any are found, create a pull request with the necessary upgrade changes.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Step 1: Check for New Astro Releases</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Read the current `package.json` from this repository to identify all Astro-related</span></span>
+<span class="line"><span>dependencies. Key packages to check include:</span></span>
+<span class="line"><span>- `astro` (core)</span></span>
+<span class="line"><span>- `@astrojs/mdx`</span></span>
+<span class="line"><span>- `@astrojs/sitemap`</span></span>
+<span class="line"><span>- `astro-auto-import`</span></span>
+<span class="line"><span>- `astro-icon`</span></span>
+<span class="line"><span>- `@astro-community/astro-embed-twitter`</span></span>
+<span class="line"><span>- `@astro-community/astro-embed-youtube`</span></span>
+<span class="line"><span>- `@tailwindcss/vite` (only if required by the new Astro version as a peer dependency)</span></span>
+<span class="line"><span>- `tailwindcss` (only if required by the new Astro version as a peer dependency)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>For the `astro` core package, check the latest release on npm:</span></span>
+<span class="line"><span>`</span></span>
+<span class="line"><span>https://registry.npmjs.org/astro/latest</span></span>
+<span class="line"><span>`</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Compare the latest published version of `astro` with the version currently specified</span></span>
+<span class="line"><span>in `package.json`. If the versions are the same, stop — there is nothing to upgrade.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Step 1.5: Check for Existing Upgrade PRs</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Before proceeding, search for open PRs in this repository that:</span></span>
+<span class="line"><span>- Have the `astro` label, **or**</span></span>
+<span class="line"><span>- Have a branch name starting with `astro-upgrade/`, **or**</span></span>
+<span class="line"><span>- Have a title containing &quot;upgrade astro&quot;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>If an open PR already exists **for the same version** you are about to upgrade to,</span></span>
+<span class="line"><span>**stop immediately** — the upgrade PR already exists.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>If open PRs exist **for an older version**, note their PR numbers. You will close them</span></span>
+<span class="line"><span>in Step 6 after creating the new upgrade PR.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Step 2: Research the Upgrade</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>If a newer version of `astro` exists:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>1. **Read the Astro changelog** to understand what changed:</span></span>
+<span class="line"><span>   Fetch: `https://raw.githubusercontent.com/withastro/astro/main/packages/astro/CHANGELOG.md`</span></span>
+<span class="line"><span>   Focus on the entries between the current version and the latest version.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>2. **Read the Upgrading Astro guide** for official upgrade instructions:</span></span>
+<span class="line"><span>   Fetch: `https://docs.astro.build/en/upgrade-astro/`</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>3. Identify:</span></span>
+<span class="line"><span>   - All breaking changes that apply to this repository</span></span>
+<span class="line"><span>   - Required code changes (configuration, imports, API changes, etc.)</span></span>
+<span class="line"><span>   - Updated peer dependency versions (e.g., `@astrojs/*` packages that must be updated together)</span></span>
+<span class="line"><span>   - Any deprecated features being used in this codebase</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Step 3: Inspect the Codebase</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Read the following key files to understand what needs to change:</span></span>
+<span class="line"><span>- `astro.config.mjs` — main Astro configuration</span></span>
+<span class="line"><span>- `package.json` — dependency versions</span></span>
+<span class="line"><span>- `src/content/config.ts` — content collection schemas (if Astro content layer changed)</span></span>
+<span class="line"><span>- `tsconfig.json` — TypeScript configuration</span></span>
+<span class="line"><span>- Any other files mentioned in the changelog as likely requiring changes</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Search the source code for patterns that are affected by breaking changes identified in Step 2.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Step 4: Plan the Upgrade</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Based on your research, create a detailed upgrade plan listing:</span></span>
+<span class="line"><span>1. Which packages need version bumps (astro and all `@astrojs/*` companions)</span></span>
+<span class="line"><span>2. Configuration changes required in `astro.config.mjs`</span></span>
+<span class="line"><span>3. Code changes required in `src/` files</span></span>
+<span class="line"><span>4. Any other file changes needed</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Step 5: Apply the Changes and Create a PR</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Apply ALL the changes needed for the upgrade:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>1. Update `package.json` with the new version of `astro` and any companion packages</span></span>
+<span class="line"><span>2. Update `astro.config.mjs` if configuration changes are needed</span></span>
+<span class="line"><span>3. Update any source files that require code changes</span></span>
+<span class="line"><span>4. Run `pnpm install` to regenerate the lockfile (this project uses pnpm, as confirmed by `pnpm-lock.yaml`)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>Then create a pull request with:</span></span>
+<span class="line"><span>- **Branch name**: `astro-upgrade/v{new-version}` (e.g., `astro-upgrade/v5.0.0`)</span></span>
+<span class="line"><span>- **Title**: `chore: upgrade astro to v{new-version}`</span></span>
+<span class="line"><span>- **Body**: Include a summary of the upgrade, all breaking changes found, and the changes made.</span></span>
+<span class="line"><span>  Reference the changelog URL and the upgrading guide URL.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>If there are breaking changes that you cannot automatically resolve (e.g., complex</span></span>
+<span class="line"><span>API migrations that require human judgment), still create the PR with the partial</span></span>
+<span class="line"><span>changes and clearly document the remaining manual steps in the PR body.</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>## Step 6: Close Outdated Upgrade PRs</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>If you noted any outdated open Astro upgrade PRs in Step 1.5, close each one now.</span></span>
+<span class="line"><span>For each outdated PR:</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>1. **Add a comment** explaining that a newer version is available:</span></span>
+<span class="line"><span>   &gt; Superseded by #NEW_PR — a newer Astro version (vX.Y.Z) is now available.</span></span>
+<span class="line"><span>   Replace `#NEW_PR` with the actual number of the PR you just created in Step 5.</span></span>
+<span class="line"><span>2. **Close the PR** without merging.</span></span></code></pre>
+<p>That’s it. No shell scripting, no GitHub Actions YAML gymnastics, no brittle regex for version parsing. Just an intention expressed clearly, with explicit constraints on what the agent is allowed to do. The workflow even handles its own housekeeping, preventing duplicate PRs and cleaning up outdated ones automatically.</p>
+<h2 id="what-the-pr-looks-like-in-practice">What the PR Looks Like in Practice</h2>
+<p>The pull requests this workflow creates are genuinely good. The PR description documents the previous version, the new version, what changed in the Astro changelog, and a list of every file touched and why. It’s the kind of PR body I’d want to write myself but rarely do for a dependency bump.</p>
+<p>When there are breaking changes — and Astro has had a few across its minor versions — the agent finds them in the changelog, checks whether they apply to my configuration, and applies the fix. When the upgrade is straightforward, the PR is minimal: a version bump in <code>package.json</code> and an updated <code>pnpm-lock.yaml</code>.</p>
+<p>I’ve reviewed five Astro upgrade PRs since I set this up. Five merged without any changes on my part. That’s a good outcome.</p>
+<h2 id="why-this-feels-safe-to-run">Why This Feels Safe to Run</h2>
+<p>I know that “an AI automatically modifying files in my production repository” sounds alarming, so I want to be direct about the security design.</p>
+<p>The agent has <strong>read-only permissions</strong> by default. The only write operation it can perform goes through the <code>create-pull-request</code> safe output channel, which is pre-declared in the frontmatter — not decided at runtime. The <code>allowed-files</code> list is evaluated at compile time, not by the agent. The network is allowlisted at the infrastructure layer. The agent’s execution environment is sandboxed.</p>
+<p>The <code>.lock.yml</code> file is fully human-readable YAML. You can inspect exactly what GitHub Actions steps will run. <code>gh aw compile</code> generates it and you commit it — you are not running a black box.</p>
+<p>And again: <strong>the PR is never auto-merged</strong>. Every one lands in my PR queue for review. I can close it, push changes to it, or merge it. The agent brings the work to me; it doesn’t bypass me.</p>
+<h2 id="closing-thoughts">Closing Thoughts</h2>
+<p>I’ve been following GitHub Next’s research projects for a while — Copilot Workspace, SpecLang, and now Agentic Workflows. What strikes me about this one is how immediately practical it is. This isn’t a speculative demo. It’s a workflow running on my real blog, every weekday, producing real PRs that I review and merge.</p>
+<p>The authoring experience is also genuinely pleasant. Writing automation in natural language, with constraints expressed declaratively, is a fundamentally different experience from debugging complex GitHub Actions YAML at 11pm. The intent is readable. The constraints are visible. The output is auditable.</p>
+<p>I’m already thinking about other automated dependency management workflows: automatically updating code base documentation, or auto-generating release notes. The pattern is clear and composable.</p>
+<p>GitHub Agentic Workflows is still a research demonstrator — explicitly not a product, subject to significant change — so I’d read the <a href="https://github.blog/ai-and-ml/automate-repository-tasks-with-github-agentic-workflows/">announcement post</a> and the <a href="https://githubnext.com/">GitHub Next project page</a> before building anything critical on top of it. But for personal projects, blogs, and exploratory use, the experience is already compelling.</p>
+<p>If you’re an Astro user, or just someone who wants to stop manually chasing dependency upgrades, I’d encourage you to look at <a href="https://github.com/laurentkempe/myblog/blob/main/.github/workflows/astro-upgrade.md">my workflow file</a> as a starting point. It took me an afternoon to get right, and the coffee the next morning tasted that much better for it.</p>
+<p>Have you tried GitHub Agentic Workflows? What would you automate first? I’d love to hear what use cases you’re thinking about — drop a comment below.</p>
+<p>You can get all the code on GitHub</p>
+<div class="not-prose my-3"> <a class="block max-w-[600px] p-4 rounded-lg border border-gray-300 bg-white transition-all duration-200 ease-in-out hover:bg-gray-100 text-black no-underline" href="https://github.com/laurentkempe/myblog" target="_blank" style="color: inherit; text-decoration: none;"> <div class="flex items-start"> <svg class="w-8 h-8 text-gray-500" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path> </svg> <div class="ml-3 flex-grow"> <p class="text-[1rem] font-bold text-blue-600 m-0"> <span>laurentkempe/</span><b>myblog</b> </p> <p class="text-[0.85rem] my-1 text-gray-700"> My blog source code https://laurentkempe.com/ </p> <div class="flex items-center gap-2 text-gray-600 text-[0.85rem]"> <span class="flex items-center gap-1"> <span class="w-3 h-3 bg-green-500 rounded-full inline-block"></span> <span>C#</span> </span> <span class="flex items-center gap-1"> <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"> <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path> </svg> <span>0</span> </span> <span class="flex items-center gap-1"> <svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"> <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path> </svg> <span>0</span> </span> </div> </div> <img class="w-18 h-18 rounded-full float-right ml-4 mb-4 mt-2.5 sm:ml-4 sm:float-none sm:mx-auto" src="https://avatars.githubusercontent.com/u/272612?v=4" alt="laurentkempe avatar"> </div> </a> </div> </article>  </div>  <div class="giscus-container mt-8 pt-8 border-t border-gray-200 dark:border-gray-700" data-astro-cid-qdzwzgpn> <div id="giscus-comments" data-astro-cid-qdzwzgpn></div> </div> <script>
+  (function() {
+    const STORAGE_KEY = "theme-preference";
+    
+    // Function to get current theme based on ThemeToggle logic
+    function getCurrentTheme() {
+      const savedTheme = localStorage.getItem(STORAGE_KEY);
+      if (savedTheme) {
+        return savedTheme === "dark" ? "dark" : "light";
+      } else {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+    }
+    
+    // Function to get giscus theme name
+    function getGiscusTheme(isDark) {
+      return isDark ? "dark" : "light";
+    }
+    
+    // Function to send theme change message to giscus iframe
+    function updateGiscusTheme(theme) {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      if (iframe) {
+        iframe.contentWindow.postMessage({
+          giscus: {
+            setConfig: {
+              theme: getGiscusTheme(theme === "dark")
+            }
+          }
+        }, 'https://giscus.app');
+      }
+    }
+    
+    // Initialize giscus with correct theme
+    const initialTheme = getCurrentTheme();
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', 'laurentkempe/myblog-comments');
+    script.setAttribute('data-repo-id', 'R_kgDOPHtNGA');
+    script.setAttribute('data-category', 'General');
+    script.setAttribute('data-category-id', 'DIC_kwDOPHtNGM4Csi4o');
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', getGiscusTheme(initialTheme === "dark"));
+    script.setAttribute('data-lang', 'en');
+    script.setAttribute('data-loading', 'lazy');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    
+    const container = document.getElementById('giscus-comments');
+    if (container) {
+      container.appendChild(script);
+    }
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const isDark = document.documentElement.classList.contains('dark');
+          updateGiscusTheme(isDark ? "dark" : "light");
+        }
+      });
+    });
+    
+    // Start observing changes to the document element's class
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    // Also listen for storage changes (in case theme is changed in another tab)
+    window.addEventListener('storage', function(e) {
+      if (e.key === STORAGE_KEY) {
+        const newTheme = e.newValue === "dark" ? "dark" : "light";
+        updateGiscusTheme(newTheme);
+      }
+    });
+    
+    // Listen for system theme changes when no preference is saved
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
+      if (!localStorage.getItem(STORAGE_KEY)) {
+        updateGiscusTheme(e.matches ? "dark" : "light");
+      }
+    });
+  })();
+</script>  </div> <footer class="py-8"> <div class="container mx-auto gap-4 px-4 text-sm text-gray-600 dark:text-gray-300 text-center"> <div>
+&copy; 2003 - 2026 Laurent Kempé. All rights reserved.
+</div> <div>
+The expressed opinions are my own and do not reflect those of my employer or any third-party entities.
+</div> </div> </footer> <script>
+            const theme = (() => {
+              if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+                return localStorage.getItem("theme");
+              }
+              if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                return "dark";
+              }
+              return "light";
+            })();
+
+            if (theme === "light") {
+              document.documentElement.classList.remove("dark");
+            } else {
+              document.documentElement.classList.add("dark");
+            }
+            window.localStorage.setItem("theme", theme);
+        </script> <script type="module">function a(t){const e=t.split(":").map(Number);return e.length===3?e[0]*3600+e[1]*60+e[2]:e.length===2?e[0]*60+e[1]:e.length===1?e[0]:0}function i(){return document.querySelector("lite-youtube")}function l(){const t=i();return t?t.querySelector("iframe"):null}function m(t){const e=i();if(!e){console.log("No lite-youtube element found");return}if(!e.getAttribute("videoid")){console.log("No video ID found on lite-youtube element");return}let o=l();if(o&&o.contentWindow){const r=o.src,n=new URL(r);n.searchParams.set("start",t.toString()),n.searchParams.set("autoplay","1"),o.src=n.toString(),console.log(`Seeking to ${t} seconds by updating iframe src`)}else e.setAttribute("params",`start=${t}&autoplay=1`),e.click(),console.log(`Starting video at ${t} seconds`);e.scrollIntoView({behavior:"smooth",block:"start"})}function f(){const t=document.querySelectorAll('a[href^="#timestamp-"]');t.length!==0&&(t.forEach(e=>{e.addEventListener("click",s=>{s.preventDefault();const o=e.getAttribute("href");if(!o)return;const r=o.match(/#timestamp-(\d{2}:\d{2}:\d{2})/);if(r){const n=r[1],u=a(n);console.log(`Seeking to ${n} (${u} seconds)`),m(u)}})}),console.log(`YouTube timestamp control: Set up ${t.length} timestamp links`))}function c(){const t=i()||document.querySelector('iframe[src*="youtube.com"]'),e=document.querySelector('a[href^="#timestamp-"]');!t||!e||f()}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",c):c();</script> <script type="module">function r(){const e=document.createElement("button");return e.className="copy-code-button",e.setAttribute("aria-label","Copy code to clipboard"),e.innerHTML=`
+    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+    </svg>
+    <svg class="check-icon copy-button-hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  `,e}async function i(e){try{return await navigator.clipboard.writeText(e),!0}catch(t){return console.error("Failed to copy text: ",t),!1}}function d(e){const t=e.querySelector(".copy-icon"),o=e.querySelector(".check-icon");t&&o&&(t.classList.add("copy-button-hidden"),o.classList.remove("copy-button-hidden"),e.classList.add("copied"),setTimeout(()=>{t.classList.remove("copy-button-hidden"),o.classList.add("copy-button-hidden"),e.classList.remove("copied")},2e3))}function a(e){if(e.parentElement?.classList.contains("code-block-wrapper"))return;const t=document.createElement("div");t.className="code-block-wrapper",e.parentNode?.insertBefore(t,e),t.appendChild(e);const o=r();o.addEventListener("click",async()=>{const n=e.querySelector("code");if(n){const s=n.innerText||n.textContent||"";await i(s)&&d(o)}}),t.appendChild(o)}function l(){document.querySelectorAll("pre").forEach(t=>{t.querySelector("code")&&a(t)})}function c(){l()}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",c):c();</script> </body> </html>
