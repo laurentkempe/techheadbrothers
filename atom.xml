@@ -3,12 +3,28 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2026-09-05T06:34:01.861Z</updated>
+<updated>2026-09-05T10:27:28.884Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>Installing Omarchy on My Surface Book for .NET Development</title>
+    <link href="https://laurentkempe.com/2026/09/05/installing-omarchy-on-my-surface-book/"/>
+    <id>https://laurentkempe.com/2026/09/05/installing-omarchy-on-my-surface-book/</id>
+    <published>2026-09-05T12:25:32.000Z</published>
+    <updated>2026-09-05T12:25:32.000Z</updated>
+    <summary type="html">&lt;p&gt;I installed Omarchy on my first-generation Microsoft Surface Book, mostly to find out whether this 2015 laptop could still make a good .NET development machine.&lt;/p&gt;
+&lt;p&gt;The installation took about two minutes.&lt;/p&gt;
+&lt;p&gt;That was the first surprise. It is my timing on my machine, not a benchmark, but it matches &lt;a href=&quot;https://github.com/basecamp/omarchy/blob/quattro/manual/02-getting-started.md&quot;&gt;Omarchy&apos;s own guidance&lt;/a&gt;. The documentation says installation can take less than a minute on fast hardware and no more than five minutes on older computers.&lt;/p&gt;
+&lt;p&gt;Two minutes on an original Surface Book certainly works for me.&lt;/p&gt;
+</summary>
+    <category term="Omarchy" scheme="https://laurentkempe.com/tags/omarchy" />
+    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
+    <category term="Linux" scheme="https://laurentkempe.com/tags/linux" />
+    <category term="GitHub Copilot" scheme="https://laurentkempe.com/tags/github-copilot" />
+  </entry>
   <entry>
     <title>Automate Astro Upgrades with GitHub Agentic Workflows</title>
     <link href="https://laurentkempe.com/2026/04/11/github-agentic-workflows-astro-upgrade/"/>
@@ -279,19 +295,5 @@ It&apos;s time to take a step further and explore how to leverage Server-Sent Ev
     <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
     <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
     <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
-    <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
-  </entry>
-  <entry>
-    <title>Learning AI function calling in C# with Llama 3.2 SLM and Ollama running on your machine</title>
-    <link href="https://laurentkempe.com/2024/10/28/learning-ai-function-calling-in-csharp-with-llama-32-slm-and-ollama-running-on-your-machine/"/>
-    <id>https://laurentkempe.com/2024/10/28/learning-ai-function-calling-in-csharp-with-llama-32-slm-and-ollama-running-on-your-machine/</id>
-    <published>2024-10-28T17:22:35.000Z</published>
-    <updated>2024-10-28T17:22:35.000Z</updated>
-    <summary type="html">&lt;p&gt;I&apos;ve been trying to wrap my head around function/tool calling for a while now, and I&apos;m excited to share what I&apos;ve learned with you. It&apos;s a powerful way to let developers integrate advanced AI features directly into their applications. We&apos;ll walk through understanding the core concepts, setting up your environment, and implementing a practical example using a C# source generator.&lt;/p&gt;
-</summary>
-    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
-    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
-    <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
-    <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
     <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
   </entry></feed>
