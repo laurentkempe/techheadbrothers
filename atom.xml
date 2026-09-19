@@ -3,12 +3,213 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2026-09-19T06:01:38.575Z</updated>
+<updated>2026-09-19T16:29:34.511Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>TypeSafe's Jev AI Model in .NET: A Community SDK for Structured AI Output in C#</title>
+    <link href="https://laurentkempe.com/2026/09/19/typesafe-jev-dotnet-sdk-introduction/"/>
+    <id>https://laurentkempe.com/2026/09/19/typesafe-jev-dotnet-sdk-introduction/</id>
+    <published>2026-09-19T18:27:12.000Z</published>
+    <updated>2026-09-19T18:27:12.000Z</updated>
+    <summary type="html">&lt;p&gt;Most AI tooling I&apos;ve used in the last couple of years follows the same pattern. You send a prompt, get back text, and then write brittle code to turn that text into something your app can actually use. JSON mode helps. Function calling helps more. Even then, you are still asking a model trained to write for people to produce machine-readable output, and hoping it doesn&apos;t wrap the JSON in a markdown fence, drop a field, or invent a category that is not in your enum.&lt;/p&gt;
+&lt;p&gt;Two days ago I found &lt;a href=&quot;https://typesafe.ai&quot;&gt;TypeSafe&lt;/a&gt; and its model, Jev. It takes a different approach. Instead of generating text, it evaluates typed questions against a piece of input and returns structured, typed decisions. No parsing. No &amp;quot;please respond only with valid JSON.&amp;quot; I liked the idea enough that I had GitHub Copilot with HydraFusion port TypeSafe&apos;s official TypeScript SDK to .NET 11 and C# 15. This post is part introduction to the model and part walkthrough of the ported TypeSafe .NET SDK, so you can try it in C# yourself.&lt;/p&gt;
+&lt;h2&gt;What TypeSafe and Jev actually are&lt;/h2&gt;
+&lt;p&gt;TypeSafe calls what it is building &amp;quot;Machine Native Intelligence&amp;quot;. That is a way of saying the model is designed for software-to-software and AI-to-AI interactions, not for chatting with a person. A chat model is optimized to produce a response that reads well. Jev is optimized to produce a calibrated decision that your code can act on.&lt;/p&gt;
+&lt;p&gt;Jev is TypeSafe&apos;s flagship model and the first in a class they call System One. The name nods to Daniel Kahneman&apos;s Thinking, Fast and Slow. System 1 is the brain&apos;s fast, intuitive judgment engine. System 2 is slower and more deliberate. Jev is built to be your application&apos;s System 1: a narrow judgment call embedded inside a larger workflow that can call a slower reasoning model when it genuinely needs to think something through.&lt;/p&gt;
+&lt;p&gt;Under the hood, TypeSafe frames this as a third era of model post-training. RLHF, or Reinforcement Learning from Human Feedback, gave us ChatGPT-style chat models tuned to produce responses that humans prefer. RLVR, or Reinforcement Learning with Verifiable Rewards, gave us reasoning models that are better at math and other benchmark-heavy tasks, but they are slower and more expensive. TypeSafe&apos;s own method, RLCD, or Reinforcement Learning for Calibrated Decisions, optimizes for something else again: decisions with well-calibrated probabilities rather than text a person finds convincing. The docs make a sharp point here: a response can be persuasive to a human without being reliable enough for unattended automation. That is the gap RLCD is trying to close.&lt;/p&gt;
+&lt;h2&gt;State and the three primitives: Noul, Choice, and Score&lt;/h2&gt;
+&lt;p&gt;Every call to Jev has the same shape. You give it a state, which is the content to evaluate, and one or more questions to ask about it. The state can be a string, a JSON object, or an array of text. Each question is typed as one of three primitives:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Noul: &amp;quot;Is this statement true?&amp;quot; A yes or no probability returned as a single number between 0 and 1. Use it for binary judgments like, &amp;quot;Does this message request a refund?&amp;quot; or &amp;quot;Is this a defect report?&amp;quot;&lt;/li&gt;
+&lt;li&gt;Choice: &amp;quot;Choose an option from a list.&amp;quot; Use it for unordered categories like routing a ticket to a department, classifying a document type, or detecting a language.&lt;/li&gt;
+&lt;li&gt;Score: &amp;quot;Score the state on a rubric.&amp;quot; Use it for ordinal judgments like severity, urgency, frustration, or skill level. A score answer can fall between two defined levels, not just land exactly on one.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The shape of the answer matters. The TypeSafe docs are pretty explicit about this. Forcing an ordinal judgment like urgency into a vague Noul, or forcing a genuinely unordered category into a Score, produces awkward and hard-to-interpret answers. Match the primitive to the decision you actually want.&lt;/p&gt;
+&lt;p&gt;You can send several questions of different types in a single call, and they are evaluated in parallel against the same state. That means adding more questions barely changes latency. It also avoids the context rot that comes from packing everything into one giant prompt.&lt;/p&gt;
+&lt;h2&gt;Confidence scores and the act, confirm, escalate pattern&lt;/h2&gt;
+&lt;p&gt;Choice and Score answers come back with a confidence value between 0 and 1. That confidence is derived from the shape of the probability distribution the model produces. A peaked distribution means the model is fairly sure. A flatter one means it is genuinely unsure. Noul does not have a separate confidence field, because the probability itself carries that signal.&lt;/p&gt;
+&lt;p&gt;High confidence means act automatically. Medium confidence means proceed cautiously, confirm, or flag for review. Low confidence means do not act and escalate. They give a nice example with a banking assistant, where checking an account balance can tolerate lower confidence than approving a wire transfer. The point that stuck with me is that a model that can say &amp;quot;I don&apos;t know&amp;quot; is often more trustworthy than one that always produces a confident-sounding answer, whether it is right or not.&lt;/p&gt;
+&lt;h2&gt;Atomic questions, not agents&lt;/h2&gt;
+&lt;p&gt;This philosophy is worth calling out because it cuts against a lot of the current &amp;quot;agentic AI&amp;quot; framing. TypeSafe is not trying to sell you an autonomous agent that loops and decides its own next action. The pitch is the opposite: keep control flow in your regular code, and use Jev only for narrow, atomic, structured judgments that software can branch on, sort by, and route with.&lt;/p&gt;
+&lt;p&gt;That also means decomposing broad, compound questions into smaller signals. Instead of one giant &amp;quot;is this spam?&amp;quot; Noul, the docs suggest breaking it into several independent checks, like &lt;code&gt;requests_credentials&lt;/code&gt;, &lt;code&gt;offers_unexpected_reward&lt;/code&gt;, &lt;code&gt;creates_time_pressure&lt;/code&gt;, &lt;code&gt;sender_identity_mismatch&lt;/code&gt;, &lt;code&gt;link_domain_mismatch&lt;/code&gt;, and &lt;code&gt;disguises_link_destination&lt;/code&gt;, then combining them with your own weighting logic in code. That gives you something inspectable and tunable instead of a black box that you cannot reason about six months later.&lt;/p&gt;
+&lt;h2&gt;Why &amp;quot;I&amp;quot; built a TypeSafe .NET SDK&lt;/h2&gt;
+&lt;p&gt;TypeSafe ships an official TypeScript SDK, but nothing for .NET. As, I wanted to experiement with TypeSafe and Jev in C#, I asked GitHub Copilot with HydraFusion to port it while reading the docs to understand the concepts. The result is an unofficial, vibe coded and not supported community TypeSafe .NET SDK, targeting .NET 11.0 and C# 15, with zero dependencies.&lt;/p&gt;
+&lt;p&gt;&amp;lt;Alert mode=&amp;quot;warning&amp;quot;&amp;gt;
+This is an unofficial community port and is not supported by TypeSafe. Use it at your own risk.
+&amp;lt;/Alert&amp;gt;&lt;/p&gt;
+&lt;p&gt;A few design choices are worth calling out:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;TypeSafeClient&lt;/code&gt; implements &lt;code&gt;IDisposable&lt;/code&gt; and is configured with &lt;code&gt;TypeSafeClientOptions&lt;/code&gt;. That includes the API key, base URL, model, timeout, retry policy, logger, and optional HttpClient.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Answer&lt;/code&gt;s are a polymorphic C# 15 &lt;code&gt;closed record&lt;/code&gt; hierarchy: &lt;code&gt;NoulAnswer&lt;/code&gt;, &lt;code&gt;ChoiceAnswer&lt;/code&gt;, and &lt;code&gt;ScoreAnswer&lt;/code&gt; all derive from &lt;code&gt;Answer&lt;/code&gt;. They deserialize correctly from JSON using &lt;code&gt;System.Text.Json&lt;/code&gt; based on the discriminator the API returns. You get a real, pattern-matchable C# type back instead of a loosely typed blob.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Question&lt;/code&gt;s are built with static factories like &lt;code&gt;Questions.Noul(...)&lt;/code&gt;, &lt;code&gt;Questions.Choice(...)&lt;/code&gt;, and &lt;code&gt;Questions.Score(...)&lt;/code&gt;, rather than a pile of constructors. That keeps the call site close to the concept it represents.&lt;/li&gt;
+&lt;li&gt;The client includes built-in retry with exponential backoff and jitter. It honors Retry-After and retry-after-ms headers, and it exposes a typed error hierarchy such as &lt;code&gt;BadRequestError&lt;/code&gt;, &lt;code&gt;RateLimitError&lt;/code&gt;, &lt;code&gt;ApiTimeoutError&lt;/code&gt;, and friends, so you can handle failure modes explicitly instead of catching a generic exception.&lt;/li&gt;
+&lt;li&gt;Configuration falls back sensibly: explicit option value, then environment variable, then a default. The defaults are https://api.typesafe.ai, model jev-latest, and a 10 second timeout. The environment variables are &lt;code&gt;TYPESAFE_API_KEY&lt;/code&gt;, &lt;code&gt;TYPESAFE_BASE_URL&lt;/code&gt;, &lt;code&gt;TYPESAFE_DEFAULT_MODEL&lt;/code&gt;, and &lt;code&gt;TYPESAFE_LOG_LEVEL&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To be clear, again, this is a vibe coded port of the TypeSafe TypeScript SDK for .NET, not an official TypeSafe project. It follows the shape of their TypeScript SDK closely, but if you are building something production-critical, you should still cross-check behavior against the official docs and API.&lt;/p&gt;
+&lt;h2&gt;A minimal C# example of structured AI output&lt;/h2&gt;
+&lt;p&gt;Here is the smallest useful call: one Noul question, one Choice question, and one Score question, all against the same piece of state.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;#:project src/TypeSafe/TypeSafe.csproj
+
+using TypeSafe;
+
+using var client = new TypeSafeClient(new TypeSafeClientOptions
+{
+    ApiKey = &amp;quot;your-api-key&amp;quot;
+});
+
+var result = await client.SystemOneAsync(new SystemOneRequest
+{
+    State = new { text = &amp;quot;Evaluate this statement.&amp;quot; },
+    Questions = new Dictionary&amp;lt;string, Question&amp;gt;
+    {
+        [&amp;quot;safe&amp;quot;] = Questions.Noul(
+            instructions: &amp;quot;Assess safety.&amp;quot;,
+            criteria: new NoulCriteria
+            {
+                True = &amp;quot;The statement is safe.&amp;quot;,
+                False = &amp;quot;The statement is unsafe.&amp;quot;
+            }),
+        [&amp;quot;topic&amp;quot;] = Questions.Choice(
+            instructions: new { task = &amp;quot;Choose a topic.&amp;quot; },
+            criteria: new Dictionary&amp;lt;string, object?&amp;gt;
+            {
+                [&amp;quot;science&amp;quot;] = &amp;quot;Scientific content&amp;quot;,
+                [&amp;quot;other&amp;quot;] = null
+            }),
+        [&amp;quot;quality&amp;quot;] = Questions.Score(
+            instructions: &amp;quot;Rate quality.&amp;quot;,
+            criteria: [&amp;quot;poor&amp;quot;, new { label = &amp;quot;good&amp;quot; }, &amp;quot;excellent&amp;quot;])
+    }
+});
+
+var safeProbability = ((NoulAnswer)result.Answers[&amp;quot;safe&amp;quot;]).Noul;
+Console.WriteLine($&amp;quot;Safe probability: {safeProbability}&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice that instructions and criteria accept plain strings or structured objects. That is not an accident. TypeSafe&apos;s API treats JSON-shaped instructions as first-class, and that matters once your questions need more precision than a sentence can express.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;C:\Program Files\dotnet\dotnet.exe run --file D:\projects\typesafe\dotnetsdk\Sample.cs
+
+Safe probability: 0.85
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;A more realistic example: AI classification for support ticket triage in C#&lt;/h2&gt;
+&lt;p&gt;This is closer to how I would actually use it: one call that decides whether a ticket is a bug, which team should own it, and how urgent it is, all in parallel against the same ticket state.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;var state = new
+{
+    ticket = new
+    {
+        subject = &amp;quot;Checkout fails with a 500 error&amp;quot;,
+        body = &amp;quot;Every attempt to pay with a saved card returns an error page. This started this morning.&amp;quot;,
+        customer_tier = &amp;quot;enterprise&amp;quot;,
+    },
+};
+
+var request = new SystemOneRequest
+{
+    State = state,
+    Questions = new Dictionary&amp;lt;string, Question&amp;gt;
+    {
+        [&amp;quot;is_bug&amp;quot;] = Questions.Noul(
+            &amp;quot;Does the ticket describe a defect in the product?&amp;quot;,
+            new NoulCriteria
+            {
+                True = &amp;quot;The customer reports broken or incorrect behaviour.&amp;quot;,
+                False = &amp;quot;The ticket is a question, feature request, or billing issue.&amp;quot;,
+            }),
+
+        [&amp;quot;category&amp;quot;] = Questions.Choice(
+            &amp;quot;Which team should own this ticket?&amp;quot;,
+            new Dictionary&amp;lt;string, object?&amp;gt;
+            {
+                [&amp;quot;billing&amp;quot;] = &amp;quot;Payments, invoices, and refunds.&amp;quot;,
+                [&amp;quot;platform&amp;quot;] = &amp;quot;Availability, errors, and performance of the website.&amp;quot;,
+                [&amp;quot;account&amp;quot;] = &amp;quot;Login, permissions, and provisioning.&amp;quot;,
+            }),
+
+        [&amp;quot;urgency&amp;quot;] = Questions.Score(
+            &amp;quot;How urgent is this ticket?&amp;quot;,
+            [&amp;quot;not urgent&amp;quot;, &amp;quot;low&amp;quot;, &amp;quot;medium&amp;quot;, &amp;quot;high&amp;quot;, &amp;quot;drop everything&amp;quot;]),
+    },
+};
+
+var result = await client.SystemOneAsync(request);
+
+foreach (var (name, answer) in result.Answers)
+{
+    var description = answer switch
+    {
+        NoulAnswer noul =&amp;gt; $&amp;quot;noul {noul.Noul:P1}&amp;quot;,
+        ChoiceAnswer choice =&amp;gt; $&amp;quot;{choice.Choice} (confidence {choice.Confidence:P1})&amp;quot;,
+        ScoreAnswer score =&amp;gt; $&amp;quot;{score.Score:0.##} (confidence {score.Confidence:P1})&amp;quot;
+    };
+    Console.WriteLine($&amp;quot;{name}: {description}&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;That switch expression is doing real work. You get an exhaustively typed answer per question, and then you decide in ordinary C# what counts as high confidence for auto-routing and what should be handed to a human. The sample app in &lt;code&gt;samples/TypeSafe.Sample/Program.cs&lt;/code&gt; extends this exact scenario and also shows how to map each SDK error type to a distinct process exit code.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;D:/projects/typesafe/dotnetsdk/samples/TypeSafe.Sample/bin/Debug/net11.0/TypeSafe.Sample.exe
+Base URL      : https://api.typesafe.ai/
+Default model : jev-latest
+
+Available models
+----------------
+[typesafe:information] GET /v1/models returned 200.
+  jev-latest       2026-09-10T18:38:01.391457+00:00 The latest iteration of TypeSafe&apos;s System One Model: Jev
+  jev-preview      2026-09-10T18:39:06.057655+00:00 A preview version of `jev-latest`: should be better in most ways
+
+[typesafe:information] POST /v1/systemone returned 200.
+Evaluation
+----------
+  model      : jev-1.13.0
+  request id : req_01a0ba41ebed7836b663dff59e755a6b
+  is_bug     : noul 97.0%
+  category   : billing (confidence 37.0%) [platform 42%, billing 58%, account 0%]
+  urgency    : 3.58 (confidence 65.0%) legend: {&amp;quot;0&amp;quot;:&amp;quot;not urgent&amp;quot;,&amp;quot;1&amp;quot;:&amp;quot;low&amp;quot;,&amp;quot;2&amp;quot;:&amp;quot;medium&amp;quot;,&amp;quot;3&amp;quot;:&amp;quot;high&amp;quot;,&amp;quot;4&amp;quot;:&amp;quot;drop everything&amp;quot;}
+  usage      : 506 in / 70 out
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Where Jev is actually useful&lt;/h2&gt;
+&lt;p&gt;The docs group use cases into a few buckets: AI automation software, real-time applications, AI map-reduce over large datasets, universal verification, and harness engineering. In practical terms, that covers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Customer support: triage, routing, urgency scoring, refund-eligibility checks&lt;/li&gt;
+&lt;li&gt;Trust and safety or moderation: decomposed spam and phishing detection, policy-violation checks&lt;/li&gt;
+&lt;li&gt;Fraud or financial crime: risk-scaled decisions where confidence thresholds gate automatic action versus escalation&lt;/li&gt;
+&lt;li&gt;E-commerce: product taxonomy classification, listing quality checks&lt;/li&gt;
+&lt;li&gt;Insurance and legal or compliance work: structured field verification against policy text&lt;/li&gt;
+&lt;li&gt;Data extraction: pulling and validating structured fields out of unstructured documents&lt;/li&gt;
+&lt;li&gt;Search, retrieval, and ranking: scoring relevance or ordering candidates at low latency&lt;/li&gt;
+&lt;li&gt;Model routing and LLM guardrails: deciding whether a request needs a heavier reasoning model or should be blocked outright&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If your task looks like classification, detection, scoring, routing, ranking, or verification, and you would normally ask an LLM to output JSON and hope for the best, this is worth a look.&lt;/p&gt;
+&lt;h2&gt;Practical notes on using Jev in production&lt;/h2&gt;
+&lt;p&gt;A few things are worth knowing before you try it:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Jev is currently text-only. It handles strings, JSON, and arrays of text, but not images, audio, or video.&lt;/li&gt;
+&lt;li&gt;English gets the best accuracy. Other languages, including CJK scripts, trail behind right now.&lt;/li&gt;
+&lt;li&gt;Typical latency seems super fast per call, regardless of how many questions you attach. It seems fast enough to live on a request path instead of only in a batch job.&lt;/li&gt;
+&lt;li&gt;An 80 percent probability means roughly 80 percent of similarly scored predictions are correct across many calls, not that any single answer is 80 percent &amp;quot;sure&amp;quot; in a way you can rely on individually.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Try TypeSafe&apos;s .NET SDK yourself&lt;/h2&gt;
+&lt;p&gt;If you are a .NET developer curious about structured AI decisions without the parsing dance, grab the sample app, set &lt;code&gt;TYPESAFE_API_KEY&lt;/code&gt;, and run the ticket-triage example against your own data. Swap in your own state shape, add or remove questions, and watch how little response time changes as you do it. It is a genuinely different way to bring a model into a codebase, and it is worth ten minutes of your time even if you end up sticking with your current LLM setup for everything else. Where could your application benefit from replacing fragile JSON parsing with a calibrated, structured decision, let me know in the comments?&lt;/p&gt;
+&lt;p&gt;You can get all the code on GitHub
+&amp;lt;GitHubCard user=&amp;quot;laurentkempe&amp;quot; repo=&amp;quot;TypeSafeJevPlayground&amp;quot; /&amp;gt;
+&amp;lt;br/&amp;gt;&lt;/p&gt;
+&lt;h1&gt;References&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.typesafe.ai/introduction&quot;&gt;TypeSafe Jev Documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.typesafe.ai/concepts/system-one&quot;&gt;System One Concept&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.typesafe.ai/concepts/how-to-build-with-system-one#example-decompose-spam-detection&quot;&gt;How to build with TypeSafe&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.typesafe.ai/patterns/confidence-routing#example-voice-banking-commands&quot;&gt;Confidence-gated routing - Example: voice banking commands&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.typesafe.ai/introduction#atomic-questions-composed-in-code&quot;&gt;Atomic Questions Composed in Code&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.typesafe.ai/concepts/use-case-map&quot;&gt;Example use cases&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://docs.typesafe.ai/models#current-models&quot;&gt;Models - Current Models&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.blog/ai-and-ml/github-copilot/project-hydrafusion-frontier-quality-via-multi-model-orchestration/&quot;&gt;GitHub Copilot Project HydraFusion: Frontier quality via multi-model orchestration&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</summary>
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
+    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
+  </entry>
   <entry>
     <title>Installing Omarchy on My Surface Book for .NET Development</title>
     <link href="https://laurentkempe.com/2026/09/05/installing-omarchy-on-my-surface-book/"/>
@@ -280,20 +481,5 @@ It&apos;s time to take a step further and explore how to leverage Server-Sent Ev
     <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
     <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
     <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
-    <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
-  </entry>
-  <entry>
-    <title>Leveraging Microsoft.Extensions.AI for Tool Calling in C#</title>
-    <link href="https://laurentkempe.com/2025/01/27/leveraging-microsoftextensionsai-for-tool-calling-in-csharp/"/>
-    <id>https://laurentkempe.com/2025/01/27/leveraging-microsoftextensionsai-for-tool-calling-in-csharp/</id>
-    <published>2025-01-27T13:32:02.000Z</published>
-    <updated>2025-01-27T13:32:02.000Z</updated>
-    <summary type="html">&lt;p&gt;In the previous post &amp;quot;&lt;a href=&quot;https://laurentkempe.com/2024/10/28/learning-ai-function-calling-in-csharp-with-llama-32-slm-and-ollama-running-on-your-machine/&quot;&gt;Learning AI function calling in C# with Llama 3.2 SLM and Ollama running on your machine&lt;/a&gt;&amp;quot;, we wrapped our head around the concept of tool calling and implemented a C# source generator enabling our functions to be called by Llama 3.2 SLM using Ollama.&lt;/p&gt;
-&lt;p&gt;In this post, we will explore how to use Microsoft Extensions AI for tool calling in a simple .NET CLI application. We will leverage the power of Ollama and Llama 3.2 SLM to call functions and interact with the AI model using C#.&lt;/p&gt;
-</summary>
-    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
-    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
-    <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
-    <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
     <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
   </entry></feed>
