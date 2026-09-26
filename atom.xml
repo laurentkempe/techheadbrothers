@@ -3,12 +3,24 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2026-09-26T06:06:11.242Z</updated>
+<updated>2026-09-26T09:45:44.894Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>C# 15 Collection Expression Arguments: What's New vs C# 12 and 13</title>
+    <link href="https://laurentkempe.com/2026/09/26/csharp-15-collection-expression-arguments/"/>
+    <id>https://laurentkempe.com/2026/09/26/csharp-15-collection-expression-arguments/</id>
+    <published>2026-09-26T11:40:45.000Z</published>
+    <updated>2026-09-26T11:40:45.000Z</updated>
+    <summary type="html">&lt;p&gt;C# 15 brings a focused upgrade to collection expressions: &lt;strong&gt;collection expression arguments&lt;/strong&gt; via a leading &lt;code&gt;with(...)&lt;/code&gt; element.&lt;/p&gt;
+&lt;p&gt;If you&apos;re already using C# 12 collection expressions, this addresses a common friction point: you can now pass constructor/factory-style arguments inline inside &lt;code&gt;[...]&lt;/code&gt;.&lt;/p&gt;
+</summary>
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
+  </entry>
   <entry>
     <title>TypeSafe's Jev AI Model in .NET: A Community SDK for Structured AI Output in C#</title>
     <link href="https://laurentkempe.com/2026/09/19/typesafe-jev-dotnet-sdk-introduction/"/>
@@ -277,21 +289,5 @@ It&apos;s time to take a step further and explore how to leverage Server-Sent Ev
     <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
     <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
     <category term="Semantic Kernel" scheme="https://laurentkempe.com/tags/semantic-kernel" />
-    <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
-  </entry>
-  <entry>
-    <title>Harnessing DeepSeek-R1 distilled model with .NET Aspire and Ollama locally</title>
-    <link href="https://laurentkempe.com/2025/02/01/harnessing-deepseek-r1-with-dotnet-aspire-and-ollama-locally/"/>
-    <id>https://laurentkempe.com/2025/02/01/harnessing-deepseek-r1-with-dotnet-aspire-and-ollama-locally/</id>
-    <published>2025-02-01T12:30:53.000Z</published>
-    <updated>2025-02-01T12:30:53.000Z</updated>
-    <summary type="html">&lt;p&gt;In my earlier posts, I&apos;ve demonstrated how to install Ollama using the Windows installer. However, for developers, there&apos;s a more streamlined method to set up Ollama on your machine.&lt;/p&gt;
-&lt;p&gt;In this blog post, we&apos;ll explore how to run DeepSeek-R1 by harnessing the capabilities of .NET Aspire alongside Ollama on your local environment.&lt;/p&gt;
-</summary>
-    <category term=".NET Aspire" scheme="https://laurentkempe.com/tags/.net-aspire" />
-    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
-    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
-    <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
-    <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
     <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
   </entry></feed>
