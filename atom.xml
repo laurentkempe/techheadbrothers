@@ -3,12 +3,26 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2026-10-10T06:24:11.574Z</updated>
+<updated>2026-10-10T13:19:02.101Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>Building a TypeSafe's Jev MCP server with .NET</title>
+    <link href="https://laurentkempe.com/2026/10/10/building-a-typesafe-jev-mcp-server-dotnet/"/>
+    <id>https://laurentkempe.com/2026/10/10/building-a-typesafe-jev-mcp-server-dotnet/</id>
+    <published>2026-10-10T15:14:40.000Z</published>
+    <updated>2026-10-10T15:14:40.000Z</updated>
+    <summary type="html">&lt;p&gt;Two weeks ago I introduced my unofficial &lt;a href=&quot;https://laurentkempe.com/2026/09/19/typesafe-jev-dotnet-sdk-introduction/&quot;&gt;TypeSafe .NET SDK&lt;/a&gt; and used it to ask Jev several typed questions about a support ticket. My C# application controlled the workflow; Jev returned structured answers for the judgments it needed.&lt;/p&gt;
+&lt;p&gt;This week I wanted to ask those same questions from any AI coding agent. I built &lt;code&gt;TypeSafe.Mcp&lt;/code&gt;, a separate .NET 11 application that uses the SDK under the hood. It exposes five tools over stdio, and any MCP client can now interact with Jev through these tools.&lt;/p&gt;
+</summary>
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
+    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
+    <category term="MCP" scheme="https://laurentkempe.com/tags/mcp" />
+  </entry>
   <entry>
     <title>C# 15 Collection Expression Arguments: What's New vs C# 12 and 13</title>
     <link href="https://laurentkempe.com/2026/09/26/csharp-15-collection-expression-arguments/"/>
@@ -274,20 +288,4 @@ It&apos;s time to take a step further and explore how to leverage Server-Sent Ev
     <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
     <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
     <category term="Semantic Kernel" scheme="https://laurentkempe.com/tags/semantic-kernel" />
-  </entry>
-  <entry>
-    <title>Building Local AI Agents: Semantic Kernel and Ollama in C#</title>
-    <link href="https://laurentkempe.com/2025/03/01/building-local-ai-agents-semantic-kernel-and-ollama-in-csharp/"/>
-    <id>https://laurentkempe.com/2025/03/01/building-local-ai-agents-semantic-kernel-and-ollama-in-csharp/</id>
-    <published>2025-03-01T15:08:16.000Z</published>
-    <updated>2025-03-01T15:08:16.000Z</updated>
-    <summary type="html">&lt;p&gt;The recent release of Microsoft&apos;s Semantic Kernel Agents Framework RC1 provides an excellent opportunity to explore its capabilities with C#. In this post, we&apos;ll walk through creating a simple agent using this framework and running it locally with Ollama.&lt;/p&gt;
-&lt;p&gt;Let&apos;s dive in!&lt;/p&gt;
-</summary>
-    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
-    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
-    <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
-    <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
-    <category term="Semantic Kernel" scheme="https://laurentkempe.com/tags/semantic-kernel" />
-    <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
   </entry></feed>

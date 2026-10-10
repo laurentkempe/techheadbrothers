@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/ico" href="/favicon.ico"><meta name="generator" content="Astro v7.3.8"><link rel="alternate" type="application/rss+xml" title="Laurent Kempé blog" href="https://laurentkempe.com/atom.xml"><title>Laurent Kempé - Building a TypeSafe&#39;s Jev MCP server with .NET</title><!-- JSON-LD structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Building a TypeSafe's Jev MCP server with .NET","datePublished":"2026-10-10T15:14:40.000Z","image":"https://live.staticflickr.com/65535/55579357177_43e84391e0_h.jpg","description":"<div class=\"prose dark:prose-invert max-w-none mb-4 text-gray-900 dark:text-gray-100\"><p>Two weeks ago I introduced my unofficial <a href=\"https://laurentkempe.com/2026/09/19/typesafe-jev-dotnet-sdk-introduction/\">TypeSafe .NET SDK</a> and used it to ask Jev several typed questions about a support ticket. My C# application controlled the workflow; Jev returned structured answers for the judgments it needed.</p>\n<p>This week I wanted to ask those same questions from any AI coding agent. I built <code>TypeSafe.Mcp</code>, a separate .NET 11 application that uses the SDK under the hood. It exposes five tools over stdio, and any MCP client can now interact with Jev through these tools.</p>\n</div>","author":{"@type":"Person","name":"Laurent Kempé","url":"https://laurentkempe.com","jobTitle":"Team Leader & Distinguished Solution Architect","image":"https://live.staticflickr.com/65535/54218216293_4d1b48b283_w.jpg","sameAs":["https://github.com/laurentkempe","https://www.linkedin.com/in/laurentkempe/","https://bsky.app/profile/laurentkempe.com","https://www.flickr.com/people/laurentkempe/","https://x.com/laurentkempe"]},"publisher":{"@type":"Person","name":"Laurent Kempé","url":"https://laurentkempe.com","jobTitle":"Team Leader & Distinguished Solution Architect","image":"https://live.staticflickr.com/65535/54218216293_4d1b48b283_w.jpg","sameAs":["https://github.com/laurentkempe","https://www.linkedin.com/in/laurentkempe/","https://bsky.app/profile/laurentkempe.com","https://x.com/laurentkempe"]},"mainEntityOfPage":{"@type":"WebPage","@id":"https://laurentkempe.com/2026/10/10/building-a-typesafe-jev-mcp-server-dotnet/"},"keywords":"C#, .NET, AI, MCP","url":"https://laurentkempe.com/2026/10/10/building-a-typesafe-jev-mcp-server-dotnet/"}</script><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:title" content="Laurent Kempé - Building a TypeSafe's Jev MCP server with .NET"><meta property="og:description" content="Two weeks ago I introduced my unofficial TypeSafe .NET SDK and used it to ask Jev several typed questions about a support ticket. My C# application controlle..."><meta property="og:image" content="https://live.staticflickr.com/65535/55579357177_43e84391e0_h.jpg"><meta property="og:url" content="https://laurentkempe.com/2026/10/10/building-a-typesafe-jev-mcp-server-dotnet/"><meta property="og:site_name" content="Laurent Kempé"><meta property="article:author" content="https://laurentkempe.com"><!-- Twitter --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@laurentkempe"><meta name="twitter:creator" content="@laurentkempe"><meta name="twitter:title" content="Laurent Kempé - Building a TypeSafe's Jev MCP server with .NET"><meta name="twitter:description" content="Two weeks ago I introduced my unofficial TypeSafe .NET SDK and used it to ask Jev several typed questions about a support ticket. My C# application controlle..."><meta name="twitter:image" content="https://live.staticflickr.com/65535/55579357177_43e84391e0_h.jpg"><!-- Author --><meta name="author" content="Laurent Kempé"><!-- Canonical URL --><link rel="canonical" href="https://laurentkempe.com/2026/10/10/building-a-typesafe-jev-mcp-server-dotnet/"><link rel="stylesheet" href="/_astro/Layout.C242Ijny.css"><style>.giscus-container[data-astro-cid-clnq4c4i]{width:100%}.giscus-container[data-astro-cid-clnq4c4i] iframe[data-astro-cid-clnq4c4i]{color-scheme:auto}
+a[data-astro-cid-e2rqhpi3]{color:#00539f}.tags[data-astro-cid-e2rqhpi3]{flex-wrap:wrap;display:flex}.tag[data-astro-cid-e2rqhpi3]{background-color:#f8fcfd;border:1px dotted #a1a1a1;border-radius:.5em;margin:.25em;padding:.5em 1em;font-size:1.15em}@media (prefers-color-scheme:dark){a[data-astro-cid-e2rqhpi3]{color:#7fb3d5}.tag[data-astro-cid-e2rqhpi3]{background-color:#2d2d2d;border-color:#5a5a5a}}body,html{width:100%;margin:0;padding:0;overflow-x:hidden}.relative[data-astro-cid-e2rqhpi3]{width:100%}.absolute[data-astro-cid-e2rqhpi3]{max-width:100%}
+</style><link rel="stylesheet" href="/_astro/astro-embed-youtube.B6CbV7h1.css"></head><body class="bg-white dark:bg-gray-900"><header class="py-6 border-b border-gray-200 dark:border-gray-700 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"><nav class="container mx-auto px-4"><div class="flex items-center justify-between"><div class="text-2xl font-bold dark:text-gray-300"><a href="/">Laurent Kempé</a></div><!-- Mobile menu button and utilities --><div class="flex items-center gap-4 md:hidden text-gray-600 dark:text-gray-300"><div class="flex items-center gap-4"><a href="/atom.xml" aria-label="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg></a><theme-toggle><button title="Dark/Light mode" aria-pressed="false" aria-label="Toggle dark mode" class="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"></button></theme-toggle><script type="module">var e=class extends HTMLElement{STORAGE_KEY=`theme-preference`;_darkTheme=!1;button;constructor(){if(super(),this.button=this.querySelector(`button`),!this.button){console.error(`Theme toggle button not found`);return}let e=localStorage.getItem(this.STORAGE_KEY);this.darkTheme=e?e===`dark`:window.matchMedia(`(prefers-color-scheme: dark)`).matches,this.button.addEventListener(`click`,this.toggleTheme.bind(this)),window.matchMedia(`(prefers-color-scheme: dark)`).addEventListener(`change`,e=>{localStorage.getItem(this.STORAGE_KEY)||(this.darkTheme=e.matches)})}get darkTheme(){return this._darkTheme}set darkTheme(e){if(this._darkTheme=e,document.documentElement.classList.toggle(`dark`,e),this.button){this.button.innerHTML=e?`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="5"/>
+    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </g>
+  </svg>`:`<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path d="M17.293 13.293a8 8 0 11-10.586-10.586 8.003 8.003 0 0010.586 10.586z"/>
+  </svg>`,this.button.setAttribute(`aria-label`,e?`Switch to light theme`:`Switch to dark theme`),this.button.setAttribute(`aria-pressed`,e.toString());let t=document.createElement(`div`);t.setAttribute(`aria-live`,`polite`),t.setAttribute(`class`,`sr-only`),t.textContent=e?`Dark theme enabled`:`Light theme enabled`,this.appendChild(t),setTimeout(()=>{t.parentNode===this&&this.removeChild(t)},1e3)}}toggleTheme(){this.darkTheme=!this.darkTheme,localStorage.setItem(this.STORAGE_KEY,this.darkTheme?`dark`:`light`)}};customElements.define(`theme-toggle`,e);</script></div><button id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button></div><!-- Desktop menu --><div class="hidden md:flex md:items-center md:gap-6 text-gray-600 dark:text-gray-300"><a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Home</a><a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Blog</a><a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">Speaking</a><a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 ">About</a><a href="/all-archives" aria-label="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path></svg></a><a href="/all-tags" aria-label="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path></svg></a><a href="/atom.xml" aria-label="RSS Feed" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block align-middle" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg></a><theme-toggle><button title="Dark/Light mode" aria-pressed="false" aria-label="Toggle dark mode" class="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1"></button></theme-toggle></div></div><!-- Mobile menu panel --><div id="mobile-menu" class="hidden md:hidden mt-4 pb-4" role="menu" aria-labelledby="mobile-menu-button"><div class="flex flex-col gap-4 text-gray-600 dark:text-gray-300"><a href="/" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Home</a><a href="/blog/1" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Blog</a><a href="/speaking" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">Speaking</a><a href="/about-laurent-kempe" class="hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 " role="menuitem">About</a><a href="/all-archives" aria-label="Archives" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"></path></svg></a><a href="/all-tags" aria-label="Tags" class="hover:text-gray-900 dark:hover:text-gray-100 flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 rounded-md p-1 "><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"></path></svg></a></div></div></nav></header><script type="module">var e=document.getElementById(`mobile-menu-button`),t=document.getElementById(`mobile-menu`),n=[],r,i;function a(){t?.classList.remove(`hidden`),e?.setAttribute(`aria-expanded`,`true`),n=t?.querySelectorAll(`a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select`),n.length&&(r=n[0],i=n[n.length-1],setTimeout(()=>{r.focus()},50)),s(`Menu opened`)}function o(){t?.classList.add(`hidden`),e?.setAttribute(`aria-expanded`,`false`),e?.focus(),s(`Menu closed`)}function s(e){let t=document.createElement(`div`);t.setAttribute(`aria-live`,`polite`),t.setAttribute(`class`,`sr-only`),t.textContent=e,document.body.appendChild(t),setTimeout(()=>{t.parentNode===document.body&&document.body.removeChild(t)},1e3)}e?.addEventListener(`click`,()=>{t?.classList.contains(`hidden`)===!1?o():a()}),document.addEventListener(`keydown`,e=>{t?.classList.contains(`hidden`)||(e.key===`Escape`?o():e.key===`Tab`&&(e.shiftKey&&document.activeElement===r?(e.preventDefault(),i.focus()):!e.shiftKey&&document.activeElement===i&&(e.preventDefault(),r.focus())))});</script><div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl"><p data-astro-cid-e2rqhpi3><em data-astro-cid-e2rqhpi3></em></p><div class="relative pt-1 cover-image-container overflow-hidden" data-astro-cid-e2rqhpi3><img src="https://live.staticflickr.com/65535/55579357177_43e84391e0_h.jpg" alt="Pozzines, Corse" data-astro-cid-e2rqhpi3="true" loading="lazy" decoding="async" width="1600" height="1067" class="w-full"><div class="absolute inset-0 flex items-center p-4 md:inset-auto md:block md:top-1/3 md:left-1/3 md:transform md:-translate-x-1/4 md:-translate-y-1/4 md:p-0" data-astro-cid-e2rqhpi3><h1 class="text-lg sm:text-3xl md:text-5xl font-extrabold text-white drop-shadow-[0_4px_3px_rgb(0,0,0,0.5)] dark:drop-shadow-[0_4px_3px_rgb(255,255,255,0.5)] max-w-[75%] break-words md:max-w-none" data-astro-cid-e2rqhpi3>Building a TypeSafe&#39;s Jev MCP server with .NET</h1></div></div><div class="pt-2 pb-4 space-y-2" data-astro-cid-e2rqhpi3><p class="text-sm text-center text-gray-600 dark:text-gray-400" data-astro-cid-e2rqhpi3>Pozzines, Corse</p><div class="flex items-center gap-2 flex-wrap" data-astro-cid-e2rqhpi3><svg width="0.88em" height="1em" viewBox="0 0 448 512" class="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 shrink-0" aria-hidden="true" focusable="false" data-astro-cid-e2rqhpi3="true" data-icon="fa6-solid:calendar"><symbol id="ai:fa6-solid:calendar"><path fill="currentColor" d="M96 32v32H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48h-48V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v32H160V32c0-17.7-14.3-32-32-32S96 14.3 96 32m352 160H0v272c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48z"/></symbol><use href="#ai:fa6-solid:calendar"></use></svg><p class="text-sm sm:text-base text-gray-600 dark:text-gray-400" data-astro-cid-e2rqhpi3>October 10, 2026</p><div class="flex items-center gap-1 flex-wrap"><svg width="0.88em" height="1em" viewBox="0 0 448 512" class="w-3 h-3 text-gray-500 dark:text-gray-400 shrink-0" aria-hidden="true" focusable="false" data-icon="fa6-solid:tag"><symbol id="ai:fa6-solid:tag"><path fill="currentColor" d="M0 80v149.5c0 17 6.7 33.3 18.7 45.3l176 176c25 25 65.5 25 90.5 0l133.5-133.5c25-25 25-65.5 0-90.5l-176-176c-12-12-28.3-18.7-45.3-18.7L48 32C21.5 32 0 53.5 0 80m112 32a32 32 0 1 1 0 64a32 32 0 1 1 0-64"/></symbol><use href="#ai:fa6-solid:tag"></use></svg><a href="/tags/dotnet" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">.NET</a><a href="/tags/ai" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">AI</a><a href="/tags/csharp" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">C#</a><a href="/tags/mcp" class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-300 rounded-full text-xs hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">MCP</a></div></div></div><div class="py-4" data-astro-cid-e2rqhpi3><article class="prose prose-lg max-w-none dark:prose-invert
+                    prose-h1:font-bold prose-h1:text-4xl md:prose-h1:text-4xl prose-h1:text-xl prose-h1:mb-4
+                    prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline
+                    prose-p:text-justify prose-img:rounded-xl"><p>Two weeks ago I introduced my unofficial <a href="https://laurentkempe.com/2026/09/19/typesafe-jev-dotnet-sdk-introduction/">TypeSafe .NET SDK</a> and used it to ask Jev several typed questions about a support ticket. My C# application controlled the workflow; Jev returned structured answers for the judgments it needed.</p>
+<p>This week I wanted to ask those same questions from any AI coding agent. I built <code>TypeSafe.Mcp</code>, a separate .NET 11 application that uses the SDK under the hood. It exposes five tools over stdio, and any MCP client can now interact with Jev through these tools.</p>
+
+<h2 id="how-the-mcp-server-works">How the MCP server works</h2>
+<p>The server uses the .NET <code>ModelContextProtocol</code> package and registers its tools with <code>WithStdioServerTransport</code>. Three of them correspond to the decision types from the <a href="https://laurentkempe.com/2026/09/19/typesafe-jev-dotnet-sdk-introduction/">SDK post</a>:</p>
+<ul>
+<li><code>typesafe_noul</code> asks a yes-or-no question. Its answer is the probability that the statement is true, between 0 and 1. You can provide criteria for what counts as true and false.</li>
+<li><code>typesafe_choice</code> selects a label from a map of labels to descriptions. It returns the selected label, confidence, and probabilities for the choices.</li>
+<li><code>typesafe_score</code> evaluates an ordered list of at least two levels. It returns a score that can be fractional, confidence, probabilities, and a legend mapping positions back to levels.</li>
+</ul>
+<p><code>typesafe_evaluate</code> asks several named questions of these types against the same state. <code>typesafe_list_models</code> returns the available models with their descriptions and release dates.</p>
+<p>The MCP interface keeps the input simple: instructions, criteria, and level descriptions are strings. The direct SDK also accepts JSON-shaped instructions and criteria. For <code>state</code>, the server accepts a string. If that string contains a valid JSON object or array, the server passes it to the SDK as structured state; otherwise it passes text. A JSON scalar such as <code>42</code> remains text, as does malformed JSON.</p>
+<h2 id="one-ticket-three-questions">One ticket, three questions</h2>
+<p>Suppose a support ticket says checkout returns HTTP 500 and payments fail for every customer. An agent interacting with the MCP server can send this argument object to <code>typesafe_evaluate</code> in my MCP client:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  &quot;state&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;{</span><span style="color:#79B8FF">\&quot;</span><span style="color:#9ECBFF">ticket</span><span style="color:#79B8FF">\&quot;</span><span style="color:#9ECBFF">:{</span><span style="color:#79B8FF">\&quot;</span><span style="color:#9ECBFF">subject</span><span style="color:#79B8FF">\&quot;</span><span style="color:#9ECBFF">:</span><span style="color:#79B8FF">\&quot;</span><span style="color:#9ECBFF">Checkout returns HTTP 500</span><span style="color:#79B8FF">\&quot;</span><span style="color:#9ECBFF">,</span><span style="color:#79B8FF">\&quot;</span><span style="color:#9ECBFF">body</span><span style="color:#79B8FF">\&quot;</span><span style="color:#9ECBFF">:</span><span style="color:#79B8FF">\&quot;</span><span style="color:#9ECBFF">Payment fails for every customer.</span><span style="color:#79B8FF">\&quot;</span><span style="color:#9ECBFF">}}&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">  &quot;questions&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;is_bug&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;noul&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;instructions&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Does this ticket report a product defect?&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;trueCriteria&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;The ticket describes broken or incorrect product behavior.&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;falseCriteria&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;The ticket is a question or request rather than a defect report.&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">    },</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;team&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;choice&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;instructions&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Which team should investigate this ticket?&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;choices&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">        &quot;billing&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Payment and billing behavior.&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        &quot;platform&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Website availability and server errors.&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#E1E4E8">    },</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;urgency&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;score&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;instructions&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;How urgently should this ticket be investigated?&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;levels&quot;</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">&quot;low&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;medium&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;high&quot;</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>These are MCP tool arguments, not a message to paste into the server’s standard input. The escaped <code>state</code> is a string in the tool call, but its contents are a JSON object, so the server passes the ticket as structured state.</p>
+<p>You can copy it in the MCP Inspector to call the MCP server for testing</p>
+<p><img src="/images/2026/mcp-inspector-dotnet-typesafe-mcp-evaluate.png" alt="MCP Inspector .NET Typesafe MCP Evaluate"/></p>
+<p><img src="/images/2026/mcp-inspector-dotnet-typesafe-mcp-evaluate-2.png" alt="MCP Inspector .NET Typesafe MCP Evaluate Response"/></p>
+<p>and see the response</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  &quot;model&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;jev-1.13.0&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">  &quot;answers&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;is_bug&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;noul&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;noul&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0.94</span></span>
+<span class="line"><span style="color:#E1E4E8">    },</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;team&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;choice&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;choice&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;platform&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;confidence&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0.09</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;probabilities&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">        &quot;billing&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0.45</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        &quot;platform&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0.55</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#E1E4E8">    },</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;urgency&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;score&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;score&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;confidence&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;probabilities&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">        &quot;0&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        &quot;1&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        &quot;2&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1</span></span>
+<span class="line"><span style="color:#E1E4E8">      },</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;legend&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">        &quot;0&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;low&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        &quot;1&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;medium&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        &quot;2&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;high&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">  },</span></span>
+<span class="line"><span style="color:#79B8FF">  &quot;usage&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;inputTokens&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">440</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;outputTokens&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">63</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>I made the questions different on purpose. Whether a ticket reports a bug is binary; team ownership is a choice between categories; urgency has an order. The response keeps the answers under the names <code>is_bug</code>, <code>team</code>, and <code>urgency</code>, together with the model used and token usage. For example, I can read <code>answers.is_bug.noul</code>, <code>answers.team.choice</code>, and <code>answers.urgency.score</code>. The Choice answer also has <code>confidence</code> and a probability for each label; the Score answer has a <code>legend</code> so a fractional value remains interpretable.</p>
+<p>A single question works too. To check whether the ticket describes an outage, I or an agent can call <code>typesafe_noul</code> with:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  &quot;state&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Checkout returns HTTP 500 and payments fail for every customer.&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">  &quot;instructions&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Does this ticket describe a service outage?&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">  &quot;trueCriteria&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Customers cannot complete payments.&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">  &quot;falseCriteria&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;Payments are working and the ticket is a general question.&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>The answer is a probability, not a yes/no string.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  &quot;model&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;jev-1.13.0&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">  &quot;answers&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;result&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;noul&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;noul&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0.97</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">  },</span></span>
+<span class="line"><span style="color:#79B8FF">  &quot;usage&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;inputTokens&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">320</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;outputTokens&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">20</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>I would not route a ticket solely because a choice won or a score was high: the application still needs its own rules for review and escalation. In particular, Choice confidence is a separate field, not another name for the winning label’s probability.</p>
+<h2 id="run-the-net-mcp-server">Run the .NET MCP server</h2>
+<p>The server is a .NET 11 tool. From the SDK repository root, I can pack it locally and install it as a global tool with the .NET 11 SDK:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="powershell"><code><span class="line"><span style="color:#E1E4E8">dotnet pack .\src\TypeSafe.Mcp\TypeSafe.Mcp.csproj </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">c Release </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">o .\nupkg</span></span>
+<span class="line"><span style="color:#E1E4E8">dotnet tool install </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">g TypeSafe.Mcp </span><span style="color:#F97583">--</span><span style="color:#79B8FF">add-source</span><span style="color:#E1E4E8"> .\nupkg</span></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#F97583">System.Environment</span><span style="color:#E1E4E8">]::SetEnvironmentVariable(</span><span style="color:#9ECBFF">&quot;TYPESAFE_API_KEY&quot;</span><span style="color:#F97583">,</span><span style="color:#9ECBFF"> &quot;your-actual-api-key&quot;</span><span style="color:#F97583">,</span><span style="color:#9ECBFF"> &quot;Machine&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">npx @modelcontextprotocol</span><span style="color:#F97583">/</span><span style="color:#E1E4E8">inspector </span><span style="color:#F97583">-</span><span style="color:#E1E4E8">e TYPESAFE_API_KEY</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">$</span><span style="color:#79B8FF">env:</span><span style="color:#E1E4E8">TYPESAFE_API_KEY </span><span style="color:#F97583">--</span><span style="color:#E1E4E8"> typesafe</span><span style="color:#F97583">-</span><span style="color:#E1E4E8">mcp</span></span></code></pre>
+<p>This installs the locally packed package; it does not assume a public NuGet release. The tool needs a .NET 11 runtime when it runs. I set <code>TYPESAFE_API_KEY</code> before starting the MCP client so the server process inherits it. The server can start without a key, but calls to the TypeSafe API fail until one is configured.</p>
+<p>Add a <code>.mcp.json</code> file in your project root for VS Code or <code>.junie/mcp/mcp.json</code> for JetBrains IDEs, like this:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{  </span></span>
+<span class="line"><span style="color:#79B8FF">    &quot;typesafe&quot;</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;type&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;stdio&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      &quot;command&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;typesafe-mcp&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<div class="not-prose bg-blue-100 border-l-4 border-blue-500 text-blue-700 dark:bg-blue-900 dark:border-blue-700 dark:text-blue-300 rounded-lg shadow-md p-2 mb-4"><div class="flex items-start"> <!-- Changed to items-start --><svg class="fill-current h-6 w-6 text-blue-500 dark:text-blue-300 flex-none mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"></path></svg><div class="w-full ml-2"><p>Take care of the encoding of <code>.junie/mcp/mcp.json</code> to ensure it is UTF-8 without BOM or it won’t be read correctly by Rider.</p></div></div></div>
+<p>Then try it with VS Code</p>
+<p><img src="/images/2026/mcp-dotnet-typesafe-mcp-in-vscode.png" alt="MCP .NET TypeSafe MCP in VS Code"/></p>
+<p>Now asking a simple question:</p>
+<p><img src="/images/2026/mcp-dotnet-typesafe-mcp-question-in-vscode.png" alt="MCP .NET TypeSafe MCP question in VS Code"/></p>
+<p>Finally, a more complex question:</p>
+<p><img src="/images/2026/mcp-dotnet-typesafe-mcp-questions-in-vscode.png" alt="MCP .NET TypeSafe MCP questions in VS Code"/></p>
+<p>Or from the new JetBrains Air in Rider with the Junie agent:</p>
+<p><img src="/images/2026/mcp-dotnet-typesafe-mcp-in-rider.png" alt="MCP .NET TypeSafe MCP in Rider"/></p>
+<p>Nice 🤩!</p>
+<p>Behind each evaluation tool, the server sends the typed questions through the SDK to <code>POST /v1/systemone</code>. <code>typesafe_list_models</code> calls <code>GET /v1/models</code>. An evaluation response includes <code>model</code>, <code>answers</code>, and <code>usage</code> with <code>inputTokens</code> and <code>outputTokens</code>. Standard output is reserved for MCP messages, so the server sends logs to standard error. If a call fails, the error is surfaced to the client rather than returned as a decision; API errors may include a request ID to help investigate.</p>
+<h2 id="skills">Skills</h2>
+<p>To improve the usage of the MCP server, it is important to understand how to structure questions and handle responses effectively. This includes defining clear question formats, managing model selection, and properly interpreting the answers returned by the server.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#E1E4E8">---</span></span>
+<span class="line"><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">typesafe-mcp</span></span>
+<span class="line"><span style="color:#85E89D">license</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">MIT</span></span>
+<span class="line"><span style="color:#85E89D">description</span><span style="color:#E1E4E8">: </span><span style="color:#F97583">&gt;</span></span>
+<span class="line"><span style="color:#9ECBFF">  Get fast, typed AI judgments directly from the TypeSafe MCP server</span></span>
+<span class="line"><span style="color:#9ECBFF">  (typesafe-mcp): yes/no probabilities (typesafe_noul), classification</span></span>
+<span class="line"><span style="color:#9ECBFF">  (typesafe_choice), ordered rubric scores (typesafe_score), several questions</span></span>
+<span class="line"><span style="color:#9ECBFF">  over the same state in one call (typesafe_evaluate), and available models</span></span>
+<span class="line"><span style="color:#9ECBFF">  (typesafe_list_models). Use when an agent has to judge text or JSON (triage,</span></span>
+<span class="line"><span style="color:#9ECBFF">  routing, spam/toxicity checks, sentiment, urgency, relevance, claim</span></span>
+<span class="line"><span style="color:#9ECBFF">  verification, or ranking candidates) and a calibrated probability is more</span></span>
+<span class="line"><span style="color:#9ECBFF">  useful than a free-text opinion. Also use to prototype TypeSafe questions</span></span>
+<span class="line"><span style="color:#9ECBFF">  interactively before coding them against the TypeSafe .NET SDK, and to</span></span>
+<span class="line"><span style="color:#9ECBFF">  install or configure the server in an MCP client.</span></span>
+<span class="line"><span style="color:#E1E4E8">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF;font-weight:bold"># Use the TypeSafe MCP server</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">`typesafe-mcp`</span><span style="color:#E1E4E8"> is an unofficial stdio [</span><span style="color:#DBEDFF;text-decoration:underline">MCP</span><span style="color:#E1E4E8">](</span><span style="color:#E1E4E8;text-decoration:underline">https://modelcontextprotocol.io</span><span style="color:#E1E4E8">) server. It puts</span></span>
+<span class="line"><span style="color:#E1E4E8">[</span><span style="color:#DBEDFF;text-decoration:underline">TypeSafe AI</span><span style="color:#E1E4E8">](</span><span style="color:#E1E4E8;text-decoration:underline">https://docs.typesafe.ai/introduction</span><span style="color:#E1E4E8">) </span><span style="color:#E1E4E8;font-weight:bold">**System One**</span><span style="color:#E1E4E8"> models (by default </span><span style="color:#E1E4E8;font-weight:bold">**Jev**</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">`jev-latest`</span><span style="color:#E1E4E8">) behind MCP tools. A System One model does not write text. It reads a </span><span style="color:#E1E4E8;font-weight:bold">**state**</span><span style="color:#E1E4E8"> and</span></span>
+<span class="line"><span style="color:#E1E4E8">one or more </span><span style="color:#E1E4E8;font-weight:bold">**questions**</span><span style="color:#E1E4E8">, then returns </span><span style="color:#E1E4E8;font-weight:bold">**typed answers with probabilities**</span><span style="color:#E1E4E8">. Treat each tool call</span></span>
+<span class="line"><span style="color:#E1E4E8">as a programmable piece of common sense: you (the agent) own the workflow, and the model returns</span></span>
+<span class="line"><span style="color:#E1E4E8">a focused judgment.</span></span>
+<span class="line"><span style="color:#E1E4E8">...</span></span>
+<span class="line"><span style="color:#E1E4E8">The rest of the skill is available in the GitHub repository linked below.</span></span></code></pre>
+<p>Compared with the other week’s C# example, the change is how I reach the decision. I can now ask the questions from an MCP client, while my application still decides what to do with the answers. And so can my agents.</p>
+<p>Do you think that your agents can also benefit from this setup?</p>
+<p>You can get all the code on GitHub</p>
+<div class="not-prose my-3"><a class="block max-w-[600px] p-4 rounded-lg border border-gray-300 bg-white transition-all duration-200 ease-in-out hover:bg-gray-100 text-black no-underline" href="https://github.com/laurentkempe/TypeSafeJevPlayground" target="_blank" style="color: inherit; text-decoration: none;"><div class="flex items-start"><svg class="w-8 h-8 text-gray-500" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg><div class="ml-3 flex-grow"><p class="text-[1rem] font-bold text-blue-600 m-0"><span>laurentkempe/</span><b>TypeSafeJevPlayground</b></p><p class="text-[0.85rem] my-1 text-gray-700">TypeSafe Jev Playground - idiomatic .NET port of typesafe-ai/typesafe-sdk-js v0.6.0</p><div class="flex items-center gap-2 text-gray-600 text-[0.85rem]"><span class="flex items-center gap-1"><span class="w-3 h-3 bg-green-500 rounded-full inline-block"></span><span>C#</span></span><span class="flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"></path></svg><span>9</span></span><span class="flex items-center gap-1"><svg class="w-4 h-4" viewBox="0 0 16 16" fill="currentColor"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path></svg><span>0</span></span></div></div><img class="w-18 h-18 rounded-full float-right ml-4 mb-4 mt-2.5 sm:ml-4 sm:float-none sm:mx-auto" src="https://avatars.githubusercontent.com/u/272612?v=4" alt="laurentkempe avatar"></div></a></div>
+<br/>
+<h1 id="references">References</h1>
+<ul>
+<li><a href="https://docs.typesafe.ai/introduction">TypeSafe Jev Documentation</a></li>
+<li><a href="https://csharp.sdk.modelcontextprotocol.io/v2/index.html">MCP C# SDK</a></li>
+<li><a href="https://www.jetbrains.com/air/">JetBrains Air</a></li>
+<li><a href="https://laurentkempe.com/2026/09/19/typesafe-jev-dotnet-sdk-introduction/">TypeSafe’s Jev AI Model in .NET: A Community SDK for Structured AI Output in C#</a></li>
+<li><a href="https://agentskills.io/home">Agent Skills Overview</a></li>
+</ul></article></div><div class="giscus-container mt-8 pt-8 border-t border-gray-200 dark:border-gray-700" data-astro-cid-clnq4c4i><div id="giscus-comments" data-astro-cid-clnq4c4i></div></div><script>
+  (function() {
+    const STORAGE_KEY = "theme-preference";
+    
+    // Function to get current theme based on ThemeToggle logic
+    function getCurrentTheme() {
+      const savedTheme = localStorage.getItem(STORAGE_KEY);
+      if (savedTheme) {
+        return savedTheme === "dark" ? "dark" : "light";
+      } else {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+    }
+    
+    // Function to get giscus theme name
+    function getGiscusTheme(isDark) {
+      return isDark ? "dark" : "light";
+    }
+    
+    // Function to send theme change message to giscus iframe
+    function updateGiscusTheme(theme) {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      if (iframe) {
+        iframe.contentWindow.postMessage({
+          giscus: {
+            setConfig: {
+              theme: getGiscusTheme(theme === "dark")
+            }
+          }
+        }, 'https://giscus.app');
+      }
+    }
+    
+    // Initialize giscus with correct theme
+    const initialTheme = getCurrentTheme();
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', 'laurentkempe/myblog-comments');
+    script.setAttribute('data-repo-id', 'R_kgDOPHtNGA');
+    script.setAttribute('data-category', 'General');
+    script.setAttribute('data-category-id', 'DIC_kwDOPHtNGM4Csi4o');
+    script.setAttribute('data-mapping', 'pathname');
+    script.setAttribute('data-strict', '0');
+    script.setAttribute('data-reactions-enabled', '1');
+    script.setAttribute('data-emit-metadata', '0');
+    script.setAttribute('data-input-position', 'bottom');
+    script.setAttribute('data-theme', getGiscusTheme(initialTheme === "dark"));
+    script.setAttribute('data-lang', 'en');
+    script.setAttribute('data-loading', 'lazy');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    
+    const container = document.getElementById('giscus-comments');
+    if (container) {
+      container.appendChild(script);
+    }
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const isDark = document.documentElement.classList.contains('dark');
+          updateGiscusTheme(isDark ? "dark" : "light");
+        }
+      });
+    });
+    
+    // Start observing changes to the document element's class
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    // Also listen for storage changes (in case theme is changed in another tab)
+    window.addEventListener('storage', function(e) {
+      if (e.key === STORAGE_KEY) {
+        const newTheme = e.newValue === "dark" ? "dark" : "light";
+        updateGiscusTheme(newTheme);
+      }
+    });
+    
+    // Listen for system theme changes when no preference is saved
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(e) {
+      if (!localStorage.getItem(STORAGE_KEY)) {
+        updateGiscusTheme(e.matches ? "dark" : "light");
+      }
+    });
+  })();
+</script></div><footer class="py-8"><div class="container mx-auto gap-4 px-4 text-sm text-gray-600 dark:text-gray-300 text-center"><div>&copy; 2003 - 2026 Laurent Kempé. All rights reserved.</div><div>The expressed opinions are my own and do not reflect those of my employer or any third-party entities.</div></div></footer><script>
+            const theme = (() => {
+              if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+                return localStorage.getItem("theme");
+              }
+              if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                return "dark";
+              }
+              return "light";
+            })();
+
+            if (theme === "light") {
+              document.documentElement.classList.remove("dark");
+            } else {
+              document.documentElement.classList.add("dark");
+            }
+            window.localStorage.setItem("theme", theme);
+        </script><script type="module">function e(e){let t=e.split(`:`).map(Number);return t.length===3?t[0]*3600+t[1]*60+t[2]:t.length===2?t[0]*60+t[1]:t.length===1?t[0]:0}function t(){return document.querySelector(`lite-youtube`)}function n(){let e=t();return e?e.querySelector(`iframe`):null}function r(e){let r=t();if(!r){console.log(`No lite-youtube element found`);return}if(!r.getAttribute(`videoid`)){console.log(`No video ID found on lite-youtube element`);return}let i=n();if(i&&i.contentWindow){let t=i.src,n=new URL(t);n.searchParams.set(`start`,e.toString()),n.searchParams.set(`autoplay`,`1`),i.src=n.toString(),console.log(`Seeking to ${e} seconds by updating iframe src`)}else r.setAttribute(`params`,`start=${e}&autoplay=1`),r.click(),console.log(`Starting video at ${e} seconds`);r.scrollIntoView({behavior:`smooth`,block:`start`})}function i(){let t=document.querySelectorAll(`a[href^="#timestamp-"]`);t.length!==0&&(t.forEach(t=>{t.addEventListener(`click`,n=>{n.preventDefault();let i=t.getAttribute(`href`);if(!i)return;let a=i.match(/#timestamp-(\d{2}:\d{2}:\d{2})/);if(a){let t=a[1],n=e(t);console.log(`Seeking to ${t} (${n} seconds)`),r(n)}})}),console.log(`YouTube timestamp control: Set up ${t.length} timestamp links`))}function a(){let e=t()||document.querySelector(`iframe[src*="youtube.com"]`),n=document.querySelector(`a[href^="#timestamp-"]`);e&&n&&i()}document.readyState===`loading`?document.addEventListener(`DOMContentLoaded`,a):a();</script><script type="module">function e(){let e=document.createElement(`button`);return e.className=`copy-code-button`,e.setAttribute(`aria-label`,`Copy code to clipboard`),e.innerHTML=`
+    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+    </svg>
+    <svg class="check-icon copy-button-hidden" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  `,e}async function t(e){try{return await navigator.clipboard.writeText(e),!0}catch(e){return console.error(`Failed to copy text: `,e),!1}}function n(e){let t=e.querySelector(`.copy-icon`),n=e.querySelector(`.check-icon`);t&&n&&(t.classList.add(`copy-button-hidden`),n.classList.remove(`copy-button-hidden`),e.classList.add(`copied`),setTimeout(()=>{t.classList.remove(`copy-button-hidden`),n.classList.add(`copy-button-hidden`),e.classList.remove(`copied`)},2e3))}function r(r){if(r.parentElement?.classList.contains(`code-block-wrapper`))return;let i=document.createElement(`div`);i.className=`code-block-wrapper`,r.parentNode?.insertBefore(i,r),i.appendChild(r);let a=e();a.addEventListener(`click`,async()=>{let e=r.querySelector(`code`);e&&await t(e.innerText||e.textContent||``)&&n(a)}),i.appendChild(a)}function i(){document.querySelectorAll(`pre`).forEach(e=>{e.querySelector(`code`)&&r(e)})}function a(){i()}document.readyState===`loading`?document.addEventListener(`DOMContentLoaded`,a):a();</script></body></html>
