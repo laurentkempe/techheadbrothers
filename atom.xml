@@ -3,12 +3,26 @@
 <subtitle>One of the Tech Head Brothers</subtitle>
 <link href="https://laurentkempe.com/atom.xml" rel="self"/>
 <link href="https://laurentkempe.com"/>
-<updated>2026-10-17T06:35:14.150Z</updated>
+<updated>2026-10-17T12:05:53.393Z</updated>
 <id>https://laurentkempe.com/</id>
 <author>
 <name>Laurent Kempé</name>
 </author>
 <generator uri="https://astro.build/">Astro</generator>
+  <entry>
+    <title>TypeSafe Jev .NET SDK 0.7.0: Experimental Images and Bounding Boxes</title>
+    <link href="https://laurentkempe.com/2026/10/17/typesafe-dotnet-sdk-v0-7-0/"/>
+    <id>https://laurentkempe.com/2026/10/17/typesafe-dotnet-sdk-v0-7-0/</id>
+    <published>2026-10-17T14:02:05.000Z</published>
+    <updated>2026-10-17T14:02:05.000Z</updated>
+    <summary type="html">&lt;p&gt;In my &lt;a href=&quot;https://laurentkempe.com/2026/09/19/typesafe-jev-dotnet-sdk-introduction/&quot;&gt;first post about TypeSafe and Jev in .NET&lt;/a&gt;, I used the SDK to make structured judgments about text and JSON: Noul for a yes-or-no probability, Choice for an unordered selection, and Score for an ordinal rubric. In the &lt;a href=&quot;https://laurentkempe.com/2026/10/10/building-a-typesafe-jev-mcp-server-dotnet/&quot;&gt;follow-up about the MCP server&lt;/a&gt;, I showed how to make those same judgments available to an AI coding agent.&lt;/p&gt;
+&lt;p&gt;TypeSafe&apos;s JavaScript SDK v0.7.0 adds experimental image input and a &lt;code&gt;box&lt;/code&gt; question type. &amp;quot;I&amp;quot; ported those features to my community .NET SDK in its own 0.7.0 update. The version numbers match, but these are separate releases: TypeSafe published the JavaScript SDK v0.7.0 on October 14, 2026, while the .NET SDK remains an unofficial community port.&lt;/p&gt;
+</summary>
+    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
+    <category term=".NET" scheme="https://laurentkempe.com/tags/dotnet" />
+    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
+    <category term="MCP" scheme="https://laurentkempe.com/tags/mcp" />
+  </entry>
   <entry>
     <title>Building a TypeSafe's Jev MCP server with .NET</title>
     <link href="https://laurentkempe.com/2026/10/10/building-a-typesafe-jev-mcp-server-dotnet/"/>
@@ -273,19 +287,4 @@ It&apos;s time to take a step further and explore how to leverage Server-Sent Ev
     <category term="Dev Container" scheme="https://laurentkempe.com/tags/dev-container" />
     <category term="Docker" scheme="https://laurentkempe.com/tags/docker" />
     <category term="Rider" scheme="https://laurentkempe.com/tags/rider" />
-  </entry>
-  <entry>
-    <title>Building Local AI Agents: Semantic Kernel Agent with Functions in C# using Ollama</title>
-    <link href="https://laurentkempe.com/2025/03/02/building-local-ai-agents-semantic-kernel-agent-with-functions-in-csharp-using-ollama/"/>
-    <id>https://laurentkempe.com/2025/03/02/building-local-ai-agents-semantic-kernel-agent-with-functions-in-csharp-using-ollama/</id>
-    <published>2025-03-02T11:19:46.000Z</published>
-    <updated>2025-03-02T11:19:46.000Z</updated>
-    <summary type="html">&lt;p&gt;In my previous post, we saw how to &lt;a href=&quot;https://laurentkempe.com/2025/03/01/building-local-ai-agents-semantic-kernel-and-ollama-in-csharp/&quot;&gt;build the simplest Semantic Kernel local AI agent using Semantic Kernel and Ollama in C#&lt;/a&gt;. In this short post, we will see how simple it is to extend the capabilities of the Semantic Kernel local AI agent by adding function calling.&lt;/p&gt;
-</summary>
-    <category term="AI" scheme="https://laurentkempe.com/tags/ai" />
-    <category term="C#" scheme="https://laurentkempe.com/tags/csharp" />
-    <category term="LLM" scheme="https://laurentkempe.com/tags/llm" />
-    <category term="Ollama" scheme="https://laurentkempe.com/tags/ollama" />
-    <category term="SLM" scheme="https://laurentkempe.com/tags/slm" />
-    <category term="Semantic Kernel" scheme="https://laurentkempe.com/tags/semantic-kernel" />
   </entry></feed>
